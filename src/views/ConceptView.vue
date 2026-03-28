@@ -101,37 +101,21 @@
       </div>
     </div>
     
-    <!-- 核心公式 - 突出运算符 -->
+    <!-- 核心公式 - 一行显示，突出运算符 -->
     <div class="formula-section">
       <h2 class="section-title">核心公式</h2>
-      <div class="formula-visual">
-        <div class="formula-base">
-          <span class="base-text">大语言模型</span>
-        </div>
-        <div class="formula-operations">
-          <div class="op-item">
-            <span class="op-symbol">+</span>
-            <span class="op-name">规划</span>
-          </div>
-          <div class="op-item">
-            <span class="op-symbol">+</span>
-            <span class="op-name">记忆</span>
-          </div>
-          <div class="op-item">
-            <span class="op-symbol">+</span>
-            <span class="op-name">工具</span>
-          </div>
-          <div class="op-item">
-            <span class="op-symbol">+</span>
-            <span class="op-name">执行</span>
-          </div>
-        </div>
-        <div class="formula-equals">
-          <span class="eq-symbol">=</span>
-        </div>
-        <div class="formula-result">
-          <span class="result-text">AI智能体</span>
-        </div>
+      <div class="formula-line">
+        <span class="formula-term base">大语言模型</span>
+        <span class="formula-op">+</span>
+        <span class="formula-term module">规划</span>
+        <span class="formula-op">+</span>
+        <span class="formula-term module">记忆</span>
+        <span class="formula-op">+</span>
+        <span class="formula-term module">工具</span>
+        <span class="formula-op">+</span>
+        <span class="formula-term module">执行</span>
+        <span class="formula-op eq">=</span>
+        <span class="formula-term result">AI智能体</span>
       </div>
     </div>
   </div>
@@ -350,83 +334,57 @@
   justify-content: center;
 }
 
-/* 核心公式 - 突出运算符 */
+/* 核心公式 - 一行显示，突出运算符 */
 .formula-section {
   margin-top: 60px;
 }
 
-.formula-visual {
+.formula-line {
   background: white;
-  border-radius: 20px;
-  padding: 40px;
+  border-radius: 16px;
+  padding: 30px 40px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.formula-base {
+.formula-term {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.formula-term.base {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-size: 20px;
   font-weight: 600;
 }
 
-.formula-operations {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.op-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.op-symbol {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--primary);
-  line-height: 1;
-}
-
-.op-name {
-  font-size: 14px;
-  color: var(--text-secondary);
+.formula-term.module {
   background: var(--bg-tertiary);
-  padding: 4px 12px;
-  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
-.formula-equals {
-  margin: 10px 0;
-}
-
-.eq-symbol {
-  font-size: 48px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.formula-result {
+.formula-term.result {
   background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 212, 170, 0.1));
-  border: 3px solid var(--primary);
-  padding: 20px 40px;
-  border-radius: 16px;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-weight: 700;
 }
 
-.result-text {
+.formula-op {
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
+  padding: 0 4px;
+}
+
+.formula-op.eq {
+  font-size: 32px;
 }
 
 @media (max-width: 768px) {
