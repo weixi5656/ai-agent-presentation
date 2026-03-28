@@ -16,7 +16,6 @@ const routes = [
   { path: '/esp32-case', component: () => import('./views/ESP32CaseView.vue') },
   { path: '/practice', component: () => import('./views/PracticeView.vue') },
   { path: '/trend', component: () => import('./views/TrendView.vue') },
-  { path: '/resource', component: () => import('./views/ResourceView.vue') },
 ]
 
 const router = createRouter({

@@ -85,7 +85,6 @@ const routes = [
   { path: '/esp32-case', title: 'ESP32实践' },
   { path: '/practice', title: '最佳实践' },
   { path: '/trend', title: '趋势展望' },
-  { path: '/resource', title: '资源包' },
 ]
 
 const currentIndex = computed(() => {
