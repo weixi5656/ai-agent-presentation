@@ -103,20 +103,19 @@
     </div>
     
     <!-- Tooltip -->
-    <div v-if="activeTooltip" class="tooltip" :style="tooltipStyle">
-      <div class="tooltip-content">
-        <h4>{{ activeTooltip.name }}</h4>
-        <p class="tooltip-desc">{{ activeTooltip.desc }}</p>
-        <div class="tooltip-example">
-          <strong>完整示例：</strong>
-          <pre>{{ activeTooltip.fullExample }}</pre>
+    <div v-if="activeTooltip" class="tooltip-overlay" @click="hideTooltip">
+      <div class="tooltip" :style="tooltipStyle" @click.stop>
+        <div class="tooltip-content">
+          <div class="tooltip-example">
+            <pre>{{ activeTooltip.fullExample }}</pre>
+          </div>
         </div>
       </div>
     </div>
     
     <!-- 提示词框架 -->
     <div class="frameworks-section">
-      <h2 class="section-title">常用提示词框架（左右滑动查看更多）</h2>
+      <h2 class="section-title">常用提示词框架</h2>
       <div class="frameworks-scroll">
         <div class="frameworks-track">
           <div class="framework-card" v-for="(fw, index) in frameworks" :key="index">
@@ -584,35 +583,26 @@ const frameworks = [
   border: 1px solid var(--border);
 }
 
-.tooltip-content h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.tooltip-desc {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
+.tooltip-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
 }
 
 .tooltip-example {
   background: #1a1a2e;
   border-radius: 8px;
-  padding: 12px;
-}
-
-.tooltip-example strong {
-  color: var(--secondary);
-  font-size: 12px;
+  padding: 16px;
 }
 
 .tooltip-example pre {
   color: #e2e8f0;
   font-size: 13px;
-  line-height: 1.5;
-  margin: 8px 0 0 0;
+  line-height: 1.6;
+  margin: 0;
   white-space: pre-wrap;
   font-family: 'Fira Code', monospace;
 }
