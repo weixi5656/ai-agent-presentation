@@ -2,50 +2,83 @@
   <div class="concept-view">
     <h1 class="page-title">AI智能体：到底是什么？</h1>
     
-    <!-- 核心定义 - 环形闭环图 -->
+    <!-- 核心定义 - 酷炫环形闭环图 -->
     <div class="definition-section">
       <h2 class="section-title">核心定义</h2>
       <div class="cycle-container">
+        <!-- 外圈发光环 -->
+        <div class="glow-ring"></div>
+        <!-- 旋转的渐变环 -->
+        <div class="rotating-ring">
+          <svg viewBox="0 0 400 400" class="ring-svg">
+            <defs>
+              <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0066ff" />
+                <stop offset="50%" stop-color="#00d4aa" />
+                <stop offset="100%" stop-color="#0066ff" />
+              </linearGradient>
+            </defs>
+            <circle cx="200" cy="200" r="150" fill="none" stroke="url(#ringGradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="20 10" />
+          </svg>
+        </div>
+        <!-- 箭头 -->
+        <div class="arrow-markers">
+          <div class="arrow-item" style="--pos: 0;">
+            <div class="arrow-triangle"></div>
+          </div>
+          <div class="arrow-item" style="--pos: 1;">
+            <div class="arrow-triangle"></div>
+          </div>
+          <div class="arrow-item" style="--pos: 2;">
+            <div class="arrow-triangle"></div>
+          </div>
+          <div class="arrow-item" style="--pos: 3;">
+            <div class="arrow-triangle"></div>
+          </div>
+          <div class="arrow-item" style="--pos: 4;">
+            <div class="arrow-triangle"></div>
+          </div>
+        </div>
+        <!-- 中心 -->
         <div class="cycle-center">
+          <div class="center-glow"></div>
           <span class="center-text">AI智能体</span>
         </div>
-        <div class="cycle-item" style="--angle: 0deg;">
-          <div class="cycle-node">
-            <span class="node-icon">👁️</span>
-            <span class="node-text">环境感知</span>
+        <!-- 5个能力卡片 -->
+        <div class="capability-card" style="--idx: 0;">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <span class="card-icon">👁️</span>
+            <span class="card-label">环境感知</span>
           </div>
         </div>
-        <div class="cycle-item" style="--angle: 72deg;">
-          <div class="cycle-node">
-            <span class="node-icon">🎯</span>
-            <span class="node-text">自主规划</span>
+        <div class="capability-card" style="--idx: 1;">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <span class="card-icon">🎯</span>
+            <span class="card-label">自主规划</span>
           </div>
         </div>
-        <div class="cycle-item" style="--angle: 144deg;">
-          <div class="cycle-node">
-            <span class="node-icon">🧠</span>
-            <span class="node-text">长期记忆</span>
+        <div class="capability-card" style="--idx: 2;">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <span class="card-icon">🧠</span>
+            <span class="card-label">长期记忆</span>
           </div>
         </div>
-        <div class="cycle-item" style="--angle: 216deg;">
-          <div class="cycle-node">
-            <span class="node-icon">🔧</span>
-            <span class="node-text">工具调用</span>
+        <div class="capability-card" style="--idx: 3;">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <span class="card-icon">🔧</span>
+            <span class="card-label">工具调用</span>
           </div>
         </div>
-        <div class="cycle-item" style="--angle: 288deg;">
-          <div class="cycle-node">
-            <span class="node-icon">🔄</span>
-            <span class="node-text">执行反思</span>
+        <div class="capability-card" style="--idx: 4;">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <span class="card-icon">🔄</span>
+            <span class="card-label">执行反思</span>
           </div>
-        </div>
-        <!-- 渐变圆环箭头 -->
-        <div class="cycle-ring">
-          <div class="ring-arrow" style="--rot: 0deg;">▶</div>
-          <div class="ring-arrow" style="--rot: 72deg;">▶</div>
-          <div class="ring-arrow" style="--rot: 144deg;">▶</div>
-          <div class="ring-arrow" style="--rot: 216deg;">▶</div>
-          <div class="ring-arrow" style="--rot: 288deg;">▶</div>
         </div>
       </div>
       <p class="definition-desc">具备完整闭环能力，可自主完成复杂研发任务的智能系统</p>
@@ -146,95 +179,187 @@
   text-align: center;
 }
 
-/* 环形闭环图 */
+/* 酷炫环形闭环图 */
 .definition-section {
   margin-bottom: 60px;
 }
 
 .cycle-container {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   margin: 0 auto 30px;
 }
 
+/* 外圈发光 */
+.glow-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.15) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* 旋转渐变环 */
+.rotating-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  animation: rotate-ring 20s linear infinite;
+}
+
+@keyframes rotate-ring {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.ring-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 箭头标记 */
+.arrow-markers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+}
+
+.arrow-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(calc(var(--pos) * 72deg - 90deg)) translateX(150px) translateY(-50%);
+}
+
+.arrow-triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 16px solid var(--primary);
+  filter: drop-shadow(0 0 6px var(--primary));
+}
+
+/* 中心 */
 .cycle-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
+  z-index: 10;
+}
+
+.center-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 50%;
+  filter: blur(15px);
+  opacity: 0.5;
+  animation: center-pulse 2s ease-in-out infinite;
+}
+
+@keyframes center-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.center-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 30px rgba(0, 102, 255, 0.3);
-  z-index: 10;
-}
-
-.center-text {
   color: white;
   font-weight: 700;
-  font-size: 16px;
-  text-align: center;
+  font-size: 18px;
+  box-shadow: 0 8px 40px rgba(0, 102, 255, 0.4);
 }
 
-.cycle-item {
+/* 能力卡片 */
+.capability-card {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: rotate(var(--angle)) translateX(140px) translateY(-50%);
-  transform-origin: 0 0;
+  transform: rotate(calc(var(--idx) * 72deg)) translateX(200px) rotate(calc(var(--idx) * -72deg)) translateY(-50%);
+  width: 100px;
+  height: 100px;
+  z-index: 20;
 }
 
-.cycle-node {
-  transform: rotate(calc(-1 * var(--angle)));
+.card-glow {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: blur(8px);
+}
+
+.capability-card:hover .card-glow {
+  opacity: 0.6;
+}
+
+.card-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
   background: white;
   border-radius: 12px;
-  padding: 12px 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 2px solid var(--primary);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  min-width: 80px;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.node-icon {
-  font-size: 24px;
+.capability-card:hover .card-content {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 102, 255, 0.25);
 }
 
-.node-text {
+.card-icon {
+  font-size: 32px;
+}
+
+.card-label {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  white-space: nowrap;
-}
-
-.cycle-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  background: linear-gradient(white, white) padding-box,
-              conic-gradient(from 0deg, var(--primary), var(--secondary), var(--primary)) border-box;
-}
-
-.ring-arrow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: rotate(var(--rot)) translateX(140px) translateY(-50%);
-  font-size: 14px;
-  color: var(--primary);
-  text-shadow: 0 0 4px white;
 }
 
 .definition-desc {
@@ -389,34 +514,56 @@
 
 @media (max-width: 768px) {
   .cycle-container {
-    width: 300px;
-    height: 300px;
+    width: 340px;
+    height: 340px;
   }
   
-  .cycle-item {
-    transform: rotate(var(--angle)) translateX(100px) translateY(-50%);
+  .glow-ring {
+    width: 240px;
+    height: 240px;
   }
   
-  .cycle-node {
-    padding: 8px 10px;
-    min-width: 60px;
+  .rotating-ring {
+    width: 280px;
+    height: 280px;
   }
   
-  .node-icon {
-    font-size: 18px;
+  .arrow-markers {
+    width: 220px;
+    height: 220px;
   }
   
-  .node-text {
-    font-size: 11px;
+  .arrow-item {
+    transform: rotate(calc(var(--pos) * 72deg - 90deg)) translateX(110px) translateY(-50%);
+  }
+  
+  .arrow-triangle {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid var(--primary);
   }
   
   .cycle-center {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
   }
   
   .center-text {
-    font-size: 13px;
+    font-size: 14px;
+  }
+  
+  .capability-card {
+    transform: rotate(calc(var(--idx) * 72deg)) translateX(140px) rotate(calc(var(--idx) * -72deg)) translateY(-50%);
+    width: 75px;
+    height: 75px;
+  }
+  
+  .card-icon {
+    font-size: 22px;
+  }
+  
+  .card-label {
+    font-size: 10px;
   }
   
   .comparison-cards {
@@ -425,10 +572,6 @@
   
   .vs-divider {
     transform: rotate(90deg);
-  }
-  
-  .formula-operations {
-    gap: 15px;
   }
 }
 </style>
