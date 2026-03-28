@@ -50,14 +50,14 @@
           <span class="center-text">AI智能体</span>
         </div>
         <!-- 5个能力卡片 - 均匀分布在圆环外侧 -->
-        <div class="capability-card" style="--angle: -90deg;">
+        <div class="capability-card" style="--angle: -90deg; --dist: 240px;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">👁️</span>
             <span class="card-label">环境感知</span>
           </div>
         </div>
-        <div class="capability-card" style="--angle: -18deg;">
+        <div class="capability-card" style="--angle: -18deg; --dist: 240px;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">🎯</span>
@@ -78,7 +78,7 @@
             <span class="card-label">工具调用</span>
           </div>
         </div>
-        <div class="capability-card" style="--angle: 198deg;">
+        <div class="capability-card" style="--angle: 198deg; --dist: 240px;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">🔄</span>
@@ -305,7 +305,7 @@
   width: 100px;
   height: 100px;
   z-index: 20;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(260px) rotate(calc(var(--angle) * -1));
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist, 260px)) rotate(calc(var(--angle) * -1));
 }
 
 .capability-card .card-glow {
@@ -496,7 +496,7 @@
   }
   
   .capability-card {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(170px) rotate(calc(var(--angle) * -1));
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist, 170px)) rotate(calc(var(--angle) * -1));
     width: 75px;
     height: 75px;
   }
