@@ -43,19 +43,38 @@
         </div>
       </div>
       
-      <!-- Check Port 端口检测 -->
-      <div class="branch-row checkport-branch">
-        <div class="branch-label">Check Port 端口检测与自动切换</div>
-        <div class="branch-flow simple">
-          <div class="branch-box">
-            <span class="box-icon">🔍</span>
-            <span class="box-label">检测端口</span>
+      <!-- Checkpoint 检查点机制 -->
+      <div class="branch-row checkpoint-branch">
+        <div class="branch-label">Checkpoint 检查点机制 - 任务状态持久化</div>
+        <div class="checkpoint-flow">
+          <div class="checkpoint-step">
+            <span class="step-icon">💾</span>
+            <span class="step-name">定期保存</span>
+            <span class="step-desc">每5步/30分钟</span>
           </div>
-          <span class="branch-or">冲突?</span>
-          <div class="branch-box">
-            <span class="box-icon">🔧</span>
-            <span class="box-label">自动切换端口</span>
+          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
+          <div class="checkpoint-step">
+            <span class="step-icon">📝</span>
+            <span class="step-name">状态快照</span>
+            <span class="step-desc">已完成步骤+中间结果</span>
           </div>
+          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
+          <div class="checkpoint-step">
+            <span class="step-icon">⚡</span>
+            <span class="step-name">中断恢复</span>
+            <span class="step-desc">加载检查点继续执行</span>
+          </div>
+          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
+          <div class="checkpoint-step">
+            <span class="step-icon">✅</span>
+            <span class="step-name">断点续传</span>
+            <span class="step-desc">无需从头开始</span>
+          </div>
+        </div>
+        <div class="checkpoint-storage">
+          <span class="storage-label">存储方式：</span>
+          <span class="storage-item">JSON - 任务配置</span>
+          <span class="storage-item">SQLite - 结构化数据</span>
         </div>
       </div>
       
