@@ -82,53 +82,43 @@ const features = [
 
 const flowSteps = [
   {
-    title: '环境搭建 - 刷写MicroPython固件',
-    desc: '下载ESP32-S3专用固件，使用esptool工具刷写到开发板',
-    code: `# 下载MicroPython固件
+    title: '开发环境要求',
+    desc: '硬件和软件环境准备',
+    code: `【硬件要求】
+- ESP32-S3开发板（推荐N16R8，16MB Flash + 8MB PSRAM）
+- INMP441 I2S麦克风模块
+- MAX98357 I2S扬声器模块
+- MPU6050陀螺仪传感器
+- 电容触控模块（TTP223）
+- SPI显示屏（GC9A01圆形屏或ST7735）
+- USB数据线（Type-C）
+
+【软件要求】
+- Python 3.8+
+- esptool（固件刷写工具）
+- Thonny IDE（推荐）或 VSCode
+- MicroPython固件（ESP32-S3专用）
+
+【固件下载】
 wget https://micropython.org/resources/firmware/ESP32_GENERIC_S3-20240222-v1.22.2.bin
 
-# 擦除Flash并刷写固件
+【刷写命令】
 esptool.py --chip esp32s3 --port /dev/ttyUSB0 erase_flash
 esptool.py --chip esp32s3 --port /dev/ttyUSB0 --baud 460800 \\
     write_flash -z 0x0 ESP32_GENERIC_S3-20240222-v1.22.2.bin`
   },
   {
-    title: 'WiFi连接与基础配置',
-    desc: '配置WiFi连接，建立网络基础',
-    code: `import network
+    title: '功能1：语音唤醒 - 离线VAD检测',
+    desc: '实现本地语音活动检测，识别有效语音输入',
+    code: `from machine import I2S, Pin
 import time
 
-def connect_wifi(ssid, password):
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.connect(ssid, password)
-    
-    while not wlan.isconnected():
-        time.sleep(1)
-    
-    print('WiFi已连接:', wlan.ifconfig())
-    return wlan
-
-# 连接WiFi
-connect_wifi('Your_SSID', 'Your_Password')`
-  },
-  {
-    title: 'I2S音频采集模块初始化',
-    desc: '初始化INMP441麦克风，配置I2S接口',
-    code: `from machine import I2S, Pin
-import struct
-
-# I2S配置
-I2S_SCK = 40  # 串行时钟
-I2S_WS = 41   # 字选择
-I2S_SD = 39   # 串行数据
-
-# 初始化I2S麦克风
+# I2S麦克风配置（INMP441）
 audio_in = I2S(
     0,
-    sck=Pin(I2S_SCK),
-    ws=Pin(I2S_WS),
-    sd=Pin(I2S_SD),
+    sck=Pin(40),   # BCLK
+    ws=Pin(41),    # LRCK
+    sd=Pin(39),    # DATA
     mode=I2S.RX,
     bits=16,
     format=I2S.MONO,
@@ -136,26 +126,8 @@ audio_in = I2S(
     ibuf=64000
 )
 
-# 读取音频数据
-def record_audio(duration=5):
-    buf = bytearray(1024)
-    audio_data = []
-    samples = int(duration * 16000 / 512)
-    
-    for _ in range(samples):
-        audio_in.readinto(buf)
-        audio_data.extend(buf)
-    
-    return bytes(audio_data)`
-  },
-  {
-    title: '语音活动检测（VAD）',
-    desc: '实现简单的能量检测，识别有效语音',
-    code: `import math
-
-def vad_detect(audio_buffer, threshold=500):
+def vad_detect(audio_buffer, threshold=800):
     """语音活动检测 - 基于能量阈值"""
-    # 计算音频能量
     energy = 0
     for i in range(0, len(audio_buffer), 2):
         if i + 1 < len(audio_buffer):
@@ -165,123 +137,557 @@ def vad_detect(audio_buffer, threshold=500):
             energy += abs(sample)
     
     avg_energy = energy / (len(audio_buffer) // 2)
-    
-    # 判断是否超过阈值
     is_speech = avg_energy > threshold
     return is_speech, avg_energy
 
-# 使用示例
-buf = bytearray(1024)
-audio_in.readinto(buf)
-is_speech, energy = vad_detect(buf)
-print(f'检测到语音: {is_speech}, 能量: {energy}')`
+# 实时监听唤醒
+def wait_for_wake_word():
+    print('等待语音唤醒...')
+    buf = bytearray(1024)
+    
+    while True:
+        audio_in.readinto(buf)
+        is_speech, energy = vad_detect(buf)
+        
+        if is_speech:
+            print(f'检测到语音! 能量: {energy}')
+            return True
+        
+        time.sleep_ms(50)
+
+# 使用
+wait_for_wake_word()`
   },
   {
-    title: 'WebSocket连接云端智能体',
-    desc: '建立与OpenClaw/豆包等云端智能体的WebSocket连接',
+    title: '功能2：自然语言交互 - 云端AI对接',
+    desc: '通过WebSocket连接云端大模型（OpenClaw/豆包/讯飞），实现自然语言交互',
     code: `import uwebsockets.client as websocket
 import ujson as json
 import uasyncio as asyncio
 
-class AIAgentClient:
-    def __init__(self, ws_url, api_key):
-        self.ws_url = ws_url
-        self.api_key = api_key
+class CloudAIAgent:
+    def __init__(self, config):
+        self.ws_url = config['ws_url']
+        self.api_key = config['api_key']
+        self.model = config.get('model', 'doubao')
         self.ws = None
+        self.session_id = None
     
     async def connect(self):
-        """连接WebSocket服务"""
+        """连接云端智能体服务"""
         self.ws = await websocket.connect(self.ws_url)
-        # 发送认证信息
+        
+        # 发送认证和配置
         auth_msg = {
-            'type': 'auth',
-            'api_key': self.api_key
+            'type': 'session.start',
+            'api_key': self.api_key,
+            'model': self.model,
+            'config': {
+                'voice': 'zh_female',
+                'temperature': 0.7
+            }
         }
         await self.ws.send(json.dumps(auth_msg))
-        print('已连接到云端智能体')
+        
+        # 接收确认
+        resp = await self.ws.recv()
+        data = json.loads(resp)
+        self.session_id = data.get('session_id')
+        print(f'已连接云端AI，会话ID: {self.session_id}')
+    
+    async def send_text(self, text):
+        """发送文本消息"""
+        msg = {
+            'type': 'conversation.item.create',
+            'content': {
+                'role': 'user',
+                'content': text
+            }
+        }
+        await self.ws.send(json.dumps(msg))
     
     async def send_audio(self, audio_data):
         """发送音频数据"""
+        import ubinascii
+        audio_b64 = ubinascii.b2a_base64(audio_data).decode().strip()
+        
         msg = {
-            'type': 'audio',
-            'data': audio_data.hex(),
+            'type': 'input_audio_buffer.append',
+            'audio': audio_b64,
             'format': 'pcm16',
             'sample_rate': 16000
         }
         await self.ws.send(json.dumps(msg))
+        
+        # 提交音频
+        await self.ws.send(json.dumps({'type': 'input_audio_buffer.commit'}))
     
     async def receive_response(self):
-        """接收智能体响应"""
-        response = await self.ws.recv()
-        return json.loads(response)
+        """接收AI响应（流式）"""
+        full_response = {'text': '', 'audio': b''}
+        
+        while True:
+            resp = await self.ws.recv()
+            data = json.loads(resp)
+            
+            if data['type'] == 'response.text.delta':
+                full_response['text'] += data['delta']
+            elif data['type'] == 'response.audio.delta':
+                import ubinascii
+                audio_chunk = ubinascii.a2b_base64(data['delta'])
+                full_response['audio'] += audio_chunk
+            elif data['type'] == 'response.done':
+                break
+        
+        return full_response
 
-# 使用示例
-client = AIAgentClient('wss://api.example.com/ws', 'your_api_key')
-await client.connect()`
+# 配置示例
+config = {
+    'ws_url': 'wss://openspeech.bytedance.com/api/v3/vc/tts',
+    'api_key': 'your_doubao_api_key',
+    'model': 'doubao-pro'
+}
+
+agent = CloudAIAgent(config)`
   },
   {
-    title: '端云协同完整流程',
-    desc: '整合语音采集、VAD、云端交互、结果播报的完整流程',
-    code: `import uasyncio as asyncio
+    title: '功能3：端侧数据采集 - 传感器融合',
+    desc: '采集陀螺仪、触控等传感器数据，作为上下文信息',
+    code: `from machine import I2C, Pin
+import time
+import struct
 
-class VoiceAssistant:
+# MPU6050陀螺仪地址
+MPU6050_ADDR = 0x68
+
+class SensorManager:
     def __init__(self):
-        self.client = AIAgentClient('wss://api.example.com/ws', 'your_key')
-        self.is_recording = False
+        # I2C总线初始化
+        self.i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400000)
+        
+        # 初始化MPU6050
+        self._init_mpu6050()
+        
+        # 触控按钮
+        self.touch_pin = Pin(4, Pin.IN, Pin.PULL_UP)
+        
+        print('传感器初始化完成')
+    
+    def _init_mpu6050(self):
+        """初始化MPU6050"""
+        # 唤醒MPU6050
+        self.i2c.writeto_mem(MPU6050_ADDR, 0x6B, b'\\x00')
+        time.sleep_ms(100)
+        
+        # 设置量程
+        self.i2c.writeto_mem(MPU6050_ADDR, 0x1B, b'\\x00')  # ±250°/s
+        self.i2c.writeto_mem(MPU6050_ADDR, 0x1C, b'\\x00')  # ±2g
+    
+    def read_accel_gyro(self):
+        """读取加速度和陀螺仪数据"""
+        data = self.i2c.readfrom_mem(MPU6050_ADDR, 0x3B, 14)
+        
+        # 解析数据
+        accel_x = struct.unpack('>h', data[0:2])[0] / 16384.0
+        accel_y = struct.unpack('>h', data[2:4])[0] / 16384.0
+        accel_z = struct.unpack('>h', data[4:6])[0] / 16384.0
+        
+        gyro_x = struct.unpack('>h', data[8:10])[0] / 131.0
+        gyro_y = struct.unpack('>h', data[10:12])[0] / 131.0
+        gyro_z = struct.unpack('>h', data[12:14])[0] / 131.0
+        
+        return {
+            'accel': {'x': accel_x, 'y': accel_y, 'z': accel_z},
+            'gyro': {'x': gyro_x, 'y': gyro_y, 'z': gyro_z}
+        }
+    
+    def read_touch(self):
+        """读取触控状态"""
+        return not self.touch_pin.value()  # 低电平触发
+    
+    def get_context(self):
+        """获取完整传感器上下文"""
+        sensor_data = self.read_accel_gyro()
+        touch_state = self.read_touch()
+        
+        # 检测设备姿态
+        accel = sensor_data['accel']
+        if accel['z'] > 0.8:
+            orientation = '正面朝上'
+        elif accel['z'] < -0.8:
+            orientation = '反面朝上'
+        else:
+            orientation = '倾斜状态'
+        
+        return {
+            'orientation': orientation,
+            'motion': '静止' if abs(sensor_data['gyro']['z']) < 5 else '旋转中',
+            'touched': touch_state,
+            'raw_data': sensor_data
+        }
+
+# 使用示例
+sensors = SensorManager()
+context = sensors.get_context()
+print(f"设备状态: {context}")`
+  },
+  {
+    title: '功能4：云端智能体任务规划 - 提示词工程',
+    desc: '设计结构化提示词，让云端AI理解端侧上下文并生成任务规划',
+    code: `def build_system_prompt(context, history=None):
+    """构建系统提示词 - Co-STAR框架"""
+    
+    prompt = f"""【Context - 上下文】
+你是一个智能助手，当前运行在ESP32设备上。
+设备状态信息：
+- 设备姿态: {context['orientation']}
+- 运动状态: {context['motion']}
+- 触控状态: {'被触摸' if context['touched'] else '未触摸'}
+
+【Objective - 目标】
+理解用户的语音指令，生成适合在ESP32设备上执行的任务规划。
+
+【Style - 风格】
+简洁、指令化、可执行。
+
+【Tone - 语气】
+专业、友好。
+
+【Response - 响应格式】
+请以JSON格式返回，包含以下字段：
+- understanding: 对用户意图的理解
+- task_plan: 任务执行步骤列表
+- response_text: 给用户的语音回复文本
+- need_display: 是否需要显示内容
+- display_content: 显示内容（如有）
+
+【示例】
+用户说："帮我记录今天的会议要点"
+响应：
+{{
+    "understanding": "用户需要创建语音备忘录",
+    "task_plan": [
+        "1. 启动录音",
+        "2. 等待用户说完",
+        "3. 保存到本地存储",
+        "4. 生成摘要"
+    ],
+    "response_text": "好的，请开始说话，我会记录您的会议要点",
+    "need_display": true,
+    "display_content": "🎤 录音中..."
+}}
+"""
+    
+    return prompt
+
+def build_user_message(audio_text, context):
+    """构建用户消息"""
+    return {
+        'role': 'user',
+        'content': f"""
+用户语音输入："{audio_text}"
+
+当前设备状态：
+{json.dumps(context, indent=2)}
+
+请生成任务规划。
+"""
+    }
+
+# 使用示例
+context = sensors.get_context()
+system_prompt = build_system_prompt(context)
+user_msg = build_user_message("打开客厅灯", context)
+
+# 发送到云端AI
+await agent.send_text(system_prompt + "\\n" + user_msg['content'])
+response = await agent.receive_response()
+print(response['text'])`
+  },
+  {
+    title: '功能5：本地记忆存储 - 上下文持久化',
+    desc: '使用本地文件系统存储对话历史、用户偏好、任务状态',
+    code: `import json
+import os
+
+class LocalMemory:
+    def __init__(self, memory_file='memory.json'):
+        self.memory_file = memory_file
+        self.memory = self._load_memory()
+    
+    def _load_memory(self):
+        """从文件加载记忆"""
+        try:
+            with open(self.memory_file, 'r') as f:
+                return json.load(f)
+        except:
+            # 初始化默认记忆结构
+            return {
+                'user_preferences': {},
+                'conversation_history': [],
+                'task_status': {},
+                'device_config': {}
+            }
+    
+    def _save_memory(self):
+        """保存记忆到文件"""
+        with open(self.memory_file, 'w') as f:
+            json.dump(self.memory, f)
+    
+    def add_conversation(self, role, content):
+        """添加对话记录"""
+        self.memory['conversation_history'].append({
+            'role': role,
+            'content': content,
+            'timestamp': time.time()
+        })
+        
+        # 只保留最近20轮对话
+        if len(self.memory['conversation_history']) > 40:
+            self.memory['conversation_history'] = self.memory['conversation_history'][-40:]
+        
+        self._save_memory()
+    
+    def get_recent_context(self, n=5):
+        """获取最近n轮对话上下文"""
+        return self.memory['conversation_history'][-n*2:]
+    
+    def set_preference(self, key, value):
+        """设置用户偏好"""
+        self.memory['user_preferences'][key] = value
+        self._save_memory()
+    
+    def get_preference(self, key, default=None):
+        """获取用户偏好"""
+        return self.memory['user_preferences'].get(key, default)
+    
+    def update_task_status(self, task_id, status):
+        """更新任务状态"""
+        self.memory['task_status'][task_id] = {
+            'status': status,
+            'updated_at': time.time()
+        }
+        self._save_memory()
+
+# 使用示例
+memory = LocalMemory()
+
+# 保存对话
+memory.add_conversation('user', '今天天气怎么样')
+memory.add_conversation('assistant', '今天晴天，25度')
+
+# 获取上下文
+context = memory.get_recent_context(3)
+
+# 保存偏好
+memory.set_preference('preferred_voice', 'zh_female')
+memory.set_preference('volume', 80)`
+  },
+  {
+    title: '功能6：执行结果反馈 - 多模态输出',
+    desc: '通过语音播报、显示屏、LED等多种方式反馈执行结果',
+    code: `from machine import I2S, Pin, SPI
+import struct
+
+class MultiModalOutput:
+    def __init__(self):
+        # I2S扬声器（MAX98357）
+        self.audio_out = I2S(
+            1,
+            sck=Pin(12),
+            ws=Pin(14),
+            sd=Pin(13),
+            mode=I2S.TX,
+            bits=16,
+            format=I2S.MONO,
+            rate=24000,
+            ibuf=40000
+        )
+        
+        # LED指示灯
+        self.led = Pin(2, Pin.OUT)
+        
+        # 显示屏（假设已初始化）
+        self.display = None  # GC9A01或ST7735实例
+    
+    def play_audio(self, audio_data, sample_rate=24000):
+        """播放音频"""
+        # 重采样（如果需要）
+        if sample_rate != 24000:
+            audio_data = self._resample(audio_data, sample_rate, 24000)
+        
+        # 写入I2S
+        self.audio_out.write(audio_data)
+        
+        # 播放时LED闪烁
+        self.led.value(1)
+        time.sleep_ms(100)
+        self.led.value(0)
+    
+    def display_text(self, text, icon=None):
+        """显示文本"""
+        if self.display:
+            self.display.fill(0)
+            
+            # 显示图标
+            if icon:
+                self.display.draw_icon(60, 20, icon)
+            
+            # 显示文字
+            lines = text.split('\\n')
+            y = 80
+            for line in lines:
+                self.display.text(line, 10, y, 0xFFFF)
+                y += 20
+            
+            self.display.show()
+    
+    def show_status(self, status):
+        """显示状态"""
+        status_icons = {
+            'listening': ('🎤', '聆听中...'),
+            'thinking': ('🤔', '思考中...'),
+            'speaking': ('🔊', '播报中...'),
+            'error': ('❌', '出错了')
+        }
+        
+        icon, text = status_icons.get(status, ('❓', '未知状态'))
+        self.display_text(text, icon)
+    
+    def feedback_result(self, response_data):
+        """综合反馈执行结果"""
+        # 1. 语音播报
+        if 'audio' in response_data:
+            self.play_audio(response_data['audio'])
+        
+        # 2. 显示内容
+        if response_data.get('need_display'):
+            self.display_text(
+                response_data.get('display_content', ''),
+                response_data.get('icon')
+            )
+        
+        # 3. LED反馈
+        if response_data.get('success'):
+            self.led.value(1)
+            time.sleep(0.5)
+            self.led.value(0)
+
+# 使用示例
+output = MultiModalOutput()
+
+# 显示状态
+output.show_status('listening')
+
+# 反馈结果
+result = {
+    'audio': audio_bytes,
+    'need_display': True,
+    'display_content': '已为您打开客厅灯',
+    'icon': '💡',
+    'success': True
+}
+output.feedback_result(result)`
+  },
+  {
+    title: '完整主程序 - 端云协同智能体',
+    desc: '整合所有功能的完整实现',
+    code: `import uasyncio as asyncio
+from machine import Pin
+
+class ESP32AIAgent:
+    def __init__(self):
+        # 初始化各模块
+        self.sensors = SensorManager()
+        self.memory = LocalMemory()
+        self.cloud = CloudAIAgent(config)
+        self.output = MultiModalOutput()
+        self.audio_in = audio_in  # I2S麦克风
+        
+        self.is_running = False
     
     async def run(self):
         """主循环"""
-        await self.client.connect()
-        print('语音助手已启动，等待唤醒...')
+        # 连接云端
+        await self.cloud.connect()
+        self.is_running = True
+        
+        print('ESP32 AI Agent 已启动')
+        self.output.show_status('listening')
+        
+        while self.is_running:
+            try:
+                # 1. 等待语音唤醒
+                if await self._wait_for_wake():
+                    # 2. 采集语音
+                    audio_data = await self._record_audio(5)
+                    
+                    # 3. 获取传感器上下文
+                    sensor_context = self.sensors.get_context()
+                    
+                    # 4. 获取历史对话
+                    history = self.memory.get_recent_context(3)
+                    
+                    # 5. 发送到云端AI
+                    self.output.show_status('thinking')
+                    
+                    # 构建提示词
+                    system_prompt = build_system_prompt(sensor_context)
+                    await self.cloud.send_text(system_prompt)
+                    await self.cloud.send_audio(audio_data)
+                    
+                    # 6. 接收响应
+                    response = await self.cloud.receive_response()
+                    
+                    # 7. 保存对话
+                    self.memory.add_conversation('user', '[语音输入]')
+                    self.memory.add_conversation('assistant', response['text'])
+                    
+                    # 8. 反馈结果
+                    self.output.show_status('speaking')
+                    self.output.feedback_result(response)
+                    
+                    # 9. 恢复监听状态
+                    self.output.show_status('listening')
+                
+            except Exception as e:
+                print(f'Error: {e}')
+                self.output.show_status('error')
+                await asyncio.sleep(2)
+    
+    async def _wait_for_wake(self):
+        """等待唤醒"""
+        buf = bytearray(1024)
+        silence_count = 0
         
         while True:
-            # 1. 监听唤醒词（简化版：检测语音能量）
-            buf = bytearray(1024)
-            audio_in.readinto(buf)
+            self.audio_in.readinto(buf)
             is_speech, energy = vad_detect(buf)
             
-            if is_speech and not self.is_recording:
-                self.is_recording = True
-                print('检测到语音，开始录音...')
-                
-                # 2. 采集音频（3秒）
-                audio_data = await self.record_audio(3)
-                
-                # 3. 发送到云端智能体
-                await self.client.send_audio(audio_data)
-                
-                # 4. 接收响应
-                response = await self.client.receive_response()
-                print('智能体回复:', response['text'])
-                
-                # 5. 语音播报（通过I2S扬声器播放）
-                await self.play_response(response['audio'])
-                
-                self.is_recording = False
+            if is_speech:
+                return True
             
-            await asyncio.sleep(0.1)
+            await asyncio.sleep_ms(50)
     
-    async def record_audio(self, duration):
-        """录音指定时长"""
+    async def _record_audio(self, duration):
+        """录音"""
         buf = bytearray(1024)
         audio_data = []
         samples = int(duration * 16000 / 512)
         
         for _ in range(samples):
-            audio_in.readinto(buf)
+            self.audio_in.readinto(buf)
             audio_data.extend(buf)
             await asyncio.sleep(0)
         
         return bytes(audio_data)
-    
-    async def play_response(self, audio_data):
-        """播放响应音频"""
-        # 通过I2S扬声器播放
-        audio_out.write(audio_data)
 
-# 启动助手
-assistant = VoiceAssistant()
-asyncio.run(assistant.run())`
+# 启动
+async def main():
+    agent = ESP32AIAgent()
+    await agent.run()
+
+asyncio.run(main())`
   }
 ]
 </script>
