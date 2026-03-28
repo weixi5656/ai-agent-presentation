@@ -1,0 +1,22 @@
+{
+  "name": "ai-agent-presentation",
+  "version": "1.0.0",
+  "description": "AI智能体实践分享会 - 交互式网页演示",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0",
+    "gsap": "^3.12.0",
+    "@vueuse/core": "^10.7.0",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}
