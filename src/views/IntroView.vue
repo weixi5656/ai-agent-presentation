@@ -13,9 +13,6 @@
           <span class="tag">🚀 即学即用</span>
         </div>
       </div>
-      <div class="hero-hint">
-        <span>按空格键或方向键翻页</span>
-      </div>
     </div>
   </div>
 </template>
@@ -85,24 +82,6 @@
   font-size: 15px;
   color: var(--text-primary);
   font-weight: 500;
-}
-
-.hero-hint {
-  position: absolute;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 24px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  border-radius: 8px;
-  font-size: 14px;
-  animation: pulse 2s ease infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
 }
 
 @media (max-width: 768px) {
