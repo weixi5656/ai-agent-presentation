@@ -231,7 +231,7 @@
 .arrow-item {
   position: absolute;
   top: 45%;
-  left: 45%;
+  left: 40%;
   transform: rotate(calc(var(--pos) * 72deg - 90deg)) translateX(150px);
   display: flex;
   align-items: center;
@@ -305,7 +305,7 @@
   width: 100px;
   height: 100px;
   z-index: 20;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(300px) rotate(calc(var(--angle) * -1));
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(260px) rotate(calc(var(--angle) * -1));
 }
 
 .capability-card .card-glow {
@@ -496,7 +496,7 @@
   }
   
   .capability-card {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(200px) rotate(calc(var(--angle) * -1));
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(170px) rotate(calc(var(--angle) * -1));
     width: 75px;
     height: 75px;
   }
