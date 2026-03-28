@@ -10,59 +10,140 @@
     </div>
     
     <div class="architecture-section">
-      <h2 class="section-title">ClawTeam 核心架构</h2>
+      <h2 class="section-title">ClawTeam 完整架构</h2>
       <div class="architecture-diagram">
-        <!-- 用户层 -->
+        <!-- 用户接口层 -->
         <div class="arch-layer user-layer">
-          <div class="layer-box">
-            <span class="layer-icon">👤</span>
-            <span class="layer-name">用户</span>
+          <div class="layer-title">用户接口层</div>
+          <div class="layer-items">
+            <div class="layer-box small">
+              <span class="layer-icon">💻</span>
+              <span class="layer-name">CLI</span>
+            </div>
+            <div class="layer-box small">
+              <span class="layer-icon">🌐</span>
+              <span class="layer-name">Web UI</span>
+            </div>
+            <div class="layer-box small">
+              <span class="layer-icon">📱</span>
+              <span class="layer-name">移动App</span>
+            </div>
+            <div class="layer-box small">
+              <span class="layer-icon">💬</span>
+              <span class="layer-name">IM工具</span>
+            </div>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- 调度层 -->
-        <div class="arch-layer supervisor-layer">
+        <!-- Gateway核心层 -->
+        <div class="arch-layer gateway-layer">
+          <div class="layer-title">Gateway 核心层</div>
           <div class="layer-box primary">
-            <span class="layer-icon">👑</span>
-            <span class="layer-name">Supervisor 主管智能体</span>
-            <span class="layer-desc">目标拆解 · 任务分发 · 进度管控 · 结果汇总</span>
+            <span class="layer-icon">🚪</span>
+            <span class="layer-name">中央控制平面</span>
+            <span class="layer-desc">WebSocket · 消息路由 · 认证鉴权 · 会话管理</span>
+          </div>
+          <div class="gateway-functions">
+            <span class="func-tag">协议转换</span>
+            <span class="func-tag">车道队列</span>
+            <span class="func-tag">心跳机制</span>
+            <span class="func-tag">Cron调度</span>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- 执行层 -->
-        <div class="arch-layer workers-layer">
-          <div class="workers-grid">
-            <div class="worker-box">
-              <span class="worker-icon">🏗️</span>
-              <span class="worker-name">架构师</span>
+        <!-- Agent层 -->
+        <div class="arch-layer agent-layer">
+          <div class="layer-title">Agent 智能体层</div>
+          <div class="agent-hierarchy">
+            <div class="agent-box supervisor">
+              <span class="agent-icon">👑</span>
+              <span class="agent-name">Supervisor 主管</span>
+              <span class="agent-desc">目标拆解 · 任务分发 · 结果汇总</span>
             </div>
-            <div class="worker-box">
-              <span class="worker-icon">💻</span>
-              <span class="worker-name">开发工程师</span>
-            </div>
-            <div class="worker-box">
-              <span class="worker-icon">🧪</span>
-              <span class="worker-name">测试工程师</span>
-            </div>
-            <div class="worker-box">
-              <span class="worker-icon">🔍</span>
-              <span class="worker-name">评审智能体</span>
+            <div class="agent-children">
+              <div class="agent-box worker">
+                <span class="agent-icon">🔬</span>
+                <span class="agent-name">研究员</span>
+              </div>
+              <div class="agent-box worker">
+                <span class="agent-icon">✏️</span>
+                <span class="agent-name">策划</span>
+              </div>
+              <div class="agent-box worker">
+                <span class="agent-icon">📝</span>
+                <span class="agent-name">编辑</span>
+              </div>
+              <div class="agent-box worker">
+                <span class="agent-icon">✅</span>
+                <span class="agent-name">审核员</span>
+              </div>
             </div>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- 存储层 -->
-        <div class="arch-layer storage-layer">
-          <div class="storage-box">
-            <span class="storage-icon">🗄️</span>
-            <span class="storage-name">共享记忆库</span>
-            <span class="storage-desc">MEMORY.md + 向量数据库</span>
+        <!-- Skills层 -->
+        <div class="arch-layer skills-layer">
+          <div class="layer-title">Skills 技能层</div>
+          <div class="skills-grid">
+            <div class="skill-item">
+              <span class="skill-icon">📁</span>
+              <span class="skill-name">文件操作</span>
+            </div>
+            <div class="skill-item">
+              <span class="skill-icon">🌐</span>
+              <span class="skill-name">浏览器控制</span>
+            </div>
+            <div class="skill-item">
+              <span class="skill-icon">🔧</span>
+              <span class="skill-name">API调用</span>
+            </div>
+            <div class="skill-item">
+              <span class="skill-icon">🔍</span>
+              <span class="skill-name">网络搜索</span>
+            </div>
+            <div class="skill-item">
+              <span class="skill-icon">📊</span>
+              <span class="skill-name">数据处理</span>
+            </div>
+            <div class="skill-item">
+              <span class="skill-icon">🤖</span>
+              <span class="skill-name">模型调用</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="arch-arrow down"></div>
+        
+        <!-- Memory层 -->
+        <div class="arch-layer memory-layer">
+          <div class="layer-title">Memory 记忆层</div>
+          <div class="memory-boxes">
+            <div class="memory-box">
+              <span class="memory-icon">📝</span>
+              <span class="memory-name">MEMORY.md</span>
+              <span class="memory-desc">长期记忆</span>
+            </div>
+            <div class="memory-box">
+              <span class="memory-icon">🧠</span>
+              <span class="memory-name">向量数据库</span>
+              <span class="memory-desc">语义检索</span>
+            </div>
+            <div class="memory-box">
+              <span class="memory-icon">💾</span>
+              <span class="memory-name">Checkpoint</span>
+              <span class="memory-desc">状态快照</span>
+            </div>
+            <div class="memory-box">
+              <span class="memory-icon">📂</span>
+              <span class="memory-name">工作空间</span>
+              <span class="memory-desc">文件隔离</span>
+            </div>
           </div>
         </div>
       </div>
@@ -418,6 +499,24 @@ const templates = [
 .arch-layer {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.layer-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.layer-items {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -425,32 +524,45 @@ const templates = [
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 20px 40px;
+  gap: 6px;
+  padding: 16px 24px;
   background: white;
   border-radius: 12px;
   border: 2px solid var(--border);
   text-align: center;
 }
 
+.layer-box.small {
+  padding: 12px 20px;
+  min-width: 80px;
+}
+
 .layer-box.primary {
   background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(139, 92, 246, 0.1));
   border-color: var(--primary);
-  min-width: 300px;
+  min-width: 320px;
 }
 
 .layer-icon {
-  font-size: 36px;
+  font-size: 28px;
+}
+
+.layer-box.small .layer-icon {
+  font-size: 24px;
 }
 
 .layer-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.layer-desc {
+.layer-box.small .layer-name {
   font-size: 13px;
+}
+
+.layer-desc {
+  font-size: 12px;
   color: var(--text-muted);
 }
 
@@ -458,7 +570,7 @@ const templates = [
   width: 2px;
   height: 30px;
   background: linear-gradient(180deg, var(--primary), var(--secondary));
-  margin: 8px 0;
+  margin: 4px 0;
 }
 
 .arch-arrow.down {
@@ -475,75 +587,174 @@ const templates = [
   font-size: 12px;
 }
 
-/* Workers层 */
-.workers-layer {
+/* Gateway层 */
+.gateway-layer {
   padding: 20px 0;
 }
 
-.workers-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  width: 100%;
-  max-width: 800px;
+.gateway-functions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
 }
 
-.worker-box {
+.func-tag {
+  padding: 4px 12px;
+  background: rgba(0, 102, 255, 0.1);
+  border-radius: 16px;
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Agent层 */
+.agent-layer {
+  padding: 20px 0;
+}
+
+.agent-hierarchy {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 20px;
+  gap: 16px;
+  width: 100%;
+}
+
+.agent-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 24px;
   background: white;
   border-radius: 12px;
   border: 2px solid var(--border);
+  text-align: center;
   transition: all 0.3s;
 }
 
-.worker-box:hover {
-  border-color: var(--secondary);
+.agent-box:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 212, 170, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.15);
 }
 
-.worker-icon {
-  font-size: 32px;
+.agent-box.supervisor {
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(139, 92, 246, 0.1));
+  border-color: var(--primary);
+  min-width: 280px;
 }
 
-.worker-name {
+.agent-children {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.agent-box.worker {
+  border-color: var(--secondary);
+}
+
+.agent-icon {
+  font-size: 28px;
+}
+
+.agent-name {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-/* 存储层 */
-.storage-layer {
-  padding-top: 10px;
+.agent-desc {
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
-.storage-box {
+/* Skills层 */
+.skills-layer {
+  padding: 20px 0;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.skill-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 30px;
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-  border-radius: 12px;
+  gap: 6px;
+  padding: 16px 12px;
+  background: white;
+  border-radius: 10px;
   border: 1px solid var(--border);
+  transition: all 0.3s;
 }
 
-.storage-icon {
-  font-size: 28px;
+.skill-item:hover {
+  border-color: var(--secondary);
+  transform: scale(1.05);
 }
 
-.storage-name {
-  font-size: 16px;
+.skill-icon {
+  font-size: 24px;
+}
+
+.skill-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Memory层 */
+.memory-layer {
+  padding: 20px 0;
+}
+
+.memory-boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.memory-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.memory-box:hover {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+}
+
+.memory-icon {
+  font-size: 24px;
+}
+
+.memory-name {
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.storage-desc {
-  font-size: 12px;
+.memory-desc {
+  font-size: 10px;
   color: var(--text-muted);
 }
 
@@ -731,7 +942,15 @@ const templates = [
 }
 
 @media (max-width: 968px) {
-  .workers-grid {
+  .agent-children {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .memory-boxes {
     grid-template-columns: repeat(2, 1fr);
   }
   
@@ -741,7 +960,20 @@ const templates = [
 }
 
 @media (max-width: 640px) {
-  .workers-grid {
+  .layer-items {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .agent-children {
+    grid-template-columns: 1fr;
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .memory-boxes {
     grid-template-columns: 1fr;
   }
   
