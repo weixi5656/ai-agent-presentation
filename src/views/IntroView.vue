@@ -7,11 +7,7 @@
         </h1>
         <p class="hero-subtitle">从原理到应用场景落地</p>
         <p class="hero-desc">解锁研发全流程提效新范式 · 探索技术落地无限可能</p>
-        <div class="hero-cta">
-          <button class="cta-btn" @click="$router.push('/agenda')">
-            开始分享 →
-          </button>
-        </div>
+
       </div>
       <div class="hero-hint">
         <span>按空格键或方向键翻页</span>
@@ -38,7 +34,7 @@
 }
 
 .hero-content {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .hero-title {
@@ -67,28 +63,6 @@
   font-size: 20px;
   color: var(--text-secondary);
   margin-bottom: 40px;
-}
-
-.hero-cta {
-  margin-top: 40px;
-}
-
-.cta-btn {
-  padding: 18px 48px;
-  font-size: 18px;
-  font-weight: 600;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3);
-}
-
-.cta-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 102, 255, 0.4);
 }
 
 .hero-hint {
