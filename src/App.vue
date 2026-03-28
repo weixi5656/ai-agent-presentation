@@ -4,23 +4,31 @@
     <div class="tech-grid"></div>
     <div class="glow-orb glow-orb-1"></div>
     <div class="glow-orb glow-orb-2"></div>
+    <div class="particles">
+      <div v-for="n in 20" :key="n" class="particle" :style="particleStyle(n)"></div>
+    </div>
     
-    <!-- 侧边导航 -->
-    <nav class="sidebar" :class="{ collapsed: sidebarCollapsed }">
-      <div class="sidebar-toggle" @click="sidebarCollapsed = !sidebarCollapsed">
-        {{ sidebarCollapsed ? '→' : '←' }}
+    <!-- 顶部导航 -->
+    <nav class="nav">
+      <div class="nav-brand">
+        <span class="logo">🦞</span>
+        <span class="brand-text">AI智能体技术实践</span>
       </div>
-      <div class="nav-items">
+      <div class="nav-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+        </div>
+        <span class="progress-text">{{ currentIndex + 1 }} / {{ routes.length }}</span>
+      </div>
+      <div class="nav-dots">
         <div 
           v-for="(route, index) in routes" 
           :key="route.path"
-          class="nav-item"
+          class="nav-dot"
           :class="{ active: currentIndex === index }"
           @click="$router.push(route.path)"
-        >
-          <span class="nav-number">{{ String(index + 1).padStart(2, '0') }}</span>
-          <span class="nav-title" v-show="!sidebarCollapsed">{{ route.title }}</span>
-        </div>
+          :title="route.title"
+        ></div>
       </div>
     </nav>
     
@@ -35,43 +43,38 @@
     
     <!-- 底部导航 -->
     <footer class="footer">
-      <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: progress + '%' }"></div>
-      </div>
-      <div class="nav-controls">
-        <button 
-          v-if="currentIndex > 0" 
-          class="nav-btn"
-          @click="prev"
-        >
-          ← 上一页
-        </button>
-        <span class="page-indicator">{{ currentIndex + 1 }} / {{ routes.length }}</span>
-        <button 
-          v-if="currentIndex < routes.length - 1" 
-          class="nav-btn primary"
-          @click="next"
-        >
-          下一页 →
-        </button>
-      </div>
+      <button 
+        v-if="currentIndex > 0" 
+        class="btn btn-secondary"
+        @click="prev"
+      >
+        ← 上一页
+      </button>
+      <div class="spacer"></div>
+      <button 
+        v-if="currentIndex < routes.length - 1" 
+        class="btn btn-primary"
+        @click="next"
+      >
+        下一页 →
+      </button>
+      <button 
+        v-else 
+        class="btn btn-primary"
+        @click="restart"
+      >
+        重新开始 ↻
+      </button>
     </footer>
-    
-    <!-- 键盘提示 -->
-    <div class="keyboard-hint" v-if="showHint">
-      <span>按空格键或方向键翻页</span>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
-const sidebarCollapsed = ref(false)
-const showHint = ref(true)
 
 const routes = [
   { path: '/intro', title: '封面' },
@@ -107,34 +110,25 @@ const prev = () => {
   }
 }
 
-const handleKeydown = (e) => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-    e.preventDefault()
-    next()
-  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-    e.preventDefault()
-    prev()
-  }
+const restart = () => {
+  router.push('/intro')
 }
 
-onMounted(() => {
-  window.addEventListener('keydown', handleKeydown)
-  setTimeout(() => {
-    showHint.value = false
-  }, 5000)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown)
-})
+const particleStyle = (n) => {
+  return {
+    left: `${Math.random() * 100}%`,
+    animationDelay: `${n * 0.5}s`,
+    animationDuration: `${15 + Math.random() * 10}s`
+  }
+}
 </script>
 
 <style scoped>
 .app {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   position: relative;
-  background: var(--bg-primary);
 }
 
 /* 背景效果 */
@@ -177,124 +171,93 @@ onUnmounted(() => {
   left: -150px;
 }
 
-/* 侧边导航 */
-.sidebar {
+.particles {
   position: fixed;
-  left: 0;
   top: 0;
-  bottom: 0;
-  width: 240px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border);
-  z-index: 100;
-  transition: width 0.3s ease;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
   overflow: hidden;
 }
 
-.sidebar.collapsed {
-  width: 60px;
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--primary);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 20s infinite linear;
 }
 
-.sidebar-toggle {
-  position: absolute;
-  right: 10px;
-  top: 20px;
-  width: 30px;
-  height: 30px;
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* 顶部导航 */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.2s;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.sidebar-toggle:hover {
-  background: var(--bg-tertiary);
-}
-
-.nav-items {
-  padding: 80px 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.nav-item {
+.nav-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.nav-item:hover {
-  background: var(--bg-tertiary);
+.logo {
+  font-size: 28px;
 }
 
-.nav-item.active {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
-}
-
-.nav-number {
-  font-size: 12px;
+.brand-text {
+  font-size: 18px;
   font-weight: 600;
-  opacity: 0.6;
-  min-width: 24px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.nav-item.active .nav-number {
-  opacity: 1;
-}
-
-.nav-title {
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-/* 主内容区 */
-.main {
+.nav-progress {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   flex: 1;
-  margin-left: 240px;
-  padding: 40px 60px 120px;
-  position: relative;
-  z-index: 10;
-  min-height: 100vh;
-  transition: margin-left 0.3s ease;
-}
-
-.sidebar.collapsed + .main {
-  margin-left: 60px;
-}
-
-/* 底部导航 */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 240px;
-  right: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  padding: 16px 40px;
-  transition: left 0.3s ease;
-}
-
-.sidebar.collapsed ~ .footer {
-  left: 60px;
+  max-width: 300px;
+  margin: 0 40px;
 }
 
 .progress-bar {
-  height: 3px;
+  flex: 1;
+  height: 4px;
   background: var(--bg-tertiary);
   border-radius: 2px;
-  margin-bottom: 16px;
   overflow: hidden;
 }
 
@@ -305,63 +268,100 @@ onUnmounted(() => {
   transition: width 0.3s ease;
 }
 
-.nav-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-btn {
-  padding: 10px 20px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.nav-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.nav-btn.primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: white;
-  border: none;
-}
-
-.nav-btn.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
-}
-
-.page-indicator {
-  font-size: 14px;
+.progress-text {
+  font-size: 13px;
   color: var(--text-muted);
   font-weight: 500;
+  min-width: 50px;
+  text-align: right;
 }
 
-/* 键盘提示 */
-.keyboard-hint {
+.nav-dots {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-dot:hover {
+  background: var(--primary-light);
+}
+
+.nav-dot.active {
+  background: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);
+}
+
+/* 主内容 */
+.main {
+  flex: 1;
+  padding: 100px 40px 120px;
+  position: relative;
+  z-index: 10;
+}
+
+/* 底部导航 */
+.footer {
   position: fixed;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 24px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  border-radius: 8px;
-  font-size: 14px;
-  z-index: 200;
-  animation: fadeInOut 5s ease forwards;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0; }
-  10%, 90% { opacity: 1; }
+.spacer {
+  flex: 1;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  box-shadow: 0 4px 14px rgba(0, 102, 255, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: white;
+  border-color: var(--primary);
 }
 
 /* 页面过渡动画 */
@@ -380,23 +380,30 @@ onUnmounted(() => {
   transform: translateX(-30px);
 }
 
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 60px;
+@media (max-width: 768px) {
+  .nav {
+    padding: 16px 20px;
   }
   
-  .sidebar .nav-title {
+  .nav-progress {
     display: none;
   }
   
+  .nav-dots {
+    gap: 8px;
+  }
+  
+  .nav-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
   .main {
-    margin-left: 60px;
-    padding: 20px 30px 100px;
+    padding: 80px 20px 100px;
   }
   
   .footer {
-    left: 60px;
-    padding: 12px 20px;
+    padding: 16px 20px;
   }
 }
 </style>
