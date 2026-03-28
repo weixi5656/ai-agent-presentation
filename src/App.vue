@@ -12,7 +12,7 @@
     <nav class="nav">
       <div class="nav-brand">
         <span class="logo">🦞</span>
-        <span class="brand-text">AI智能体技术实践</span>
+        <span class="brand-text">AI智能体实践分享</span>
       </div>
       <div class="nav-progress">
         <div class="progress-bar">

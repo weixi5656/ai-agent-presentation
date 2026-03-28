@@ -3,11 +3,15 @@
     <div class="hero">
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="title-gradient">AI 智能体技术实践</span>
+          <span class="title-gradient">AI智能体实践分享</span>
         </h1>
-        <p class="hero-subtitle">从原理到应用场景落地</p>
-        <p class="hero-desc">解锁研发全流程提效新范式 · 探索技术落地无限可能</p>
-
+        <p class="hero-subtitle">OpenClaw & ClawTeam 从入门到实战</p>
+        <p class="hero-desc">养一只属于你的AI龙虾 · 让智能体为你工作</p>
+        <div class="hero-tags">
+          <span class="tag">🦞 动手实操</span>
+          <span class="tag">💻 代码可复刻</span>
+          <span class="tag">🚀 即学即用</span>
+        </div>
       </div>
       <div class="hero-hint">
         <span>按空格键或方向键翻页</span>
@@ -60,9 +64,27 @@
 }
 
 .hero-desc {
-  font-size: 20px;
+  font-size: 24px;
   color: var(--text-secondary);
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+  font-weight: 500;
+}
+
+.hero-tags {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 212, 170, 0.1));
+  border: 1px solid rgba(0, 102, 255, 0.2);
+  border-radius: 24px;
+  font-size: 15px;
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
 .hero-hint {
