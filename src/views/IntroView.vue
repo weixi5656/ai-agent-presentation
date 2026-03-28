@@ -5,8 +5,8 @@
         <h1 class="hero-title">
           <span class="title-gradient">AI智能体实践分享</span>
         </h1>
-        <p class="hero-subtitle">OpenClaw & ClawTeam 从入门到实战</p>
-        <p class="hero-desc">养一只属于你的AI龙虾 · 让智能体为你工作</p>
+        <p class="hero-subtitle">从原理认知到端侧部署的全链路实战</p>
+        <p class="hero-desc">人人皆可养虾 · 3步打造你的AI智能体团队</p>
         <div class="hero-tags">
           <span class="tag">🦞 动手实操</span>
           <span class="tag">💻 代码可复刻</span>
