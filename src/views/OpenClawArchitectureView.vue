@@ -13,7 +13,7 @@
       
       <!-- 向下箭头 -->
       <div class="arrow-container">
-        <div class="arrow-down"></div>
+        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
       </div>
       
       <!-- Channel 频道层 -->
@@ -25,8 +25,8 @@
       </div>
       
       <!-- 汇聚箭头 -->
-      <div class="arrow-container converge">
-        <div class="converge-arrow"></div>
+      <div class="arrow-container">
+        <img src="/chevron-down.svg" class="arrow-svg large" alt="converge" />
       </div>
       
       <!-- Gateway 网关 -->
@@ -45,23 +45,30 @@
       
       <!-- Check Port 失败处理分支 -->
       <div class="branch-row checkport-branch">
-        <div class="branch-label">Check Port 失败</div>
-        <div class="branch-boxes">
+        <div class="branch-label">Check Port 失败 → 自修复流程</div>
+        <div class="branch-flow">
           <div class="branch-box">
             <span class="box-icon">🔍</span>
-            <span class="box-label">检测端口冲突</span>
+            <span class="box-label">检测端口</span>
           </div>
-          <div class="branch-arrow">→</div>
+          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
           <div class="branch-box">
             <span class="box-icon">🔧</span>
-            <span class="box-label">自动切换端口</span>
+            <span class="box-label">切换端口</span>
           </div>
-          <div class="branch-arrow">→</div>
+          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
           <div class="branch-box">
             <span class="box-icon">🔄</span>
             <span class="box-label">重试连接</span>
           </div>
-          <div class="branch-arrow">→</div>
+          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
+          <div class="branch-box success-box">
+            <span class="box-icon">✅</span>
+            <span class="box-label">成功</span>
+          </div>
+        </div>
+        <div class="branch-fail">
+          <span class="fail-arrow">↓ 重试失败</span>
           <div class="branch-box fail-box">
             <span class="box-icon">⚠️</span>
             <span class="box-label">回滚/报错</span>
@@ -71,7 +78,7 @@
       
       <!-- 向下箭头 -->
       <div class="arrow-container">
-        <div class="arrow-down"></div>
+        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
       </div>
       
       <!-- Node 节点层 -->
@@ -84,9 +91,10 @@
       </div>
       
       <!-- 横向连接箭头 -->
-      <div class="arrow-container horizontal">
-        <div class="arrow-h-left"></div>
-        <div class="arrow-h-right"></div>
+      <div class="arrow-container horizontal-arrows">
+        <img src="/arrow-left.svg" class="arrow-svg" alt="left" />
+        <span class="arrow-label">Session 会话同步</span>
+        <img src="/arrow-right.svg" class="arrow-svg" alt="right" />
       </div>
       
       <!-- Session 会话 -->
@@ -104,7 +112,7 @@
       
       <!-- 向下箭头 -->
       <div class="arrow-container">
-        <div class="arrow-down"></div>
+        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
       </div>
       
       <!-- 执行核心 -->
@@ -138,6 +146,43 @@
               <span class="cap-name">{{ cap.name }}</span>
             </div>
           </div>
+          
+          <!-- 任务执行详细流程 -->
+          <div class="task-flow">
+            <div class="task-step">
+              <span class="step-dot">1</span>
+              <span class="step-name">Skill选择</span>
+            </div>
+            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
+            <div class="task-step">
+              <span class="step-dot">2</span>
+              <span class="step-name">步骤编排</span>
+            </div>
+            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
+            <div class="task-step">
+              <span class="step-dot">3</span>
+              <span class="step-name">执行</span>
+            </div>
+            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
+            <div class="task-step">
+              <span class="step-dot">4</span>
+              <span class="step-name">轮询进度</span>
+            </div>
+          </div>
+          
+          <!-- 失败重试机制 -->
+          <div class="retry-box">
+            <span class="retry-label">失败重试机制</span>
+            <div class="retry-flow">
+              <span class="retry-item">检测失败</span>
+              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
+              <span class="retry-item">指数退避</span>
+              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
+              <span class="retry-item">重试(最多3次)</span>
+              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
+              <span class="retry-item">失败转移</span>
+            </div>
+          </div>
         </div>
         
         <div class="core-right">
@@ -161,7 +206,7 @@
       
       <!-- 向下箭头 -->
       <div class="arrow-container">
-        <div class="arrow-down"></div>
+        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
       </div>
       
       <!-- 外部集成 -->
@@ -265,10 +310,10 @@ const concepts = [
   { name: 'Agent 代理', desc: '执行具体任务的智能体，支持子代理(Work Tree)和并行执行' },
   { name: 'Cron 定时任务', desc: '定时触发器，支持周期性任务、延迟执行和条件触发' },
   { name: 'Workflow 工作流', desc: '复杂任务编排，支持Work Tree树状结构和Pipeline流水线' },
-  { name: 'Work Runs', desc: '代理执行记录，包含输入、输出、耗时和状态' },
-  { name: 'Skills 技能', desc: '可复用的能力模块，通过ClawHub安装或自定义开发' },
-  { name: 'Hooks 钩子', desc: '事件监听机制，在特定节点执行自定义逻辑' },
-  { name: 'Memory 记忆', desc: '短期记忆跟踪当前任务，长期记忆存储历史经验' },
+  { name: 'Skill选择', desc: '根据任务意图自动匹配最合适的Skill，支持多Skill组合' },
+  { name: '步骤编排', desc: '将复杂任务拆解为可执行的步骤序列，支持条件分支和循环' },
+  { name: '轮询查询', desc: '异步任务执行时定期查询进度，实时反馈执行状态' },
+  { name: '失败重试', desc: '智能重试机制，支持指数退避、最大重试次数和失败转移' },
 ]
 </script>
 
@@ -375,7 +420,7 @@ const concepts = [
   color: var(--primary);
 }
 
-/* 用户盒子 - 白底黑字 */
+/* 用户盒子 - 白底 */
 .user-box {
   background: white;
   border-color: var(--primary);
@@ -408,12 +453,53 @@ const concepts = [
   border-color: var(--primary);
 }
 
+/* SVG 箭头 */
+.arrow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  width: 100%;
+}
+
+.arrow-svg {
+  width: 24px;
+  height: 24px;
+  filter: invert(42%) sepia(85%) saturate(3548%) hue-rotate(210deg) brightness(100%) contrast(101%);
+}
+
+.arrow-svg.large {
+  width: 32px;
+  height: 32px;
+}
+
+.arrow-svg.small {
+  width: 20px;
+  height: 20px;
+}
+
+.arrow-svg.tiny {
+  width: 16px;
+  height: 16px;
+}
+
+/* 横向箭头 */
+.horizontal-arrows {
+  gap: 20px;
+}
+
+.arrow-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
 /* Check Port 分支 */
 .branch-row {
   width: 100%;
   margin: 20px 0;
   padding: 20px;
-  background: rgba(255, 193, 7, 0.1);
+  background: rgba(255, 193, 7, 0.08);
   border-radius: 12px;
   border: 1px dashed rgba(255, 193, 7, 0.5);
 }
@@ -423,15 +509,16 @@ const concepts = [
   font-size: 13px;
   font-weight: 600;
   color: #f59e0b;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-.branch-boxes {
+.branch-flow {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 .branch-box {
@@ -453,9 +540,22 @@ const concepts = [
   font-size: 11px;
 }
 
-.branch-arrow {
-  font-size: 16px;
-  color: var(--primary);
+.branch-fail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.fail-arrow {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.success-box {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.05);
 }
 
 .fail-box {
@@ -474,62 +574,6 @@ const concepts = [
   min-width: 180px;
   background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(0, 102, 255, 0.05));
   border-color: var(--secondary);
-}
-
-/* 箭头容器 */
-.arrow-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  width: 100%;
-}
-
-/* 向下箭头 */
-.arrow-down {
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 16px solid var(--primary);
-}
-
-/* 汇聚箭头 */
-.converge {
-  position: relative;
-  height: 30px;
-}
-
-.converge-arrow {
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 20px solid var(--primary);
-}
-
-/* 横向箭头 */
-.horizontal {
-  position: relative;
-  height: 20px;
-}
-
-.arrow-h-left, .arrow-h-right {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-}
-
-.arrow-h-left {
-  left: 25%;
-  border-right: 12px solid var(--primary);
-}
-
-.arrow-h-right {
-  right: 25%;
-  border-left: 12px solid var(--primary);
 }
 
 /* 执行核心区域 */
@@ -582,14 +626,14 @@ const concepts = [
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 180px;
+  min-width: 200px;
+  gap: 16px;
 }
 
 .center-title {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 16px;
 }
 
 .capability-grid {
@@ -623,6 +667,79 @@ const concepts = [
   font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+/* 任务执行流程 */
+.task-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 102, 255, 0.05);
+  border-radius: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.task-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.step-name {
+  font-size: 10px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 失败重试机制 */
+.retry-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.05);
+  border-radius: 10px;
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+}
+
+.retry-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.retry-flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.retry-item {
+  padding: 4px 10px;
+  background: white;
+  border-radius: 16px;
+  font-size: 10px;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 /* 外部集成 */
@@ -798,12 +915,12 @@ const concepts = [
     flex-direction: column;
   }
   
-  .branch-boxes {
+  .branch-flow {
     flex-direction: column;
   }
   
-  .branch-arrow {
-    transform: rotate(90deg);
+  .task-flow, .retry-flow {
+    flex-direction: column;
   }
   
   .concepts-grid {
