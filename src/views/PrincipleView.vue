@@ -10,12 +10,7 @@
           <h3>{{ item.title }}</h3>
           <p>{{ item.desc }}</p>
         </div>
-        <!-- 箭头连接 -->
-        <div class="loop-arrows">
-          <div class="arrow-connector" v-for="n in 5" :key="n">
-            <span class="arrow-icon">→</span>
-          </div>
-        </div>
+
       </div>
     </div>
     
@@ -29,7 +24,7 @@
           </div>
           <p class="module-desc">
             <template v-if="module.hasTips">
-              <span v-html="module.descHtml"></span>
+              智能体的"大脑引擎"，通过<span class="tip-word" @mouseenter="showTooltip('CoT', $event)" @mouseleave="hideTooltip">思维链（CoT）</span>、<span class="tip-word" @mouseenter="showTooltip('ToT', $event)" @mouseleave="hideTooltip">树状思维（ToT）</span>等技术，将模糊的研发目标拆解为可执行的子任务，制定完整执行路径
             </template>
             <template v-else>{{ module.desc }}</template>
           </p>
@@ -91,10 +86,8 @@ const modules = [
     scenario: '自动读取Git仓库代码结构，理解项目依赖关系'
   },
   { 
-    icon: '🧠', 
-    title: '规划模块', 
-    desc: '智能体的"大脑引擎"，通过思维链（CoT）、树状思维（ToT）等技术，将模糊的研发目标拆解为可执行的子任务，制定完整执行路径',
-    descHtml: '智能体的"大脑引擎"，通过<span class="tip-word" @click.stop="showTooltip(\'CoT\', $event)" @mouseleave="hideTooltip">思维链（CoT）</span>、<span class="tip-word" @click.stop="showTooltip(\'ToT\', $event)" @mouseleave="hideTooltip">树状思维（ToT）</span>等技术，将模糊的研发目标拆解为可执行的子任务，制定完整执行路径',
+    icon: '🧠',
+    title: '规划模块',
     hasTips: true,
     scenario: '将"优化系统性能"拆解为：分析瓶颈→定位问题→制定方案→实施优化→验证效果'
   },
@@ -189,45 +182,6 @@ const modules = [
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.5;
-}
-
-/* 箭头连接 */
-.loop-arrows {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 calc(8.33% + 8px);
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.arrow-connector {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: -8px;
-}
-
-.arrow-connector:last-child {
-  display: none;
-}
-
-.arrow-icon {
-  font-size: 24px;
-  color: var(--primary);
-  background: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.2);
 }
 
 .modules-section {
@@ -340,8 +294,5 @@ const modules = [
     flex: 0 0 calc(33.33% - 11px);
   }
   
-  .loop-arrows {
-    display: none;
-  }
 }
 </style>
