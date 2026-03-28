@@ -13,8 +13,8 @@ const routes = [
   { path: '/openclaw-practice', component: () => import('./views/OpenClawPracticeView.vue') },
   { path: '/clawteam', component: () => import('./views/ClawTeamView.vue') },
   { path: '/dev-case', component: () => import('./views/DevCaseView.vue') },
-  { path: '/esp32-case', component: () => import('./views/ESP32CaseView.vue') },
   { path: '/practice', component: () => import('./views/PracticeView.vue') },
+  { path: '/esp32-case', component: () => import('./views/ESP32CaseView.vue') },
   { path: '/trend', component: () => import('./views/TrendView.vue') },
 ]
 

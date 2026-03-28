@@ -85,8 +85,8 @@ const routes = [
   { path: '/openclaw-practice', title: 'OpenClaw实操' },
   { path: '/clawteam', title: 'ClawTeam协作' },
   { path: '/dev-case', title: '研发场景' },
-  { path: '/esp32-case', title: 'ESP32实践' },
   { path: '/practice', title: '最佳实践' },
+  { path: '/esp32-case', title: 'ESP32实践' },
   { path: '/trend', title: '趋势展望' },
 ]
 

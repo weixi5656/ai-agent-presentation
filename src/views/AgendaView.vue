@@ -40,8 +40,8 @@ const agenda = [
   { title: '认知篇', desc: 'AI智能体的本质与核心原理' },
   { title: '实操篇', desc: '开源智能体框架OpenClaw/ClawTeam从上手到落地（含提示词模板、提效技巧）' },
   { title: '场景篇', desc: '研发全流程高频场景落地案例拆解' },
-  { title: '拓展篇', desc: '端侧智能体ESP32开发实践' },
   { title: '实践篇', desc: '落地避坑指南、提效省Token核心方法' },
+  { title: '拓展篇', desc: '端侧智能体ESP32开发实践' },
   { title: '展望篇', desc: '前沿技术趋势' },
 ]
 
