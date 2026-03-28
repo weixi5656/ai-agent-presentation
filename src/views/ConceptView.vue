@@ -4,7 +4,6 @@
     
     <!-- 核心定义 - 酷炫环形闭环图 -->
     <div class="definition-section">
-      <h2 class="section-title">核心定义</h2>
       <div class="cycle-container">
         <!-- 外圈发光环 -->
         <div class="glow-ring"></div>
@@ -366,6 +365,7 @@
 
 /* 本质对比卡片 */
 .comparison-section {
+  margin-top: 80px;
   margin-bottom: 60px;
 }
 
