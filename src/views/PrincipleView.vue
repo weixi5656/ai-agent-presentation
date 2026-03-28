@@ -3,12 +3,18 @@
     <h1 class="page-title">AI智能体核心原理与工作闭环</h1>
     
     <div class="loop-section">
-      <h2 class="section-title">核心工作闭环</h2>
+      <h2 class="section-title">核心工作流程</h2>
       <div class="loop-flow">
         <div class="loop-item" v-for="(item, index) in loopItems" :key="index">
           <div class="loop-icon">{{ item.icon }}</div>
           <h3>{{ item.title }}</h3>
           <p>{{ item.desc }}</p>
+        </div>
+        <!-- 箭头连接 -->
+        <div class="loop-arrows">
+          <div class="arrow-connector" v-for="n in 5" :key="n">
+            <span class="arrow-icon">→</span>
+          </div>
         </div>
       </div>
     </div>
@@ -21,17 +27,32 @@
             <span class="module-icon">{{ module.icon }}</span>
             <h3>{{ module.title }}</h3>
           </div>
-          <p class="module-desc">{{ module.desc }}</p>
+          <p class="module-desc">
+            <template v-if="module.hasTips">
+              <span v-html="module.descHtml"></span>
+            </template>
+            <template v-else>{{ module.desc }}</template>
+          </p>
           <div class="module-scenario">
             <strong>研发场景：</strong>{{ module.scenario }}
           </div>
         </div>
       </div>
     </div>
+    
+    <!-- Tooltip -->
+    <div v-if="activeTooltip" class="tooltip" :style="tooltipStyle">
+      <div class="tooltip-content">
+        <h4>{{ activeTooltip.title }}</h4>
+        <p>{{ activeTooltip.content }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+
 const loopItems = [
   { icon: '👁️', title: '感知', desc: '读取代码、文档、日志等上下文' },
   { icon: '🧠', title: '规划', desc: '拆解任务，制定执行路径' },
@@ -40,6 +61,27 @@ const loopItems = [
   { icon: '⚡', title: '执行', desc: '按规划完成任务' },
   { icon: '🔄', title: '反思', desc: '校验结果，迭代优化' },
 ]
+
+const activeTooltip = ref(null)
+const tooltipPos = ref({ x: 0, y: 0 })
+
+const tooltipStyle = computed(() => ({
+  left: tooltipPos.value.x + 'px',
+  top: tooltipPos.value.y + 'px'
+}))
+
+const showTooltip = (type, event) => {
+  const tips = {
+    CoT: { title: 'CoT (Chain of Thought)', content: '思维链技术，让模型逐步推理，展示思考过程，提升复杂问题解决能力' },
+    ToT: { title: 'ToT (Tree of Thoughts)', content: '树状思维技术，探索多个推理路径，评估后选择最优方案，适合需要探索的复杂决策' }
+  }
+  activeTooltip.value = tips[type]
+  tooltipPos.value = { x: event.clientX + 10, y: event.clientY - 40 }
+}
+
+const hideTooltip = () => {
+  activeTooltip.value = null
+}
 
 const modules = [
   { 
@@ -52,6 +94,8 @@ const modules = [
     icon: '🧠', 
     title: '规划模块', 
     desc: '智能体的"大脑引擎"，通过思维链（CoT）、树状思维（ToT）等技术，将模糊的研发目标拆解为可执行的子任务，制定完整执行路径',
+    descHtml: '智能体的"大脑引擎"，通过<span class="tip-word" @click.stop="showTooltip(\'CoT\', $event)" @mouseleave="hideTooltip">思维链（CoT）</span>、<span class="tip-word" @click.stop="showTooltip(\'ToT\', $event)" @mouseleave="hideTooltip">树状思维（ToT）</span>等技术，将模糊的研发目标拆解为可执行的子任务，制定完整执行路径',
+    hasTips: true,
     scenario: '将"优化系统性能"拆解为：分析瓶颈→定位问题→制定方案→实施优化→验证效果'
   },
   { 
@@ -111,17 +155,6 @@ const modules = [
   position: relative;
 }
 
-.loop-flow::before {
-  content: '';
-  position: absolute;
-  top: 40px;
-  left: 50px;
-  right: 50px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  z-index: 0;
-}
-
 .loop-item {
   flex: 1;
   text-align: center;
@@ -156,6 +189,45 @@ const modules = [
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.5;
+}
+
+/* 箭头连接 */
+.loop-arrows {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 calc(8.33% + 8px);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.arrow-connector {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: -8px;
+}
+
+.arrow-connector:last-child {
+  display: none;
+}
+
+.arrow-icon {
+  font-size: 24px;
+  color: var(--primary);
+  background: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.2);
 }
 
 .modules-section {
@@ -205,6 +277,19 @@ const modules = [
   margin-bottom: 16px;
 }
 
+.tip-word {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 1px dashed var(--primary);
+  transition: all 0.2s;
+}
+
+.tip-word:hover {
+  background: rgba(0, 102, 255, 0.1);
+  border-bottom-style: solid;
+}
+
 .module-scenario {
   padding: 12px 16px;
   background: var(--bg-tertiary);
@@ -215,5 +300,48 @@ const modules = [
 
 .module-scenario strong {
   color: var(--secondary);
+}
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.tooltip-content {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border);
+  max-width: 280px;
+}
+
+.tooltip-content h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.tooltip-content p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .loop-flow {
+    flex-wrap: wrap;
+  }
+  
+  .loop-item {
+    flex: 0 0 calc(33.33% - 11px);
+  }
+  
+  .loop-arrows {
+    display: none;
+  }
 }
 </style>
