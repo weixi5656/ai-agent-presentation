@@ -332,6 +332,22 @@ asyncio.run(assistant.run())`
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   margin-bottom: 60px;
+  align-items: stretch;
+}
+
+.demo-section, .tech-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.features-list, .tech-cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tech-cards {
+  justify-content: space-between;
 }
 
 .section-title {
@@ -355,6 +371,7 @@ asyncio.run(assistant.run())`
   background: white;
   border-radius: 10px;
   border: 1px solid var(--border);
+  flex: 1;
 }
 
 .feature-check {
@@ -381,6 +398,9 @@ asyncio.run(assistant.run())`
   border-radius: 12px;
   padding: 24px;
   border: 1px solid var(--border);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .tech-card h3 {
@@ -395,6 +415,8 @@ asyncio.run(assistant.run())`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  flex: 1;
+  align-content: flex-start;
 }
 
 .tech-card li {
