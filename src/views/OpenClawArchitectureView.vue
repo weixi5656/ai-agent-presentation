@@ -497,74 +497,97 @@ const concepts = [
   font-weight: 500;
 }
 
-/* Check Port 分支 */
+/* Checkpoint 分支 */
 .branch-row {
   width: 100%;
   margin: 20px 0;
-  padding: 20px;
-  background: rgba(255, 193, 7, 0.08);
-  border-radius: 12px;
-  border: 1px dashed rgba(255, 193, 7, 0.5);
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+  border-radius: 16px;
+  border: 2px solid rgba(59, 130, 246, 0.3);
 }
 
 .branch-label {
   text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: #f59e0b;
-  margin-bottom: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
 }
 
-.branch-flow {
+.checkpoint-flow {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.checkpoint-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  min-width: 100px;
+  transition: all 0.3s;
+}
+
+.checkpoint-step:hover {
+  border-color: #3b82f6;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+}
+
+.step-icon {
+  font-size: 28px;
+}
+
+.step-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.step-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.checkpoint-storage {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-.branch-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 12px 16px;
-  background: white;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
-  border: 1px solid var(--border);
 }
 
-.branch-box .box-icon {
-  font-size: 20px;
-}
-
-.branch-box .box-label {
-  font-size: 11px;
-}
-
-.branch-fail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.fail-arrow {
+.storage-label {
   font-size: 12px;
-  color: #ef4444;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.storage-item {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border-radius: 20px;
+  font-size: 11px;
   font-weight: 500;
 }
 
-.success-box {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.05);
-}
 
-.fail-box {
-  border-color: #ef4444;
-  background: rgba(239, 68, 68, 0.05);
-}
 
 /* Node 盒子 */
 .node-box {
