@@ -43,35 +43,18 @@
         </div>
       </div>
       
-      <!-- Check Port 失败处理分支 -->
+      <!-- Check Port 端口检测 -->
       <div class="branch-row checkport-branch">
-        <div class="branch-label">Check Port 失败 → 自修复流程</div>
-        <div class="branch-flow">
+        <div class="branch-label">Check Port 端口检测与自动切换</div>
+        <div class="branch-flow simple">
           <div class="branch-box">
             <span class="box-icon">🔍</span>
             <span class="box-label">检测端口</span>
           </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
+          <span class="branch-or">冲突?</span>
           <div class="branch-box">
             <span class="box-icon">🔧</span>
-            <span class="box-label">切换端口</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="branch-box">
-            <span class="box-icon">🔄</span>
-            <span class="box-label">重试连接</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="branch-box success-box">
-            <span class="box-icon">✅</span>
-            <span class="box-label">成功</span>
-          </div>
-        </div>
-        <div class="branch-fail">
-          <span class="fail-arrow">↓ 重试失败</span>
-          <div class="branch-box fail-box">
-            <span class="box-icon">⚠️</span>
-            <span class="box-label">回滚/报错</span>
+            <span class="box-label">自动切换端口</span>
           </div>
         </div>
       </div>
