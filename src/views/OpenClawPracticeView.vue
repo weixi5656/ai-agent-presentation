@@ -1,6 +1,6 @@
 <template>
   <div class="openclaw-practice-view">
-    <h1 class="page-title">OpenClaw 实操：3步上手最小Demo</h1>
+    <h1 class="page-title">OpenClaw 实操：3步养上自己的龙虾</h1>
     
     <div class="steps-section">
       <div class="step-card" v-for="(step, index) in steps" :key="index">
