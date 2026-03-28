@@ -230,11 +230,12 @@
 
 .arrow-item {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 45%;
+  left: 45%;
   transform: rotate(calc(var(--pos) * 72deg - 90deg)) translateX(150px);
   display: flex;
   align-items: center;
+  z-index: 30;
 }
 
 .arrow-body {
