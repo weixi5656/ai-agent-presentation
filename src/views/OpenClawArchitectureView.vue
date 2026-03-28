@@ -144,6 +144,7 @@
             <div class="cap-item" v-for="cap in capabilities" :key="cap.name">
               <span class="cap-icon">{{ cap.icon }}</span>
               <span class="cap-name">{{ cap.name }}</span>
+              <span class="cap-desc">{{ cap.desc }}</span>
             </div>
           </div>
           
@@ -284,10 +285,10 @@ const nodes = [
 ]
 
 const capabilities = [
-  { name: 'Tools', icon: '🔧' },
-  { name: 'Skills', icon: '📦' },
-  { name: 'Model', icon: '🤖' },
-  { name: 'Memory', icon: '🧠' },
+  { name: 'Tools', icon: '🔧', desc: '执行系统命令、读写文件、访问网页' },
+  { name: 'Skills', icon: '📦', desc: 'SKILL.md描述功能，无需编写复杂代码' },
+  { name: 'Model', icon: '🤖', desc: '大模型推理，自然语言理解' },
+  { name: 'Memory', icon: '🧠', desc: 'ContextEngine自定义记忆管理策略' },
 ]
 
 const flowSteps = [
@@ -302,18 +303,18 @@ const flowSteps = [
 ]
 
 const concepts = [
-  { name: 'Channel 频道', desc: '消息接入通道，支持Signal、Telegram、Discord、WebChat等多种平台' },
-  { name: 'Gateway 网关', desc: '中央网关负责消息路由、认证鉴权、负载均衡和会话管理' },
+  { name: 'Channel 频道', desc: '消息接入通道，支持Signal、Telegram、Discord、WebChat、QQ、飞书等多种平台' },
+  { name: 'Gateway 网关', desc: '通信中枢，负责接收用户指令、权限管理、模型路由和结果返回' },
+  { name: 'Agent 智能体', desc: '执行核心，理解指令、拆分任务、调用技能，具备长期记忆能力' },
+  { name: 'Skills 技能', desc: '能力单元，以SKILL.md文件为核心，无需编写复杂代码即可扩展功能' },
+  { name: 'Memory 记忆', desc: 'ContextEngine插件接口，支持自定义记忆管理策略，解决长对话记忆衰减' },
   { name: 'Check Port 端口检测', desc: '启动时检测端口可用性，冲突时自动切换端口或回滚报错' },
-  { name: 'Node / Instance 节点/实例', desc: '执行任务的计算单元，可以是本地机器、云端VPS或边缘设备' },
-  { name: 'Session 会话', desc: '维护对话上下文、消息历史和状态，支持跨会话记忆' },
-  { name: 'Agent 代理', desc: '执行具体任务的智能体，支持子代理(Work Tree)和并行执行' },
+  { name: 'Node / Instance 节点', desc: '执行任务的计算单元，本地优先部署确保数据隐私安全' },
+  { name: 'Session 会话', desc: '维护对话上下文、消息历史和任务状态，实现跨会话连贯操作' },
   { name: 'Cron 定时任务', desc: '定时触发器，支持周期性任务、延迟执行和条件触发' },
   { name: 'Workflow 工作流', desc: '复杂任务编排，支持Work Tree树状结构和Pipeline流水线' },
-  { name: 'Skill选择', desc: '根据任务意图自动匹配最合适的Skill，支持多Skill组合' },
-  { name: '步骤编排', desc: '将复杂任务拆解为可执行的步骤序列，支持条件分支和循环' },
-  { name: '轮询查询', desc: '异步任务执行时定期查询进度，实时反馈执行状态' },
-  { name: '失败重试', desc: '智能重试机制，支持指数退避、最大重试次数和失败转移' },
+  { name: '多Agent协同', desc: '研究Agent、写作Agent、设计Agent分工合作处理复杂任务' },
+  { name: '本地优先部署', desc: '部署在用户自己的电脑或私有服务器，确保数据隐私安全' },
 ]
 </script>
 
@@ -664,9 +665,16 @@ const concepts = [
 }
 
 .cap-name {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.cap-desc {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.3;
 }
 
 /* 任务执行流程 */
