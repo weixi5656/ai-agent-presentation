@@ -58,8 +58,16 @@ const activeTab = ref(0)
 const steps = [
   {
     title: '前置准备',
-    desc: '安装OpenClaw CLI，完成初始化配置和部署',
-    content: `# 1. 安装OpenClaw CLI
+    desc: '系统环境检查、安装OpenClaw CLI、完成初始化配置',
+    content: `## 系统要求
+• CPU: 4核及以上 (推荐8核)
+• 内存: 8GB及以上 (推荐16GB)
+• 磁盘: 20GB空闲空间
+• Node.js: 22+ LTS版本
+• Python: 3.9-3.11 (部分技能依赖)
+
+## 安装步骤
+# 1. 安装OpenClaw CLI
 npm install -g openclaw@latest
 
 # 2. 验证安装
@@ -71,56 +79,80 @@ openclaw onboard --install-daemon
 # 4. 配置大模型API
 openclaw config set models.providers.openai.apiKey sk-xxx
 
-# 5. 配置其他模型（可选）
-openclaw config set models.providers.anthropic.apiKey sk-ant-xxx
-
-# 6. 验证配置
+# 5. 验证配置
 openclaw doctor
 
-# 7. 启动守护进程
+# 6. 启动守护进程
 openclaw daemon start
 
-# 8. 查看服务状态
-openclaw status`
+# 7. 查看服务状态
+openclaw status
+
+# 8. 访问管理界面
+openclaw dashboard  # 或浏览器访问 http://localhost:18789`
   },
   {
     title: '定义智能体角色与目标',
-    desc: '选择合适的角色模板，定义智能体的角色、目标、约束和可用工具',
-    content: `# 1. 创建工作目录
+    desc: '创建智能体工作空间、定义角色人设、配置记忆系统和技能',
+    content: `## 工作空间结构
+~/my-agents/
+├── agent.yaml          # 智能体主配置
+├── SOUL.md            # 角色人设定义
+├── MEMORY.md          # 长期记忆存储
+└── skills/            # 技能目录
+
+## 创建步骤
+# 1. 创建工作目录
 mkdir ~/my-agents && cd ~/my-agents
 
 # 2. 创建智能体配置文件
 openclaw agent init --name code-audit-agent
 
-# 3. 编辑配置文件
-vim code-audit-agent/agent.yaml
+# 3. 编辑角色人设 (SOUL.md)
+# 定义AI的人格、语气、专业领域、输出规范
 
-# 4. 验证配置
-openclaw agent validate --config code-audit-agent/agent.yaml
+# 4. 配置记忆系统 (MEMORY.md)
+# 保存历史对话、常用命令、项目信息
 
-# 5. 测试工具连接
+# 5. 安装所需技能
+openclaw skills install github
+openclaw skills install code-review
+
+# 6. 验证配置
+openclaw agent validate --config agent.yaml
+
+# 7. 测试工具连接
 openclaw tools test --agent code-audit-agent`
   },
   {
     title: '启动智能体执行',
-    desc: '启动智能体，监控执行过程，查看结果输出',
-    content: `# 1. 启动智能体（前台模式，便于调试）
-openclaw agent run --config code-audit-agent/agent.yaml --verbose
+    desc: '选择运行模式、启动智能体、监控执行过程、查看结果',
+    content: `## 运行模式选择
 
-# 2. 或启动为后台服务
-openclaw agent start --config code-audit-agent/agent.yaml --daemon
+### 调试模式 (开发阶段)
+# 前台运行，实时输出日志，便于调试
+openclaw agent run --config agent.yaml --verbose
 
-# 3. 查看实时执行日志
+### 生产模式 (部署阶段)
+# 后台守护进程，系统服务管理
+openclaw agent start --config agent.yaml --daemon
+systemctl status openclaw  # 验证服务状态
+
+## 监控与管理
+# 查看实时执行日志
 openclaw logs -f --agent code-audit-agent
 
-# 4. 查看执行历史
+# 查看执行历史
 openclaw agent history --agent code-audit-agent
 
-# 5. 检查执行结果
+# 检查执行结果和状态
 openclaw agent status --agent code-audit-agent
 
-# 6. 导出执行报告
-openclaw agent export --agent code-audit-agent --format markdown`
+# 导出执行报告
+openclaw agent export --agent code-audit-agent --format markdown
+
+# 停止智能体
+openclaw agent stop --agent code-audit-agent`
   }
 ]
 
