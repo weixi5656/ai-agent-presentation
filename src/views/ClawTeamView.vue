@@ -1,6 +1,6 @@
 <template>
   <div class="clawteam-view">
-    <h1 class="page-title">ClawTeam 多智能体协作：架构与落地</h1>
+    <h1 class="page-title">ClawTeam 多智能体协作：架构与应用</h1>
     
     <div class="positioning-section">
       <div class="positioning-card">
