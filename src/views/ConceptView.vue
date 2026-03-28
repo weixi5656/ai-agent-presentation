@@ -307,7 +307,7 @@
   transform: translate(-50%, -50%) rotate(var(--angle)) translateX(220px) rotate(calc(var(--angle) * -1));
 }
 
-.card-glow {
+.capability-card .card-glow {
   position: absolute;
   top: -4px;
   left: -4px;
@@ -324,7 +324,7 @@
   opacity: 0.6;
 }
 
-.card-content {
+.capability-card .card-content {
   position: relative;
   width: 100%;
   height: 100%;
@@ -345,11 +345,11 @@
   box-shadow: 0 8px 30px rgba(0, 102, 255, 0.25);
 }
 
-.card-icon {
+.capability-card .card-icon {
   font-size: 32px;
 }
 
-.card-label {
+.capability-card .card-label {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
@@ -390,7 +390,7 @@
   background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
 }
 
-.card-header {
+.comparison-card .card-header {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -399,42 +399,42 @@
   border-bottom: 1px solid var(--border);
 }
 
-.card-icon {
+.comparison-card .card-header .card-icon {
   font-size: 32px;
 }
 
-.card-header h3 {
+.comparison-card .card-header h3 {
   font-size: 20px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.card-content {
+.comparison-card .card-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.card-item {
+.comparison-card .card-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.item-label {
+.comparison-card .item-label {
   font-size: 12px;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.item-value {
+.comparison-card .item-value {
   font-size: 15px;
   color: var(--text-primary);
   line-height: 1.5;
 }
 
-.item-value.highlight-text {
+.comparison-card .item-value.highlight-text {
   color: var(--primary);
   font-weight: 600;
 }
@@ -495,16 +495,16 @@
   }
   
   .capability-card {
-    transform: rotate(calc(var(--idx) * 72deg)) translateX(140px) rotate(calc(var(--idx) * -72deg)) translateY(-50%);
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(150px) rotate(calc(var(--angle) * -1));
     width: 75px;
     height: 75px;
   }
   
-  .card-icon {
+  .capability-card .card-icon {
     font-size: 22px;
   }
   
-  .card-label {
+  .capability-card .card-label {
     font-size: 10px;
   }
   
