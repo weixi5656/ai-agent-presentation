@@ -84,6 +84,18 @@ const benefits = [
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 50px;
+  align-items: stretch;
+}
+
+.agenda-section, .benefits-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.agenda-list, .benefits-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-title {
@@ -107,6 +119,7 @@ const benefits = [
   border-radius: 12px;
   border: 1px solid var(--border);
   transition: all 0.3s;
+  flex: 1;
 }
 
 .agenda-item:hover {
@@ -154,6 +167,7 @@ const benefits = [
   background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 102, 255, 0.05));
   border-radius: 10px;
   border-left: 4px solid var(--secondary);
+  flex: 1;
 }
 
 .benefit-icon {

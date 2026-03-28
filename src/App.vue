@@ -98,20 +98,27 @@ const progress = computed(() => {
   return ((currentIndex.value + 1) / routes.length) * 100
 })
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 const next = () => {
   if (currentIndex.value < routes.length - 1) {
     router.push(routes[currentIndex.value + 1].path)
+    scrollToTop()
   }
 }
 
 const prev = () => {
   if (currentIndex.value > 0) {
     router.push(routes[currentIndex.value - 1].path)
+    scrollToTop()
   }
 }
 
 const restart = () => {
   router.push('/intro')
+  scrollToTop()
 }
 
 const particleStyle = (n) => {
