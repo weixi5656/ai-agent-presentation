@@ -305,7 +305,7 @@
   width: 100px;
   height: 100px;
   z-index: 20;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(220px) rotate(calc(var(--angle) * -1));
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(300px) rotate(calc(var(--angle) * -1));
 }
 
 .capability-card .card-glow {
@@ -496,7 +496,7 @@
   }
   
   .capability-card {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(150px) rotate(calc(var(--angle) * -1));
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(200px) rotate(calc(var(--angle) * -1));
     width: 75px;
     height: 75px;
   }
