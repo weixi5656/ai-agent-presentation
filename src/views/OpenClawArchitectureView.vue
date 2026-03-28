@@ -479,6 +479,7 @@ const concepts = [
 .arrow-svg.small {
   width: 20px;
   height: 20px;
+  transform: translateY(8%);
 }
 
 .arrow-svg.tiny {
