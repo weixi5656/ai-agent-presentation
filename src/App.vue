@@ -82,6 +82,7 @@ const routes = [
   { path: '/concept', title: 'AI智能体本质' },
   { path: '/principle', title: '核心原理' },
   { path: '/dev-case', title: '研发场景' },
+  { path: '/openclaw-architecture', title: 'OpenClaw架构' },
   { path: '/openclaw-practice', title: 'OpenClaw实践' },
   { path: '/clawteam', title: 'ClawTeam协作' },
   { path: '/practice', title: '最佳实践' },

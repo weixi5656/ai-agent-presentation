@@ -10,6 +10,7 @@ const routes = [
   { path: '/concept', component: () => import('./views/ConceptView.vue') },
   { path: '/principle', component: () => import('./views/PrincipleView.vue') },
   { path: '/dev-case', component: () => import('./views/DevCaseView.vue') },
+  { path: '/openclaw-architecture', component: () => import('./views/OpenClawArchitectureView.vue') },
   { path: '/openclaw-practice', component: () => import('./views/OpenClawPracticeView.vue') },
   { path: '/clawteam', component: () => import('./views/ClawTeamView.vue') },
   { path: '/practice', component: () => import('./views/PracticeView.vue') },
