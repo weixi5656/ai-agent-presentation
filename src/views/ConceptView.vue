@@ -21,22 +21,27 @@
             <circle cx="200" cy="200" r="150" fill="none" stroke="url(#ringGradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="20 10" />
           </svg>
         </div>
-        <!-- 箭头 -->
+        <!-- 箭头 - 更大更明显 -->
         <div class="arrow-markers">
           <div class="arrow-item" style="--pos: 0;">
-            <div class="arrow-triangle"></div>
+            <div class="arrow-body"></div>
+            <div class="arrow-head">▶</div>
           </div>
           <div class="arrow-item" style="--pos: 1;">
-            <div class="arrow-triangle"></div>
+            <div class="arrow-body"></div>
+            <div class="arrow-head">▶</div>
           </div>
           <div class="arrow-item" style="--pos: 2;">
-            <div class="arrow-triangle"></div>
+            <div class="arrow-body"></div>
+            <div class="arrow-head">▶</div>
           </div>
           <div class="arrow-item" style="--pos: 3;">
-            <div class="arrow-triangle"></div>
+            <div class="arrow-body"></div>
+            <div class="arrow-head">▶</div>
           </div>
           <div class="arrow-item" style="--pos: 4;">
-            <div class="arrow-triangle"></div>
+            <div class="arrow-body"></div>
+            <div class="arrow-head">▶</div>
           </div>
         </div>
         <!-- 中心 -->
@@ -44,36 +49,36 @@
           <div class="center-glow"></div>
           <span class="center-text">AI智能体</span>
         </div>
-        <!-- 5个能力卡片 -->
-        <div class="capability-card" style="--idx: 0;">
+        <!-- 5个能力卡片 - 均匀分布在圆环外侧 -->
+        <div class="capability-card" style="--angle: -90deg;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">👁️</span>
             <span class="card-label">环境感知</span>
           </div>
         </div>
-        <div class="capability-card" style="--idx: 1;">
+        <div class="capability-card" style="--angle: -18deg;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">🎯</span>
             <span class="card-label">自主规划</span>
           </div>
         </div>
-        <div class="capability-card" style="--idx: 2;">
+        <div class="capability-card" style="--angle: 54deg;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">🧠</span>
             <span class="card-label">长期记忆</span>
           </div>
         </div>
-        <div class="capability-card" style="--idx: 3;">
+        <div class="capability-card" style="--angle: 126deg;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">🔧</span>
             <span class="card-label">工具调用</span>
           </div>
         </div>
-        <div class="capability-card" style="--idx: 4;">
+        <div class="capability-card" style="--angle: 198deg;">
           <div class="card-glow"></div>
           <div class="card-content">
             <span class="card-icon">🔄</span>
@@ -131,24 +136,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- 核心公式 - 一行显示，突出运算符 -->
-    <div class="formula-section">
-      <h2 class="section-title">核心公式</h2>
-      <div class="formula-line">
-        <span class="formula-term base">大语言模型</span>
-        <span class="formula-op">+</span>
-        <span class="formula-term module">规划</span>
-        <span class="formula-op">+</span>
-        <span class="formula-term module">记忆</span>
-        <span class="formula-op">+</span>
-        <span class="formula-term module">工具</span>
-        <span class="formula-op">+</span>
-        <span class="formula-term module">执行</span>
-        <span class="formula-op eq">=</span>
-        <span class="formula-term result">AI智能体</span>
       </div>
     </div>
   </div>
@@ -245,16 +232,22 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: rotate(calc(var(--pos) * 72deg - 90deg)) translateX(150px) translateY(-50%);
+  transform: rotate(calc(var(--pos) * 72deg - 90deg)) translateX(150px);
+  display: flex;
+  align-items: center;
 }
 
-.arrow-triangle {
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 16px solid var(--primary);
-  filter: drop-shadow(0 0 6px var(--primary));
+.arrow-body {
+  width: 40px;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, var(--primary));
+  margin-right: -5px;
+}
+
+.arrow-head {
+  font-size: 24px;
+  color: var(--primary);
+  filter: drop-shadow(0 0 8px var(--primary));
 }
 
 /* 中心 */
@@ -303,15 +296,15 @@
   box-shadow: 0 8px 40px rgba(0, 102, 255, 0.4);
 }
 
-/* 能力卡片 */
+/* 能力卡片 - 均匀分布在圆环外侧 */
 .capability-card {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: rotate(calc(var(--idx) * 72deg)) translateX(200px) rotate(calc(var(--idx) * -72deg)) translateY(-50%);
   width: 100px;
   height: 100px;
   z-index: 20;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(220px) rotate(calc(var(--angle) * -1));
 }
 
 .card-glow {
@@ -459,58 +452,7 @@
   justify-content: center;
 }
 
-/* 核心公式 - 一行显示，突出运算符 */
-.formula-section {
-  margin-top: 60px;
-}
 
-.formula-line {
-  background: white;
-  border-radius: 16px;
-  padding: 30px 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.formula-term {
-  font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 8px;
-}
-
-.formula-term.base {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  font-weight: 600;
-}
-
-.formula-term.module {
-  background: var(--bg-tertiary);
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.formula-term.result {
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 212, 170, 0.1));
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  font-weight: 700;
-}
-
-.formula-op {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--primary);
-  padding: 0 4px;
-}
-
-.formula-op.eq {
-  font-size: 32px;
-}
 
 @media (max-width: 768px) {
   .cycle-container {
