@@ -12,6 +12,7 @@
           <div class="trend-number">趋势 {{ index + 1 }}</div>
           <h2>{{ trend.title }}</h2>
           <p>{{ trend.desc }}</p>
+          <a :href="trend.link" target="_blank" class="trend-link">📎 参考资料</a>
         </div>
       </div>
     </div>
@@ -21,24 +22,39 @@
 <script setup>
 const trends = [
   {
-    title: '研发全流程端到端智能体',
-    desc: '从需求提出到线上部署的全链路自动化落地，替代传统碎片化研发工具'
+    title: 'Harness Engineering（驾驭工程）',
+    desc: '2026年最热门的AI工程范式。通过构建"软件基础设施"包裹模型，为AI提供持久化记忆、隔离的安全沙盒、确定性架构护栏和强制自我验证闭环。让AI从"玩具级"迈入"工业级"，实现Humans steer, Agents execute（人类掌舵，智能体执行）。',
+    link: 'https://www.163.com/dy/article/KNUAAI0V05566TJ2.html'
   },
   {
-    title: '端云协同智能体规模化落地',
-    desc: '端侧负责感知与执行，云端负责复杂推理与规划，兼顾性能、安全与成本'
+    title: 'Agentic AI（自主智能体）',
+    desc: 'AI从被动响应工具向主动决策执行者跨越。具备感知-推理-行动-学习闭环能力，可自主规划、调用工具、执行任务。2025年被称为AI Agent商业元年，79%的组织已采用AI Agent，从实验性工具进入企业级实用阶段。',
+    link: 'https://baijiahao.baidu.com/s?id=1853445683827940934'
   },
   {
-    title: '多智能体协作模式持续进化',
-    desc: '模拟真实研发团队的协作模式，实现更复杂的项目级任务自主落地'
+    title: 'MCP协议（模型上下文协议）',
+    desc: '由Anthropic提出，被称为Agent时代的"USB-C接口"。标准化AI系统与外部工具、数据源的连接，支持TypeScript/Python/Java SDK。2025年12月捐赠给Linux Foundation，从企业私有标准走向全球中立治理。',
+    link: 'https://wap.sciencenet.cn/home.php?mod=space&uid=362400&do=blog&id=1522044'
   },
   {
-    title: '开源智能体框架生态持续完善',
-    desc: '轻量化、可定制、易部署的开源方案成为主流，研发门槛持续降低'
+    title: 'A2A协议（智能体间通信）',
+    desc: '解决多智能体协作的标准化通信问题。支持Agent之间的任务委托、状态同步、结果回调。与MCP互补：MCP解决Agent与工具的连接，A2A解决Agent与Agent的连接，共同构建"智能体互联网"。',
+    link: 'https://baijiahao.baidu.com/s?id=1860563842231223212'
   },
   {
-    title: '智能体可解释性与安全性持续升级',
-    desc: '满足企业级研发场景的合规与管控要求，实现可追溯、可管控、可复核'
+    title: 'Long Horizon Agents（长时程智能体）',
+    desc: '能够执行复杂长周期任务的智能体，自主规划、长时间运行、目标导向。应用场景包括Coding、AI SREs、Research、金融分析。关键突破：模型能力提升 + Harness设计成熟，实现从"Talkers"到"Doers"的转变。',
+    link: 'https://dreamit.blog.csdn.net/article/details/157531878'
+  },
+  {
+    title: '多智能体协作系统（Multi-Agent）',
+    desc: 'AI从单体模型走向多智能体生态。MetaGPT、CAMEL、AutoGen等框架成熟，智能体扮演程序员、测试员、产品经理等角色，通过结构化通信、反思性推理和明确任务分配，协作完成软件开发等复杂任务。',
+    link: 'https://baijiahao.baidu.com/s?id=1860563842231223212'
+  },
+  {
+    title: '端云协同智能体规模化',
+    desc: '端侧负责感知与执行，云端负责复杂推理与规划。ESP32等边缘设备结合OpenClaw等云端框架，实现低功耗、低成本、高性能的智能体应用，在物联网、智能家居、工业控制场景大规模落地。',
+    link: 'https://baijiahao.baidu.com/s?id=1860533747373128466'
   }
 ]
 </script>
@@ -134,5 +150,25 @@ const trends = [
   font-size: 15px;
   color: var(--text-secondary);
   line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.trend-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 212, 170, 0.1));
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.trend-link:hover {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
 }
 </style>
