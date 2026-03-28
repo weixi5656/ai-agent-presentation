@@ -4,7 +4,7 @@
     
     <div class="intro-section">
       <p class="intro-text">
-        不聊空泛概念，只讲研发人员听得懂、用得上、能复刻的AI智能体技术与实践
+        讲听得懂、用得上、能复刻的AI智能体实践
       </p>
     </div>
     
@@ -38,7 +38,7 @@
 <script setup>
 const agenda = [
   { title: '认知篇', desc: 'AI智能体的本质与核心原理' },
-  { title: '场景篇', desc: '研发全流程高频场景落地案例拆解' },
+  { title: '场景篇', desc: '研发高频场景案例' },
   { title: '实践篇', desc: 'OpenClaw/ClawTeam上手实战 + 提示词优化 + 提效省Token技巧' },
   { title: '拓展篇', desc: '端侧智能体ESP32开发实践' },
   { title: '展望篇', desc: '前沿技术趋势' },
@@ -48,7 +48,7 @@ const benefits = [
   '搞懂AI智能体的底层架构与工作机制',
   '上手流行开源智能体，轻松成为"养虾"人',
   '开箱即用的智能体提示词模板，提效降本的工程化方法',
-  '研发全场景落地思路，覆盖编码、测试、运维、文档全流程',
+  'AI智能体的应用思路，Demo编码',
 ]
 </script>
 
