@@ -6,11 +6,17 @@ import './style.css'
 const routes = [
   { path: '/', redirect: '/intro' },
   { path: '/intro', component: () => import('./views/IntroView.vue') },
-  { path: '/concepts', component: () => import('./views/ConceptsView.vue') },
-  { path: '/openclaw', component: () => import('./views/OpenClawView.vue') },
-  { path: '/demo', component: () => import('./views/DemoView.vue') },
-  { path: '/esp32', component: () => import('./views/ESP32View.vue') },
-  { path: '/future', component: () => import('./views/FutureView.vue') },
+  { path: '/agenda', component: () => import('./views/AgendaView.vue') },
+  { path: '/concept', component: () => import('./views/ConceptView.vue') },
+  { path: '/principle', component: () => import('./views/PrincipleView.vue') },
+  { path: '/openclaw-principle', component: () => import('./views/OpenClawPrincipleView.vue') },
+  { path: '/openclaw-practice', component: () => import('./views/OpenClawPracticeView.vue') },
+  { path: '/clawteam', component: () => import('./views/ClawTeamView.vue') },
+  { path: '/dev-case', component: () => import('./views/DevCaseView.vue') },
+  { path: '/esp32-case', component: () => import('./views/ESP32CaseView.vue') },
+  { path: '/practice', component: () => import('./views/PracticeView.vue') },
+  { path: '/trend', component: () => import('./views/TrendView.vue') },
+  { path: '/resource', component: () => import('./views/ResourceView.vue') },
 ]
 
 const router = createRouter({
