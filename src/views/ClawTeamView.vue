@@ -5,34 +5,190 @@
     <div class="positioning-section">
       <div class="positioning-card">
         <h2>核心定位</h2>
-        <p>基于OpenClaw的多智能体协作框架，可快速搭建研发专属AI团队，通过多智能体分工配合，自主完成完整的项目级研发任务，实现从"个人助手"到"组织级协作平台"的升级</p>
+        <p>基于OpenClaw的多智能体协作框架，采用Supervisor-Worker主从架构，通过任务自动拆分、并行执行、状态持久化，实现从"个人助手"到"组织级协作平台"的升级</p>
       </div>
     </div>
     
     <div class="architecture-section">
-      <h2 class="section-title">核心架构：三层级协作架构</h2>
-      <div class="architecture-cards">
-        <div class="arch-card" v-for="(role, index) in roles" :key="index">
-          <div class="arch-icon">{{ role.icon }}</div>
-          <h3>{{ role.title }}</h3>
-          <p>{{ role.desc }}</p>
+      <h2 class="section-title">ClawTeam 核心架构</h2>
+      <div class="architecture-diagram">
+        <!-- 用户层 -->
+        <div class="arch-layer user-layer">
+          <div class="layer-box">
+            <span class="layer-icon">👤</span>
+            <span class="layer-name">用户</span>
+          </div>
+        </div>
+        
+        <div class="arch-arrow down"></div>
+        
+        <!-- 调度层 -->
+        <div class="arch-layer supervisor-layer">
+          <div class="layer-box primary">
+            <span class="layer-icon">👑</span>
+            <span class="layer-name">Supervisor 主管智能体</span>
+            <span class="layer-desc">目标拆解 · 任务分发 · 进度管控 · 结果汇总</span>
+          </div>
+        </div>
+        
+        <div class="arch-arrow down"></div>
+        
+        <!-- 执行层 -->
+        <div class="arch-layer workers-layer">
+          <div class="workers-grid">
+            <div class="worker-box">
+              <span class="worker-icon">🏗️</span>
+              <span class="worker-name">架构师</span>
+            </div>
+            <div class="worker-box">
+              <span class="worker-icon">💻</span>
+              <span class="worker-name">开发工程师</span>
+            </div>
+            <div class="worker-box">
+              <span class="worker-icon">🧪</span>
+              <span class="worker-name">测试工程师</span>
+            </div>
+            <div class="worker-box">
+              <span class="worker-icon">🔍</span>
+              <span class="worker-name">评审智能体</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="arch-arrow down"></div>
+        
+        <!-- 存储层 -->
+        <div class="arch-layer storage-layer">
+          <div class="storage-box">
+            <span class="storage-icon">🗄️</span>
+            <span class="storage-name">共享记忆库</span>
+            <span class="storage-desc">MEMORY.md + 向量数据库</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 架构特性 -->
+      <div class="arch-features">
+        <div class="feature-item">
+          <span class="feature-icon">🔄</span>
+          <div class="feature-content">
+            <h4>双层通信机制</h4>
+            <p>JSON-RPC + 事件总线，Agent间高效协作</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">💾</span>
+          <div class="feature-content">
+            <h4>状态持久化</h4>
+            <p>Checkpoint检查点，任务断点续传</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🔒</span>
+          <div class="feature-content">
+            <h4>代码隔离</h4>
+            <p>独立环境运行，避免冲突干扰</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <div class="feature-content">
+            <h4>并行执行</h4>
+            <p>多Worker同时处理，效率提升60%</p>
+          </div>
         </div>
       </div>
     </div>
     
     <div class="steps-section">
-      <h2 class="section-title">3步搭建研发专属AI团队</h2>
-      <div class="steps-grid">
-        <div class="step-item" v-for="(step, index) in setupSteps" :key="index">
-          <span class="step-num">{{ index + 1 }}</span>
-          <h3>{{ step.title }}</h3>
-          <p>{{ step.desc }}</p>
+      <h2 class="section-title">3步搭建AI团队</h2>
+      <div class="steps-detail">
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">1</span>
+            <h3>安装ClawTeam并创建团队</h3>
+          </div>
+          <div class="step-content">
+            <pre class="code-block"><code># 安装ClawTeam
+pip install clawteam
+
+# 验证安装
+clawteam --help
+
+# 创建AI团队
+clawteam team spawn-team ai-news-team -d "AI前沿技术每日收集整理团队"
+
+# 查看团队列表
+clawteam team list</code></pre>
+            <div class="step-notes">
+              <p><strong>核心概念：</strong>Team是项目容器，包含多个Agent成员和任务分配规则</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">2</span>
+            <h3>配置智能体角色与通信</h3>
+          </div>
+          <div class="step-content">
+            <pre class="code-block"><code># 配置Agent间通信（在openclaw.json中）
+{
+  "tools": {
+    "agentToAgent": {
+      "enabled": true,
+      "allow": ["researcher", "writer", "reviewer"],
+      "maxRecursion": 3
+    }
+  }
+}
+
+# 启用ACP子代理模式
+openclaw config set acp.sub_agent.enabled true
+openclaw config set acp.sub_agent.isolate_memory true
+
+# 重启服务
+openclaw restart</code></pre>
+            <div class="step-notes">
+              <p><strong>关键配置：</strong>启用Agent间通信、记忆隔离、最大递归3层防循环</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-num">3</span>
+            <h3>启动团队并监控执行</h3>
+          </div>
+          <div class="step-content">
+            <pre class="code-block"><code># 启动团队执行任务
+clawteam launch ai-news-team --goal "收集整理今日AI前沿技术报告"
+
+# 查看团队状态看板
+clawteam board show ai-news-team
+
+# 输出示例：
+# ┌─────────────┬──────────────────┬──────────┐
+# │ Agent       │ 任务             │ 状态     │
+# ├─────────────┼──────────────────┼──────────┤
+# │ 研究员      │ 收集AI论文/新闻  │ ✅ 完成  │
+# │ 内容策划    │ 整理要点         │ 🟡 进行中│
+# │ 编辑        │ 撰写报告         │ 🔵 待开始│
+# │ 审核员      │ 质量检查         │ ⏸️ 阻塞  │
+# └─────────────┴──────────────────┴──────────┘</code></pre>
+            <div class="step-notes">
+              <p><strong>监控管理：</strong>实时查看各Agent任务状态、进度、阻塞情况</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     
     <div class="template-section">
-      <h2 class="section-title">多智能体角色提示词模板</h2>
+      <h2 class="section-title">场景：AI前沿技术每日收集整理成报告</h2>
+      <div class="scenario-desc">
+        <p>一个完整的AI资讯团队，自动完成从信息收集到报告输出的全流程</p>
+      </div>
       <div class="template-tabs">
         <button 
           v-for="(template, index) in templates" 
@@ -45,6 +201,10 @@
         </button>
       </div>
       <div class="template-content">
+        <div class="template-header">
+          <h3>{{ templates[activeTab].name }}</h3>
+          <p>{{ templates[activeTab].role }}</p>
+        </div>
         <pre class="code-block"><code>{{ templates[activeTab].content }}</code></pre>
       </div>
     </div>
@@ -56,104 +216,136 @@ import { ref } from 'vue'
 
 const activeTab = ref(0)
 
-const roles = [
-  {
-    icon: '👑',
-    title: '主管智能体',
-    desc: '负责目标拆解、任务分发、进度管控、结果评审'
-  },
-  {
-    icon: '👷',
-    title: '角色执行智能体',
-    desc: '对应研发角色（架构师、开发、测试、运维等），负责专项任务执行'
-  },
-  {
-    icon: '🔍',
-    title: '评审智能体',
-    desc: '负责结果校验、问题反馈、优化建议输出'
-  }
-]
-
-const setupSteps = [
-  {
-    title: '定义项目核心目标',
-    desc: '设定团队协作规则与验收标准'
-  },
-  {
-    title: '配置研发角色智能体',
-    desc: '配置各角色Prompt模板与权限'
-  },
-  {
-    title: '配置协作流程',
-    desc: '实现任务分发、进度同步、评审反馈自动化'
-  }
-]
-
 const templates = [
   {
-    name: '主管智能体',
+    name: '研究员 Agent',
+    role: '信息收集专家',
     content: `# 角色定位
-你是本次【XX研发项目】的项目主管智能体，负责整体项目的目标拆解、任务分发、进度管控、跨角色协同、结果评审与验收。
-
-# 核心目标
-1. 将项目总目标拆解为可执行的子任务，分配给对应角色的执行智能体；
-2. 管控项目执行流程，确保每个角色的交付物符合验收标准，按时交付；
-3. 协调角色间的信息同步，解决执行中的阻塞问题，最终交付完整的项目成果。
-
-# 团队角色与分工
-1. 【架构师智能体】：负责技术架构设计、接口规范制定、技术选型
-2. 【后端开发智能体】：负责业务代码开发、接口实现、单元测试编写
-3. 【测试工程师智能体】：负责测试计划制定、测试用例编写、自动化脚本开发
-4. 【评审智能体】：负责每个交付物的合规性、准确性、完整性评审
-
-# 协作规则
-1. 任务分发：严格按照「需求解析→架构设计→代码开发→测试验证→成果汇总」的流程串行分发；
-2. 信息同步：每个角色完成任务后，必须将交付物同步给你，你评审通过后，再同步给后续关联角色；
-3. 异常处理：单个角色执行异常，你需在2轮内给出解决方案；
-4. 验收标准：每个环节的交付物必须符合提前约定的规范，禁止模糊交付。`
-  },
-  {
-    name: '执行角色智能体',
-    content: `# 角色定位
-你是本次项目的后端开发智能体，专精【Java/SpringBoot】技术栈开发，严格遵循团队编码规范、接口设计规范、安全开发规范，负责业务代码的高质量开发。
+你是AI前沿技术研究专家，专精全球AI领域最新动态的监测与收集。
 
 # 核心任务
-基于架构师智能体输出的技术架构文档与接口规范，完成【用户管理模块】的业务代码开发、接口实现、单元测试编写，确保代码可直接编译运行、无语法错误、无安全漏洞。
+每日定时收集以下渠道的AI前沿信息：
+1. arXiv最新论文（AI/ML/CV/NLP方向）
+2. 顶级会议动态（NeurIPS/ICML/ACL/CVPR）
+3. 科技媒体（TechCrunch/MIT Technology Review/机器之心）
+4. 大厂技术博客（Google AI/OpenAI/DeepMind/阿里/腾讯）
+
+# 输出标准
+1. 每日收集不少于20条高质量信息
+2. 每条信息标注：来源、发布时间、核心看点
+3. 按技术领域分类：大模型/多模态/Agent/基础设施
+4. 输出格式：JSON结构化数据，便于下游处理
 
 # 协作规则
-1. 仅基于主管智能体分发的任务、架构师输出的规范文档进行开发，禁止擅自修改需求与架构；
-2. 开发完成后，必须同步交付物给主管智能体与评审智能体，根据评审意见修改迭代；
-3. 遇到需求/规范不明确的问题，直接向主管智能体反馈，禁止自行假设需求。
-
-# 交付标准
-1. 交付物清单：Controller层代码、Service层代码、Mapper层代码、实体类代码、单元测试代码、接口说明文档；
-2. 代码规范：严格遵循阿里巴巴Java开发手册，代码注释完整，命名规范，无冗余代码；
-3. 质量要求：单元测试覆盖率≥80%，无高危安全漏洞，接口入参出参严格符合规范。`
+1. 每日08:00自动执行收集任务
+2. 完成后将结构化数据发送给内容策划Agent
+3. 对高价值信息标注"重点推荐"标签`
   },
   {
-    name: '评审智能体',
+    name: '内容策划 Agent',
+    role: '信息整理与选题专家',
     content: `# 角色定位
-你是本次项目的质量评审智能体，专精研发交付物的合规性、准确性、完整性评审，严格遵循行业规范与团队标准，对所有交付物出具客观、可落地的评审意见。
+你是AI内容策划专家，专精从海量信息中提炼核心价值，设计内容结构。
 
 # 核心任务
-对主管智能体分发的每个环节交付物进行全维度评审，明确给出通过/不通过结论，针对不通过项给出具体的修改要求，禁止模糊评审。
+1. 接收研究员Agent收集的原始数据
+2. 筛选高价值信息（影响力、创新性、实用性）
+3. 设计报告结构：头条要闻、技术突破、产品动态、深度解读
+4. 为每条选题撰写100字以内的核心要点
 
-# 评审维度
-1. 合规性：是否符合行业规范、团队研发规范、安全规范；
-2. 准确性：是否符合需求目标、架构规范，有无逻辑错误、内容缺漏；
-3. 完整性：交付物是否完整，有无缺项漏项，是否满足交付标准；
-4. 可落地性：交付内容是否可直接复用、直接执行，有无空泛内容。
+# 输出标准
+1. 从20+条信息中筛选出8-10条精华
+2. 每条要点包含：标题、一句话摘要、为什么重要
+3. 设计报告大纲：目录结构、篇幅分配、视觉元素建议
+4. 输出格式：Markdown结构化文档
 
-# 输出规范
-严格按照以下结构化格式输出，无冗余内容：
-【交付物名称】：XX
-【评审结论】：通过/不通过
-【评审明细】：
-1. 合规性：符合/不符合，不符合项说明
-2. 准确性：符合/不符合，不符合项说明
-3. 完整性：符合/不符合，不符合项说明
-4. 可落地性：符合/不符合，不符合项说明
-【修改要求】：针对不符合项，逐条给出可落地的修改要求`
+# 协作规则
+1. 接收研究员数据后2小时内完成筛选
+2. 将策划方案发送给编辑Agent撰写正文
+3. 标注需要深度解读的重点选题`
+  },
+  {
+    name: '编辑 Agent',
+    role: '报告撰写专家',
+    content: `# 角色定位
+你是AI领域资深编辑，专精技术内容的通俗化表达与专业报告撰写。
+
+# 核心任务
+1. 基于内容策划的选题方案撰写完整报告
+2. 头条要闻：300字深度解读，说明技术意义
+3. 技术突破：500字详细分析，包含技术原理简述
+4. 产品动态：200字简洁报道，突出产品亮点
+5. 深度解读：800字专题分析，联系产业趋势
+
+# 输出标准
+1. 报告总字数2000-2500字
+2. 语言风格：专业但不晦涩，适合技术从业者阅读
+3. 结构清晰：小标题、重点加粗、适当使用列表
+4. 包含：今日概览、详细内容、明日预告三部分
+
+# 协作规则
+1. 接收策划方案后4小时内完成初稿
+2. 将报告发送给审核员Agent进行质量检查
+3. 根据审核意见修改完善`
+  },
+  {
+    name: '审核员 Agent',
+    role: '质量把控专家',
+    content: `# 角色定位
+你是AI内容质量审核专家，专精技术准确性核查与内容质量把控。
+
+# 核心任务
+1. 审核编辑Agent提交的报告全文
+2. 事实核查：技术细节、数据引用、来源准确性
+3. 质量评估：逻辑连贯性、表达清晰度、专业度
+4. 格式检查：结构完整性、排版规范性
+
+# 审核维度
+1. 准确性：技术概念是否正确，有无事实错误
+2. 完整性：是否覆盖所有策划选题，有无遗漏
+3. 可读性：语言是否流畅，技术术语是否解释清楚
+4. 时效性：信息是否最新，有无过时内容
+
+# 输出标准
+1. 给出通过/不通过的明确结论
+2. 不通过时逐条列出修改意见
+3. 标注优秀内容和需要改进的部分
+4. 输出格式：审核报告 + 修改建议清单
+
+# 协作规则
+1. 收到报告后1小时内完成审核
+2. 审核通过则标记完成，通知Supervisor汇总
+3. 不通过则退回编辑Agent修改，说明具体问题`
+  },
+  {
+    name: 'Supervisor 主管',
+    role: '团队协调与最终输出',
+    content: `# 角色定位
+你是AI资讯团队的Supervisor主管智能体，负责整体协调、任务分发、结果汇总。
+
+# 核心职责
+1. 每日08:00触发研究员Agent开始收集
+2. 接收各环节交付物，转发给下一环节
+3. 监控各Agent进度，处理阻塞和异常
+4. 审核通过后汇总最终报告
+5. 输出格式化的日报并分发给订阅者
+
+# 工作流程
+08:00 → 触发研究员收集
+10:00 → 接收数据，转发给内容策划
+12:00 → 接收策划方案，转发给编辑
+16:00 → 接收报告初稿，转发给审核员
+17:00 → 接收审核结果，输出最终报告
+
+# 异常处理
+1. 某Agent超时未响应，发送提醒
+2. 审核不通过，协调修改资源
+3. 各环节阻塞超过2轮，人工介入
+
+# 输出标准
+1. 最终报告包含：标题、日期、目录、正文、来源引用
+2. 格式：Markdown + PDF双版本
+3. 分发渠道：邮件/飞书/钉钉自动推送`
   }
 ]
 </script>
@@ -206,109 +398,282 @@ const templates = [
   color: var(--text-primary);
 }
 
+/* 架构图 */
 .architecture-section {
   margin-bottom: 60px;
 }
 
-.architecture-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+.architecture-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 30px;
+  background: linear-gradient(180deg, rgba(0, 102, 255, 0.03), rgba(0, 212, 170, 0.03));
+  border-radius: 20px;
+  border: 1px solid rgba(0, 102, 255, 0.1);
+  margin-bottom: 30px;
 }
 
-.arch-card {
+.arch-layer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.layer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 40px;
   background: white;
-  border-radius: 16px;
-  padding: 32px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
   text-align: center;
+}
+
+.layer-box.primary {
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(139, 92, 246, 0.1));
+  border-color: var(--primary);
+  min-width: 300px;
+}
+
+.layer-icon {
+  font-size: 36px;
+}
+
+.layer-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.layer-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.arch-arrow {
+  width: 2px;
+  height: 30px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  margin: 8px 0;
+}
+
+.arch-arrow.down {
+  position: relative;
+}
+
+.arch-arrow.down::after {
+  content: '▼';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--primary);
+  font-size: 12px;
+}
+
+/* Workers层 */
+.workers-layer {
+  padding: 20px 0;
+}
+
+.workers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.worker-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  transition: all 0.3s;
+}
+
+.worker-box:hover {
+  border-color: var(--secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 212, 170, 0.15);
+}
+
+.worker-icon {
+  font-size: 32px;
+}
+
+.worker-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 存储层 */
+.storage-layer {
+  padding-top: 10px;
+}
+
+.storage-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 30px;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.storage-icon {
+  font-size: 28px;
+}
+
+.storage-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.storage-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* 架构特性 */
+.arch-features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
   border: 1px solid var(--border);
   transition: all 0.3s;
 }
 
-.arch-card:hover {
+.feature-item:hover {
   border-color: var(--primary);
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 102, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.1);
 }
 
-.arch-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+.feature-icon {
+  font-size: 28px;
 }
 
-.arch-card h3 {
-  font-size: 20px;
+.feature-content h4 {
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 12px;
   color: var(--primary);
+  margin-bottom: 4px;
 }
 
-.arch-card p {
-  font-size: 14px;
+.feature-content p {
+  font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.6;
 }
 
+/* 步骤详情 */
 .steps-section {
   margin-bottom: 60px;
 }
 
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.steps-detail {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
 }
 
-.step-item {
+.step-card {
   background: white;
   border-radius: 16px;
-  padding: 28px;
   border: 1px solid var(--border);
-  text-align: center;
-  transition: all 0.3s;
+  overflow: hidden;
 }
 
-.step-item:hover {
-  border-color: var(--secondary);
-  box-shadow: 0 8px 24px rgba(0, 212, 170, 0.1);
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
+  border-bottom: 1px solid var(--border);
 }
 
 .step-num {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
-  line-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
-  margin-bottom: 16px;
+  font-size: 16px;
 }
 
-.step-item h3 {
-  font-size: 18px;
+.step-header h3 {
+  font-size: 20px;
   font-weight: 600;
-  margin-bottom: 8px;
   color: var(--text-primary);
 }
 
-.step-item p {
-  font-size: 14px;
-  color: var(--text-secondary);
+.step-content {
+  padding: 24px;
 }
 
+.step-notes {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(0, 212, 170, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid var(--secondary);
+}
+
+.step-notes p {
+  font-size: 14px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* 模板部分 */
 .template-section {
   margin-top: 60px;
+}
+
+.scenario-desc {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.scenario-desc p {
+  font-size: 16px;
+  color: var(--text-secondary);
 }
 
 .template-tabs {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .tab-btn {
-  padding: 12px 24px;
+  padding: 12px 20px;
   background: white;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -331,25 +696,61 @@ const templates = [
 .template-content {
   background: white;
   border-radius: 16px;
-  padding: 24px;
   border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.template-header {
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
+  border-bottom: 1px solid var(--border);
+}
+
+.template-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.template-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
 }
 
 .code-block {
   background: #1a1a2e;
   color: #e2e8f0;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 24px;
   font-family: 'Fira Code', monospace;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: auto;
+  margin: 0;
 }
 
 @media (max-width: 968px) {
-  .architecture-cards,
-  .steps-grid {
+  .workers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .arch-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .workers-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .arch-features {
+    grid-template-columns: 1fr;
+  }
+  
+  .template-tabs {
+    justify-content: center;
   }
 }
 </style>
