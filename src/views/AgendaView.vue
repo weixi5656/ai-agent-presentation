@@ -161,9 +161,9 @@ const benefits = [
 
 .benefit-item {
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 16px 20px;
+  gap: 16px;
+  align-items: center;
+  padding: 20px 24px;
   background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 102, 255, 0.05));
   border-radius: 10px;
   border-left: 4px solid var(--secondary);
@@ -171,8 +171,8 @@ const benefits = [
 }
 
 .benefit-icon {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--secondary);
   color: white;
@@ -180,14 +180,16 @@ const benefits = [
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   flex-shrink: 0;
 }
 
 .benefit-item p {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-primary);
-  line-height: 1.5;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 968px) {
