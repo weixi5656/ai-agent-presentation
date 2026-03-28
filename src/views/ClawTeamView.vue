@@ -47,6 +47,8 @@
           </div>
           <div class="gateway-functions">
             <span class="func-tag">协议转换</span>
+            <span class="func-tag">消息通讯</span>
+            <span class="func-tag">A2A通信</span>
             <span class="func-tag">车道队列</span>
             <span class="func-tag">心跳机制</span>
             <span class="func-tag">Cron调度</span>
@@ -81,6 +83,35 @@
                 <span class="agent-icon">✅</span>
                 <span class="agent-name">审核员</span>
               </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="arch-arrow down"></div>
+        
+        <!-- 运行时环境层 -->
+        <div class="arch-layer runtime-layer">
+          <div class="layer-title">Runtime 运行时环境层</div>
+          <div class="runtime-grid">
+            <div class="runtime-item">
+              <span class="runtime-icon">🖥️</span>
+              <span class="runtime-name">tmux会话</span>
+              <span class="runtime-desc">进程管理</span>
+            </div>
+            <div class="runtime-item">
+              <span class="runtime-icon">📦</span>
+              <span class="runtime-name">工作区隔离</span>
+              <span class="runtime-desc">独立环境</span>
+            </div>
+            <div class="runtime-item">
+              <span class="runtime-icon">🔗</span>
+              <span class="runtime-name">任务依赖</span>
+              <span class="runtime-desc">DAG编排</span>
+            </div>
+            <div class="runtime-item">
+              <span class="runtime-icon">🔄</span>
+              <span class="runtime-name">状态机</span>
+              <span class="runtime-desc">生命周期</span>
             </div>
           </div>
         </div>
@@ -673,6 +704,53 @@ const templates = [
   color: var(--text-muted);
 }
 
+/* Runtime层 */
+.runtime-layer {
+  padding: 20px 0;
+}
+
+.runtime-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.runtime-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+  border-radius: 10px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.3s;
+}
+
+.runtime-item:hover {
+  border-color: #3b82f6;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+}
+
+.runtime-icon {
+  font-size: 26px;
+}
+
+.runtime-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.runtime-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
 /* Skills层 */
 .skills-layer {
   padding: 20px 0;
@@ -946,6 +1024,10 @@ const templates = [
     grid-template-columns: repeat(2, 1fr);
   }
   
+  .runtime-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
   .skills-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -967,6 +1049,10 @@ const templates = [
   
   .agent-children {
     grid-template-columns: 1fr;
+  }
+  
+  .runtime-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   
   .skills-grid {
