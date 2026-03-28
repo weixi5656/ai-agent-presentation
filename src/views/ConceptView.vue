@@ -39,21 +39,14 @@
             <span class="node-text">执行反思</span>
           </div>
         </div>
-        <!-- 连接线 -->
-        <svg class="cycle-arrows" viewBox="0 0 400 400">
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-              <polygon points="0 0, 10 3, 0 6" fill="var(--primary)" />
-            </marker>
-          </defs>
-          <circle cx="200" cy="200" r="140" fill="none" stroke="var(--primary)" stroke-width="2" stroke-dasharray="8 4" />
-          <!-- 箭头 -->
-          <path d="M 200 60 A 140 140 0 0 1 333 140" fill="none" stroke="var(--primary)" stroke-width="2" marker-end="url(#arrowhead)" />
-          <path d="M 333 260 A 140 140 0 0 1 267 333" fill="none" stroke="var(--primary)" stroke-width="2" marker-end="url(#arrowhead)" />
-          <path d="M 133 333 A 140 140 0 0 1 67 260" fill="none" stroke="var(--primary)" stroke-width="2" marker-end="url(#arrowhead)" />
-          <path d="M 67 140 A 140 140 0 0 1 133 67" fill="none" stroke="var(--primary)" stroke-width="2" marker-end="url(#arrowhead)" />
-          <path d="M 267 67 A 140 140 0 0 1 200 60" fill="none" stroke="var(--primary)" stroke-width="2" marker-end="url(#arrowhead)" />
-        </svg>
+        <!-- 渐变圆环箭头 -->
+        <div class="cycle-ring">
+          <div class="ring-arrow" style="--rot: 0deg;">▶</div>
+          <div class="ring-arrow" style="--rot: 72deg;">▶</div>
+          <div class="ring-arrow" style="--rot: 144deg;">▶</div>
+          <div class="ring-arrow" style="--rot: 216deg;">▶</div>
+          <div class="ring-arrow" style="--rot: 288deg;">▶</div>
+        </div>
       </div>
       <p class="definition-desc">具备完整闭环能力，可自主完成复杂研发任务的智能系统</p>
     </div>
@@ -237,13 +230,27 @@
   white-space: nowrap;
 }
 
-.cycle-arrows {
+.cycle-ring {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              conic-gradient(from 0deg, var(--primary), var(--secondary), var(--primary)) border-box;
+}
+
+.ring-arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--rot)) translateX(140px) translateY(-50%);
+  font-size: 14px;
+  color: var(--primary);
+  text-shadow: 0 0 4px white;
 }
 
 .definition-desc {
