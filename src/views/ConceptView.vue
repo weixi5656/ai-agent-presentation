@@ -2,102 +2,122 @@
   <div class="concept-view">
     <h1 class="page-title">AI Agent 核心概念：不是更强的聊天，而是更强的执行</h1>
 
-    <div class="conclusion-box">
-      <div class="conclusion-header">
-        <span class="icon">💡</span>
-        <h2>核心结论</h2>
-      </div>
-      <div class="conclusion-content">
-        <p>传统大模型更像<strong>知识问答机</strong>，AI Agent 更像<strong>能动手、能协作、能交付结果的数字工程师</strong>。</p>
-        <p>核心差异不在<strong>更会说</strong>，而在于<strong>能感知、会规划、能调用工具、能记忆、会执行和反思</strong>。</p>
-      </div>
-      <div class="highlight-badge">
-        <span class="badge-icon">✨</span>
-        <div class="badge-text">
-          <strong>补充：</strong>当前AI智能体已支持消费级显卡部署在个人电脑，普通研发电脑即可满足需求，大幅降低落地门槛。
-        </div>
-      </div>
+    <!-- Tab 导航 -->
+    <div class="tab-nav">
+      <button
+        v-for="(tab, i) in tabs"
+        :key="i"
+        class="tab-btn"
+        :class="{ active: activeTab === i }"
+        @click="activeTab = i"
+      >{{ tab.icon }} {{ tab.label }}</button>
     </div>
 
-    <div class="comparison-section">
-      <div class="comparison-cards">
-        <div class="comp-card traditional-card">
-          <div class="card-header">
-            <span class="card-icon">💬</span>
-            <h3>传统 LLM / 普通AI助手</h3>
-            <span class="card-subtitle">"你问我答" 的被动工具</span>
-          </div>
-          <div class="card-body">
-            <div class="comp-item" v-for="(row, index) in comparisonRows" :key="'trad-'+index">
-              <span class="item-label">{{ row.dimension }}</span>
-              <p class="item-value">{{ row.traditional }}</p>
-            </div>
-          </div>
+    <!-- Tab 0: 核心结论 -->
+    <div v-show="activeTab === 0">
+      <div class="conclusion-box">
+        <div class="conclusion-header">
+          <span class="icon">💡</span>
+          <h2>核心结论</h2>
         </div>
-
-        <div class="vs-divider">
-          <span>VS</span>
+        <div class="conclusion-content">
+          <p>传统大模型更像<strong>知识问答机</strong>，AI Agent 更像<strong>能动手、能协作、能交付结果的数字工程师</strong>。</p>
+          <p>核心差异不在<strong>更会说</strong>，而在于<strong>能感知、会规划、能调用工具、能记忆、会执行和反思</strong>。</p>
         </div>
-
-        <div class="comp-card agent-card">
-          <div class="card-header">
-            <span class="card-icon">🤖</span>
-            <h3>AI 智能体 (Agent)</h3>
-            <span class="card-subtitle">"你说目标，我来完成" 的数字员工</span>
-          </div>
-          <div class="card-body">
-            <div class="comp-item highlight" v-for="(row, index) in comparisonRows" :key="'agent-'+index">
-              <span class="item-label">{{ row.dimension }}</span>
-              <p class="item-value">{{ row.agent }}</p>
-            </div>
+        <div class="highlight-badge">
+          <span class="badge-icon">✨</span>
+          <div class="badge-text">
+            <strong>补充：</strong>当前AI智能体已支持消费级显卡部署在个人电脑，普通研发电脑即可满足需求，大幅降低落地门槛。
           </div>
         </div>
       </div>
     </div>
 
-    <div class="definition-section">
-      <h2 class="section-title">AI智能体5大核心能力</h2>
-      <div class="cycle-container">
-        <div class="glow-ring"></div>
-        <div class="orbit-ring outer"></div>
-        <div class="orbit-ring inner"></div>
-        <div class="rotating-ring">
-          <svg viewBox="0 0 400 400" class="ring-svg">
-            <defs>
-              <linearGradient id="ringGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#0066ff" />
-                <stop offset="50%" stop-color="#00d4aa" />
-                <stop offset="100%" stop-color="#0066ff" />
-              </linearGradient>
-            </defs>
-            <circle cx="200" cy="200" r="150" fill="none" stroke="url(#ringGradient3)" stroke-width="4" stroke-linecap="round" stroke-dasharray="20 10" />
-          </svg>
-        </div>
-        <div class="cycle-center">
-          <span class="center-text">
-            <span class="center-icon">🦞</span>
-            AI智能体
-          </span>
-        </div>
-        <div
-          v-for="(module, index) in modules"
-          :key="module.title"
-          class="capability-card"
-          :style="{ '--angle': module.angle, '--dist': '260px' }"
-        >
-          <div class="card-content">
-            <span class="card-number">{{ index + 1 }}</span>
-            <span class="card-icon">{{ module.icon }}</span>
-            <span class="card-label">{{ module.label }}</span>
-          </div>
-          <div class="module-bubble" :class="module.bubbleClass">
-            <div class="module-bubble-title">
-              <span class="module-bubble-icon">{{ module.icon }}</span>
-              <span>{{ module.title }}</span>
+    <!-- Tab 1: 能力对比 -->
+    <div v-show="activeTab === 1">
+      <div class="comparison-section">
+        <div class="comparison-cards">
+          <div class="comp-card traditional-card">
+            <div class="card-header">
+              <span class="card-icon">💬</span>
+              <h3>传统 LLM / 普通AI助手</h3>
+              <span class="card-subtitle">"你问我答" 的被动工具</span>
             </div>
-            <p class="module-bubble-desc">{{ module.desc }}</p>
-            <div class="module-bubble-scenario">
-              <strong>研发场景：</strong>{{ module.scenario }}
+            <div class="card-body">
+              <div class="comp-item" v-for="(row, index) in comparisonRows" :key="'trad-'+index">
+                <span class="item-label">{{ row.dimension }}</span>
+                <p class="item-value">{{ row.traditional }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="vs-divider">
+            <span>VS</span>
+          </div>
+
+          <div class="comp-card agent-card">
+            <div class="card-header">
+              <span class="card-icon">🤖</span>
+              <h3>AI 智能体 (Agent)</h3>
+              <span class="card-subtitle">"你说目标，我来完成" 的数字员工</span>
+            </div>
+            <div class="card-body">
+              <div class="comp-item highlight" v-for="(row, index) in comparisonRows" :key="'agent-'+index">
+                <span class="item-label">{{ row.dimension }}</span>
+                <p class="item-value">{{ row.agent }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 核心能力 -->
+    <div v-show="activeTab === 2">
+      <div class="definition-section">
+        <h2 class="section-title">AI智能体5大核心能力</h2>
+        <div class="cycle-container">
+          <div class="glow-ring"></div>
+          <div class="orbit-ring outer"></div>
+          <div class="orbit-ring inner"></div>
+          <div class="rotating-ring">
+            <svg viewBox="0 0 400 400" class="ring-svg">
+              <defs>
+                <linearGradient id="ringGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0066ff" />
+                  <stop offset="50%" stop-color="#00d4aa" />
+                  <stop offset="100%" stop-color="#0066ff" />
+                </linearGradient>
+              </defs>
+              <circle cx="200" cy="200" r="150" fill="none" stroke="url(#ringGradient3)" stroke-width="4" stroke-linecap="round" stroke-dasharray="20 10" />
+            </svg>
+          </div>
+          <div class="cycle-center">
+            <span class="center-text">
+              <span class="center-icon">🦞</span>
+              AI智能体
+            </span>
+          </div>
+          <div
+            v-for="(module, index) in modules"
+            :key="module.title"
+            class="capability-card"
+            :style="{ '--angle': module.angle, '--dist': '260px' }"
+          >
+            <div class="card-content">
+              <span class="card-number">{{ index + 1 }}</span>
+              <span class="card-icon">{{ module.icon }}</span>
+              <span class="card-label">{{ module.label }}</span>
+            </div>
+            <div class="module-bubble" :class="module.bubbleClass">
+              <div class="module-bubble-title">
+                <span class="module-bubble-icon">{{ module.icon }}</span>
+                <span>{{ module.title }}</span>
+              </div>
+              <p class="module-bubble-desc">{{ module.desc }}</p>
+              <div class="module-bubble-scenario">
+                <strong>研发场景：</strong>{{ module.scenario }}
+              </div>
             </div>
           </div>
         </div>
@@ -107,6 +127,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const activeTab = ref(0)
+
+const tabs = [
+  { icon: '💡', label: '核心结论' },
+  { icon: '⚖️', label: '能力对比' },
+  { icon: '🦞', label: '核心能力' },
+]
+
 const comparisonRows = [
   { dimension: '定位', traditional: '回答问题', agent: '完成任务' },
   { dimension: '行为方式', traditional: '用户问一步，模型答一步', agent: '接收目标后自主拆解、多步执行' },
@@ -117,14 +147,14 @@ const comparisonRows = [
 ]
 
 const modules = [
-  { 
-    name: '环境感知', 
+  {
+    name: '环境感知',
     icon: '👁️',
     label: '环境感知',
     angle: '-90deg',
     bubbleClass: 'bubble-right',
     title: '感知模块',
-    desc: '负责读取外部环境信息，包括代码仓库、接口文档、日志、数据库、用户输入、监控指标等；没有感知，智能体就像“闭着眼睛写代码”。',
+    desc: '负责读取外部环境信息，包括代码仓库、接口文档、日志、数据库、用户输入、监控指标等；没有感知，智能体就像"闭着眼睛写代码"。',
     scenario: '读取一个老项目的目录结构、接口定义和最近报错日志，然后理解当前系统问题'
   },
   {
@@ -133,7 +163,7 @@ const modules = [
     angle: '-18deg',
     title: '规划模块',
     desc: '智能体的大脑引擎，通过思维链和树状思维等方式，把模糊目标拆成可执行子任务，再决定执行顺序与策略。',
-    scenario: '把“帮我优化接口性能”拆成：定位慢查询 → 分析索引 → 修改 SQL → 回归验证'
+    scenario: '把"帮我优化接口性能"拆成：定位慢查询 → 分析索引 → 修改 SQL → 回归验证'
   },
   {
     icon: '💾',
@@ -141,7 +171,7 @@ const modules = [
     angle: '54deg',
     bubbleClass: 'bubble-right',
     title: '记忆模块',
-    desc: '负责保存短期上下文和长期经验，比如“这个项目用的不是 MyBatis，而是 JPA”“这个团队禁止直接改生产配置”。没有记忆，智能体每次都像新来的实习生。',
+    desc: '负责保存短期上下文和长期经验，比如"这个项目用的不是 MyBatis，而是 JPA""这个团队禁止直接改生产配置"。没有记忆，智能体每次都像新来的实习生。',
     scenario: '记住团队代码规范、历史架构约束和常见问题修复方式，在后续任务中持续复用'
   },
   {
@@ -150,7 +180,7 @@ const modules = [
     angle: '126deg',
     bubbleClass: 'bubble-left',
     title: '工具调用模块',
-    desc: '这是让智能体真正“能干活”的关键模块。大模型本身不会改代码、不会跑测试、不会查数据库，但通过工具调用，它就能连接 IDE、终端、Git、Jenkins、Docker、浏览器、传感器等系统。',
+    desc: '这是让智能体真正"能干活"的关键模块。大模型本身不会改代码、不会跑测试、不会查数据库，但通过工具调用，它就能连接 IDE、终端、Git、Jenkins、Docker、浏览器、传感器等系统。',
     scenario: '调用测试框架跑单元测试，调用 Git 查看变更，调用 Jenkins 触发构建，调用数据库检查线上数据'
   },
   {
@@ -158,7 +188,7 @@ const modules = [
     label: '执行反思',
     angle: '198deg',
     title: '执行与反思模块',
-    desc: '执行模块负责真正把计划落地，反思模块负责检查结果是否达标；这两个模块一起构成智能体“能闭环”的核心。没有反思，智能体就会像只会蛮干的脚本。',
+    desc: '执行模块负责真正把计划落地，反思模块负责检查结果是否达标；这两个模块一起构成智能体"能闭环"的核心。没有反思，智能体就会像只会蛮干的脚本。',
     scenario: '代码修改后自动跑测试，发现失败再回溯原因、调整方案并重新执行'
   }
 ]
@@ -169,6 +199,33 @@ const modules = [
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+}
+
+/* Tab 导航 */
+.tab-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.tab-btn:hover { border-color: var(--primary); color: var(--primary); }
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
 .page-title {
@@ -472,8 +529,8 @@ const modules = [
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+ 0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+ 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
 }
 
 .orbit-ring {

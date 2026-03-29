@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <h2 class="section-title" style="margin-top:32px">对接 OpenClaw</h2>
+        <h2 class="section-title">对接 OpenClaw</h2>
         <div class="connect-block">
           <p class="connect-desc">Ollama 默认暴露 <code>http://localhost:11434</code>，与 OpenAI API 完全兼容，OpenClaw 只需修改 baseURL 即可切换。</p>
           <div class="code-block">
@@ -79,7 +79,7 @@
         </div>
 
         <!-- 实时 Ollama 状态检测 -->
-        <h2 class="section-title" style="margin-top:32px">本地服务状态检测</h2>
+        <h2 class="section-title">本地服务状态检测</h2>
         <div class="status-checker">
           <div class="status-row">
             <div class="status-dot" :class="ollamaStatus"></div>

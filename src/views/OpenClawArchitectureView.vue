@@ -1,7 +1,20 @@
 <template>
   <div class="architecture-view">
     <h1 class="page-title">OpenClaw 架构流程图</h1>
-    
+
+    <!-- Tab 导航 -->
+    <div class="tab-nav">
+      <button
+        v-for="(tab, i) in tabs"
+        :key="i"
+        class="tab-btn"
+        :class="{ active: activeTab === i }"
+        @click="activeTab = i"
+      >{{ tab.icon }} {{ tab.label }}</button>
+    </div>
+
+    <!-- Tab 0: 架构流程图 -->
+    <div v-show="activeTab === 0">
     <div class="flow-diagram">
       <!-- 用户入口 -->
       <div class="flow-row">
@@ -281,10 +294,50 @@
         </div>
       </div>
     </div>
+    </div>
+
+    <!-- Tab 1: 概念详解 -->
+    <div v-show="activeTab === 1">
+      <div class="concepts-section">
+        <h3 class="section-title">核心概念详解</h3>
+        <div class="concepts-grid">
+          <div class="concept-card" v-for="concept in concepts" :key="concept.name">
+            <h4>{{ concept.name }}</h4>
+            <p>{{ concept.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 工程优势 -->
+    <div v-show="activeTab === 2">
+      <div class="advantages-section">
+        <h3 class="section-title">核心工程优势</h3>
+        <div class="advantages-grid">
+          <div class="advantage-card" v-for="adv in advantages" :key="adv.title">
+            <div class="adv-icon">{{ adv.icon }}</div>
+            <div class="adv-content">
+              <h4>{{ adv.title }}</h4>
+              <p>{{ adv.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const activeTab = ref(0)
+
+const tabs = [
+  { icon: '🏗️', label: '架构流程图' },
+  { icon: '📖', label: '概念详解' },
+  { icon: '⚡', label: '工程优势' },
+]
+
 const channels = [
   { name: 'CLI', icon: '💻' },
   { name: 'Web UI', icon: '🌐' },
