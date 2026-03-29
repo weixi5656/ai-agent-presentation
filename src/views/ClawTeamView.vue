@@ -10,173 +10,122 @@
     </div>
     
     <div class="architecture-section">
-      <h2 class="section-title">ClawTeam 完整架构</h2>
+      <h2 class="section-title">ClawTeam 架构流程</h2>
       <div class="architecture-diagram">
-        <!-- 用户接口层 -->
+        
+        <!-- 人类输入层 -->
         <div class="arch-layer user-layer">
-          <div class="layer-title">用户接口层</div>
-          <div class="layer-items">
-            <div class="layer-box small">
-              <span class="layer-icon">💻</span>
-              <span class="layer-name">CLI</span>
-            </div>
-            <div class="layer-box small">
-              <span class="layer-icon">🌐</span>
-              <span class="layer-name">Web UI</span>
-            </div>
-            <div class="layer-box small">
-              <span class="layer-icon">📱</span>
-              <span class="layer-name">移动App</span>
-            </div>
-            <div class="layer-box small">
-              <span class="layer-icon">💬</span>
-              <span class="layer-name">IM工具</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="arch-arrow down"></div>
-        
-        <!-- Gateway核心层 -->
-        <div class="arch-layer gateway-layer">
-          <div class="layer-title">Gateway 核心层</div>
+          <div class="layer-title">👤 人类</div>
           <div class="layer-box primary">
-            <span class="layer-icon">🚪</span>
-            <span class="layer-name">中央控制平面</span>
-            <span class="layer-desc">WebSocket · 消息路由 · 认证鉴权 · 会话管理</span>
-          </div>
-          <div class="gateway-functions">
-            <span class="func-tag">协议转换</span>
-            <span class="func-tag">消息通讯</span>
-            <span class="func-tag">A2A通信</span>
-            <span class="func-tag">车道队列</span>
-            <span class="func-tag">心跳机制</span>
-            <span class="func-tag">Cron调度</span>
+            <span class="layer-icon">💬</span>
+            <span class="layer-name">"Optimize this LLM"</span>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- Agent层 -->
-        <div class="arch-layer agent-layer">
-          <div class="layer-title">Agent 智能体层</div>
-          <div class="agent-hierarchy">
-            <div class="agent-box supervisor">
-              <span class="agent-icon">👑</span>
-              <span class="agent-name">Supervisor 主管</span>
-              <span class="agent-desc">目标拆解 · 任务分发 · 结果汇总</span>
-            </div>
-            <div class="agent-children">
-              <div class="agent-box worker">
-                <span class="agent-icon">🔬</span>
-                <span class="agent-name">产品经理</span>
-              </div>
-              <div class="agent-box worker">
-                <span class="agent-icon">✏️</span>
-                <span class="agent-name">架构师</span>
-              </div>
-              <div class="agent-box worker">
-                <span class="agent-icon">📝</span>
-                <span class="agent-name">后端工程师</span>
-              </div>
-              <div class="agent-box worker">
-                <span class="agent-icon">✅</span>
-                <span class="agent-name">测试工程师</span>
-              </div>
-            </div>
+        <!-- Leader Agent 层 -->
+        <div class="arch-layer leader-layer">
+          <div class="layer-title">🦞 Leader Agent</div>
+          <div class="layer-box primary">
+            <span class="layer-icon">🧠</span>
+            <span class="layer-name">Claude Code / Codex / OpenClaw</span>
+            <span class="layer-desc">任务分解 · 子智能体生成 · 进度监控</span>
+          </div>
+          <div class="leader-commands">
+            <span class="cmd-tag">spawn</span>
+            <span class="cmd-tag">task create</span>
+            <span class="cmd-tag">inbox send</span>
+            <span class="cmd-tag">board show</span>
+            <span class="cmd-tag">task wait</span>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- 运行时环境层 -->
-        <div class="arch-layer runtime-layer">
-          <div class="layer-title">Runtime 运行时环境层</div>
-          <div class="runtime-grid">
-            <div class="runtime-item">
-              <span class="runtime-icon">🖥️</span>
-              <span class="runtime-name">tmux会话</span>
-              <span class="runtime-desc">进程管理</span>
+        <!-- Worker Agents 层 -->
+        <div class="arch-layer worker-layer">
+          <div class="layer-title">🤖 Worker Agents（并行执行）</div>
+          <div class="worker-grid">
+            <div class="worker-box">
+              <span class="worker-icon">🤖</span>
+              <span class="worker-name">Worker 1</span>
+              <span class="worker-env">Claude Code</span>
+              <span class="worker-info">git worktree + tmux</span>
             </div>
-            <div class="runtime-item">
-              <span class="runtime-icon">📦</span>
-              <span class="runtime-name">工作区隔离</span>
-              <span class="runtime-desc">独立环境</span>
+            <div class="worker-box">
+              <span class="worker-icon">⚡</span>
+              <span class="worker-name">Worker 2</span>
+              <span class="worker-env">Codex</span>
+              <span class="worker-info">git worktree + tmux</span>
             </div>
-            <div class="runtime-item">
-              <span class="runtime-icon">🔗</span>
-              <span class="runtime-name">任务依赖</span>
-              <span class="runtime-desc">DAG编排</span>
-            </div>
-            <div class="runtime-item">
-              <span class="runtime-icon">🔄</span>
-              <span class="runtime-name">状态机</span>
-              <span class="runtime-desc">生命周期</span>
+            <div class="worker-box">
+              <span class="worker-icon">🔧</span>
+              <span class="worker-name">Worker N</span>
+              <span class="worker-env">any CLI</span>
+              <span class="worker-info">git worktree + tmux</span>
             </div>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- Skills层 -->
-        <div class="arch-layer skills-layer">
-          <div class="layer-title">Skills 技能层</div>
-          <div class="skills-grid">
-            <div class="skill-item">
-              <span class="skill-icon">📁</span>
-              <span class="skill-name">文件操作</span>
+        <!-- 协调协议层 -->
+        <div class="arch-layer coord-layer">
+          <div class="layer-title">🔄 协调协议</div>
+          <div class="coord-grid">
+            <div class="coord-item">
+              <span class="coord-icon">📋</span>
+              <span class="coord-name">clawteam task list</span>
+              <span class="coord-desc">查看任务</span>
             </div>
-            <div class="skill-item">
-              <span class="skill-icon">🌐</span>
-              <span class="skill-name">浏览器控制</span>
+            <div class="coord-item">
+              <span class="coord-icon">✅</span>
+              <span class="coord-name">clawteam task update --status completed</span>
+              <span class="coord-desc">更新状态</span>
             </div>
-            <div class="skill-item">
-              <span class="skill-icon">🔧</span>
-              <span class="skill-name">API调用</span>
+            <div class="coord-item">
+              <span class="coord-icon">📨</span>
+              <span class="coord-name">clawteam inbox send</span>
+              <span class="coord-desc">发送消息</span>
             </div>
-            <div class="skill-item">
-              <span class="skill-icon">🔍</span>
-              <span class="skill-name">网络搜索</span>
-            </div>
-            <div class="skill-item">
-              <span class="skill-icon">📊</span>
-              <span class="skill-name">数据处理</span>
-            </div>
-            <div class="skill-item">
-              <span class="skill-icon">🤖</span>
-              <span class="skill-name">模型调用</span>
+            <div class="coord-item">
+              <span class="coord-icon">⏳</span>
+              <span class="coord-name">clawteam lifecycle idle</span>
+              <span class="coord-desc">空闲报告</span>
             </div>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- Memory层 -->
-        <div class="arch-layer memory-layer">
-          <div class="layer-title">Memory 记忆层</div>
-          <div class="memory-boxes">
-            <div class="memory-box">
-              <span class="memory-icon">📝</span>
-              <span class="memory-name">MEMORY.md</span>
-              <span class="memory-desc">长期记忆</span>
+        <!-- 数据存储层 -->
+        <div class="arch-layer storage-layer">
+          <div class="layer-title">💾 本地存储 ~/.clawteam/</div>
+          <div class="storage-box">
+            <div class="storage-item">
+              <span class="storage-icon">👥</span>
+              <span class="storage-name">teams/</span>
+              <span class="storage-desc">谁（团队成员）</span>
             </div>
-            <div class="memory-box">
-              <span class="memory-icon">🧠</span>
-              <span class="memory-name">向量数据库</span>
-              <span class="memory-desc">语义检索</span>
+            <div class="storage-item">
+              <span class="storage-icon">📝</span>
+              <span class="storage-name">tasks/</span>
+              <span class="storage-desc">什么（任务列表）</span>
             </div>
-            <div class="memory-box">
-              <span class="memory-icon">💾</span>
-              <span class="memory-name">Checkpoint</span>
-              <span class="memory-desc">状态快照</span>
+            <div class="storage-item">
+              <span class="storage-icon">💬</span>
+              <span class="storage-name">inboxes/</span>
+              <span class="storage-desc">通信（消息）</span>
             </div>
-            <div class="memory-box">
-              <span class="memory-icon">📂</span>
-              <span class="memory-name">工作空间</span>
-              <span class="memory-desc">文件隔离</span>
+            <div class="storage-item">
+              <span class="storage-icon">📂</span>
+              <span class="storage-name">workspaces/</span>
+              <span class="storage-desc">隔离代码</span>
             </div>
           </div>
         </div>
+        
       </div>
       
       <!-- 架构特性 -->
@@ -184,29 +133,29 @@
         <div class="feature-item">
           <span class="feature-icon">🔄</span>
           <div class="feature-content">
-            <h4>双层通信机制</h4>
-            <p>JSON-RPC + 事件总线，Agent间高效协作</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <span class="feature-icon">💾</span>
-          <div class="feature-content">
-            <h4>状态持久化</h4>
-            <p>Checkpoint检查点，任务断点续传</p>
+            <h4>框架无关</h4>
+            <p>支持 Claude Code、Codex、OpenClaw、nanobot 等任意 CLI 智能体</p>
           </div>
         </div>
         <div class="feature-item">
           <span class="feature-icon">🔒</span>
           <div class="feature-content">
-            <h4>代码隔离</h4>
-            <p>独立环境运行，避免冲突干扰</p>
+            <h4>工作区隔离</h4>
+            <p>每个 Worker 拥有独立 git worktree + tmux 窗口，避免代码冲突</p>
           </div>
         </div>
         <div class="feature-item">
           <span class="feature-icon">⚡</span>
           <div class="feature-content">
             <h4>并行执行</h4>
-            <p>多 Worker 同时推进，减少串行等待和重复沟通</p>
+            <p>多 Worker 同时推进任务，自动依赖管理与解阻塞</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">📊</span>
+          <div class="feature-content">
+            <h4>实时监控</h4>
+            <p>终端看板、Web UI、tmux tiled 视图多种监控方式</p>
           </div>
         </div>
       </div>
@@ -566,6 +515,166 @@ const templates = [
   transform: translateX(-50%);
   color: var(--primary);
   font-size: 12px;
+}
+
+/* Leader层 */
+.leader-layer {
+  padding: 20px 0;
+}
+
+.leader-commands {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.cmd-tag {
+  padding: 4px 12px;
+  background: rgba(0, 102, 255, 0.1);
+  border-radius: 16px;
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 500;
+  font-family: monospace;
+}
+
+/* Worker层 */
+.worker-layer {
+  padding: 20px 0;
+}
+
+.worker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.worker-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px;
+  background: white;
+  border-radius: 10px;
+  border: 2px solid var(--secondary);
+  transition: all 0.3s;
+}
+
+.worker-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 212, 170, 0.2);
+}
+
+.worker-icon {
+  font-size: 28px;
+}
+
+.worker-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.worker-env {
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.worker-info {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* 协调层 */
+.coord-layer {
+  padding: 20px 0;
+}
+
+.coord-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.coord-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(0, 102, 255, 0.05));
+  border-radius: 10px;
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  transition: all 0.3s;
+}
+
+.coord-item:hover {
+  border-color: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.coord-icon {
+  font-size: 20px;
+}
+
+.coord-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  font-family: monospace;
+}
+
+.coord-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* 存储层 */
+.storage-layer {
+  padding: 20px 0;
+}
+
+.storage-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.storage-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.storage-icon {
+  font-size: 24px;
+}
+
+.storage-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.storage-desc {
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 /* Gateway层 */
@@ -970,19 +1079,15 @@ const templates = [
 }
 
 @media (max-width: 968px) {
-  .agent-children {
+  .worker-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   
-  .runtime-grid {
+  .coord-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   
-  .skills-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .memory-boxes {
+  .storage-box {
     grid-template-columns: repeat(2, 1fr);
   }
   
@@ -997,19 +1102,15 @@ const templates = [
     align-items: center;
   }
   
-  .agent-children {
+  .worker-grid {
     grid-template-columns: 1fr;
   }
   
-  .runtime-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .coord-grid {
+    grid-template-columns: 1fr;
   }
   
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .memory-boxes {
+  .storage-box {
     grid-template-columns: 1fr;
   }
   
