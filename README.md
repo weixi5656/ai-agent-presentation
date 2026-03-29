@@ -1,4 +1,4 @@
-# AI智能体实践分享会 - 交互式网页演示
+# AI智能体案例分享会 - 交互式网页演示
 
 > 🚀 一套具有未来感和科技感的交互式网页演示系统，用于展示AI智能体概念、OpenClaw原理及未来发展趋势。
 
@@ -8,14 +8,18 @@
 
 ## 📑 项目简介
 
-本项目是一个完整的、具有未来感和科技感的交互式网页分享演示，包含以下6个核心模块：
+本项目是一个完整的、具有未来感和科技感的交互式网页分享演示，包含以下10个核心模块：
 
-1. **引言** - 分享会介绍、大纲预览、统计数据
-2. **AI智能体概念** - 定义解析、对比表格、应用场景、架构组件
-3. **OpenClaw原理** - 核心架构、工作流程、代码示例、特性展示
-4. **实践演示** - 交互式控制台、智能体模拟、任务看板、终端输出
-5. **ESP32机器人开发** - 边缘计算硬件、固件开发、通信架构、实战案例
-6. **未来展望** - 趋势预测、企业应用、挑战应对、行动建议
+1. **封面** - 分享会介绍与主题展示
+2. **分享议程** - 议程概览与学习收益说明
+3. **认知与原理** - AI Agent 核心概念、执行闭环、五大能力模块
+4. **研发场景** - 代码/测试/运维/文档/协作等典型落地案例
+5. **OpenClaw 架构** - Channel、Gateway、Node、Session、Skills、Memory 协同关系
+6. **OpenClaw 实操** - 3步跑通第一个研发智能体
+7. **ClawTeam 协作** - 多智能体架构、分工模板与实操步骤
+8. **提示词工程** - 8种提示词框架、省Token方法与智能体模板
+9. **端侧实践** - ESP32 端侧智能体的完整实现代码与思路
+10. **趋势展望** - AI 智能体技术前沿趋势与演进判断
 
 ### ✨ 核心特性
 
@@ -285,24 +289,26 @@ npm run preview
 
 ```
 ai-agent-presentation/
-├── public/                 # 静态资源
+├── public/                 # 静态资源（SVG箭头等）
 ├── src/
-│   ├── components/         # 公共组件
-│   ├── views/              # 页面视图
-│   │   ├── IntroView.vue       # 引言页面
-│   │   ├── ConceptsView.vue    # AI概念页面
-│   │   ├── OpenClawView.vue    # OpenClaw原理页面
-│   │   ├── DemoView.vue        # 实践演示页面
-│   │   ├── ESP32View.vue       # ESP32机器人页面
-│   │   └── FutureView.vue      # 未来展望页面
-│   ├── assets/             # 图片、样式等资源
-│   ├── App.vue            # 根组件
-│   ├── main.js            # 入口文件
-│   └── style.css          # 全局样式
-├── index.html             # HTML模板
-├── package.json           # 项目配置
-├── vite.config.js         # Vite配置
-└── README.md              # 项目说明
+│   ├── views/              # 页面视图（共10个）
+│   │   ├── IntroView.vue             # 封面页
+│   │   ├── AgendaView.vue            # 分享议程
+│   │   ├── ConceptView.vue           # 认知与原理（AI Agent核心概念）
+│   │   ├── DevCaseView.vue           # 研发场景落地案例
+│   │   ├── OpenClawArchitectureView.vue  # OpenClaw 架构流程
+│   │   ├── OpenClawPracticeView.vue  # OpenClaw 快速上手实操
+│   │   ├── ClawTeamView.vue          # ClawTeam 多智能体协作
+│   │   ├── PracticeView.vue          # 提示词工程实战
+│   │   ├── ESP32CaseView.vue         # ESP32 端侧智能体实践
+│   │   └── TrendView.vue             # AI智能体前沿趋势展望
+│   ├── App.vue             # 根组件（导航、进度、翻页）
+│   ├── main.js             # 入口文件（路由配置）
+│   └── style.css           # 全局样式（CSS变量、Aurora背景）
+├── index.html              # HTML模板
+├── package.json            # 项目配置
+├── vite.config.js          # Vite配置
+└── README.md               # 项目说明
 ```
 
 ---

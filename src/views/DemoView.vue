@@ -1,995 +1,662 @@
 <template>
   <div class="demo-view">
-    <h1 class="page-title">实践演示</h1>
-    
-    <div class="demo-intro">
-      <p class="intro-text">
-        通过交互式演示，体验AI智能体的实际工作流程。
-        以下模拟了一个<strong>多智能体协作开发Web应用</strong>的完整过程。
-      </p>
+    <!-- 苹果官网风格演示 -->
+    <div class="demo-section hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title animate-on-scroll">
+          <span class="title-gradient">苹果官网风格</span>
+          <span class="title-separator">·</span>
+          <span class="title-light">滚动翻页效果</span>
+        </h1>
+        <p class="hero-desc animate-on-scroll delay-200">
+          体验类似苹果官网的视口锁定滚动、视差滚动和元素动画
+        </p>
+        <div class="hero-scroll-hint animate-on-scroll delay-400">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>向下滚动体验效果</span>
+        </div>
+      </div>
     </div>
-    
-    <!-- 演示控制台 -->
-    <div class="demo-console glass-card">
-      <div class="console-header">
-        <div class="console-tabs">
-          <button 
-            v-for="(tab, index) in tabs" 
-            :key="index"
-            class="console-tab"
-            :class="{ active: activeTab === index }"
-            @click="activeTab = index"
-          >
-            <span class="tab-icon">{{ tab.icon }}</span>
-            <span>{{ tab.name }}</span>
-          </button>
-        </div>
-        <div class="console-actions">
-          <button class="btn-icon" @click="resetDemo" title="重置演示">
-            ↻
-          </button>
-          <button class="btn-icon" @click="toggleAutoPlay" title="自动播放">
-            {{ isPlaying ? '⏸' : '▶' }}
-          </button>
-        </div>
+
+    <div class="demo-section features-section">
+      <div class="section-title animate-on-scroll">
+        <h2>核心特性</h2>
+        <p class="section-subtitle">实现苹果官网的流畅滚动体验</p>
       </div>
       
-      <div class="console-body">
-        <!-- 团队视图 -->
-        <div v-if="activeTab === 0" class="view-team">
-          <div class="team-stats">
-            <div class="stat-card">
-              <div class="stat-icon">👥</div>
-              <div class="stat-info">
-                <div class="stat-value">{{ agents.length }}</div>
-                <div class="stat-label">智能体</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">📋</div>
-              <div class="stat-info">
-                <div class="stat-value">{{ tasks.length }}</div>
-                <div class="stat-label">任务</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">✅</div>
-              <div class="stat-info">
-                <div class="stat-value">{{ completedTasks }}</div>
-                <div class="stat-label">已完成</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="agents-grid">
-            <div 
-              v-for="agent in agents" 
-              :key="agent.id"
-              class="agent-tile"
-              :class="{ active: agent.status === 'working', idle: agent.status === 'idle' }"
-              @click="selectAgent(agent)"
-            >
-              <div class="agent-avatar">{{ agent.avatar }}</div>
-              <div class="agent-info">
-                <div class="agent-name">{{ agent.name }}</div>
-                <div class="agent-role">{{ agent.role }}</div>
-                <div class="agent-status-badge" :class="agent.status">
-                  {{ agent.statusText }}
-                </div>
-              </div>
-              <div class="agent-activity" v-if="agent.currentTask">
-                <div class="activity-bar">
-                  <div class="activity-progress" :style="{ width: agent.progress + '%' }"></div>
-                </div>
-                <div class="activity-text">{{ agent.currentTask }}</div>
-              </div>
-            </div>
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll" style="animation-delay: 100ms">
+          <div class="feature-icon">🎯</div>
+          <h3>视口锁定滚动</h3>
+          <p>滚动时页面自动"吸附"到每个section，提供精准的翻页体验</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll" style="animation-delay: 200ms">
+          <div class="feature-icon">✨</div>
+          <h3>视差滚动效果</h3>
+          <p>背景和前景元素以不同速度滚动，创造深度感和沉浸感</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll" style="animation-delay: 300ms">
+          <div class="feature-icon">🎨</div>
+          <h3>元素动画系统</h3>
+          <p>元素根据滚动位置淡入/淡出、移动、缩放，增强视觉引导</p>
+        </div>
+        
+        <div class="feature-card animate-on-scroll" style="animation-delay: 400ms">
+          <div class="feature-icon">⚡</div>
+          <h3>平滑过渡动画</h3>
+          <p>使用缓动函数实现流畅的滚动动画，避免生硬的跳转</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section parallax-section">
+      <div class="parallax-content">
+        <div class="parallax-bg-layer"></div>
+        <div class="parallax-fg-layer">
+          <h2 class="animate-on-scroll">视差滚动演示</h2>
+          <p class="animate-on-scroll delay-200">背景层和前景层以不同速度滚动，创造深度感</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section animation-section">
+      <div class="animation-demo">
+        <div class="animation-item fadeInLeft animate-on-scroll">
+          <div class="animation-preview fadeInLeft-preview"></div>
+          <div class="animation-info">
+            <h3>从左淡入</h3>
+            <p>元素从左侧滑入，适合介绍性内容</p>
           </div>
         </div>
         
-        <!-- 任务看板 -->
-        <div v-if="activeTab === 1" class="view-board">
-          <div class="board-columns">
-            <div class="board-column">
-              <h3 class="column-header pending">
-                <span class="column-dot"></span>
-                待处理
-                <span class="column-count">{{ pendingTasks.length }}</span>
-              </h3>
-              <div class="column-tasks">
-                <div 
-                  v-for="task in pendingTasks" 
-                  :key="task.id"
-                  class="task-card"
-                  draggable="true"
-                  @dragstart="dragTask(task)"
-                >
-                  <div class="task-priority" :class="task.priority"></div>
-                  <div class="task-title">{{ task.title }}</div>
-                  <div class="task-meta">
-                    <span class="task-assignee">{{ task.assignee || '未分配' }}</span>
-                    <span class="task-id">#{{ task.id }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="board-column">
-              <h3 class="column-header inprogress">
-                <span class="column-dot"></span>
-                进行中
-                <span class="column-count">{{ inProgressTasks.length }}</span>
-              </h3>
-              <div class="column-tasks">
-                <div 
-                  v-for="task in inProgressTasks" 
-                  :key="task.id"
-                  class="task-card active"
-                >
-                  <div class="task-priority" :class="task.priority"></div>
-                  <div class="task-title">{{ task.title }}</div>
-                  <div class="task-progress">
-                    <div class="progress-bar">
-                      <div class="progress-fill" :style="{ width: task.progress + '%' }"></div>
-                    </div>
-                    <span>{{ task.progress }}%</span>
-                  </div>
-                  <div class="task-meta">
-                    <span class="task-assignee">{{ task.assignee }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="board-column">
-              <h3 class="column-header completed">
-                <span class="column-dot"></span>
-                已完成
-                <span class="column-count">{{ doneTasks.length }}</span>
-              </h3>
-              <div class="column-tasks">
-                <div 
-                  v-for="task in doneTasks" 
-                  :key="task.id"
-                  class="task-card done"
-                >
-                  <div class="task-title">{{ task.title }}</div>
-                  <div class="task-meta">
-                    <span class="task-assignee">{{ task.assignee }}</span>
-                    <span class="task-done">✓</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="animation-item fadeInUp animate-on-scroll" style="animation-delay: 100ms">
+          <div class="animation-preview fadeInUp-preview"></div>
+          <div class="animation-info">
+            <h3>从下淡入</h3>
+            <p>元素从下方升起，适合强调性内容</p>
           </div>
         </div>
         
-        <!-- 终端视图 -->
-        <div v-if="activeTab === 2" class="view-terminal">
-          <div class="terminal-window">
-            <div class="terminal-header">
-              <div class="terminal-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span class="terminal-title">clawteam console</span>
-            </div>
-            <div class="terminal-body" ref="terminalBody">
-              <div 
-                v-for="(line, index) in terminalLines" 
-                :key="index"
-                class="terminal-line"
-                :class="line.type"
-              >
-                <span class="line-prompt" v-if="line.type === 'command'">$</span>
-                <span class="line-content">{{ line.content }}</span>
-              </div>
-              <div class="terminal-input">
-                <span class="input-prompt">$</span>
-                <span class="input-cursor">_</span>
-              </div>
-            </div>
+        <div class="animation-item scaleIn animate-on-scroll" style="animation-delay: 200ms">
+          <div class="animation-preview scaleIn-preview"></div>
+          <div class="animation-info">
+            <h3>缩放淡入</h3>
+            <p>元素从小变大，适合焦点内容</p>
           </div>
         </div>
         
-        <!-- 消息视图 -->
-        <div v-if="activeTab === 3" class="view-messages">
-          <div class="message-list" ref="messageList">
-            <div 
-              v-for="(msg, index) in messages" 
-              :key="index"
-              class="message-item"
-              :class="msg.type"
-            >
-              <div class="message-avatar">{{ msg.avatar }}</div>
-              <div class="message-content">
-                <div class="message-header">
-                  <span class="message-from">{{ msg.from }}</span>
-                  <span class="message-time">{{ msg.time }}</span>
-                </div>
-                <div class="message-text">{{ msg.content }}</div>
-              </div>
-            </div>
+        <div class="animation-item rotateIn animate-on-scroll" style="animation-delay: 300ms">
+          <div class="animation-preview rotateIn-preview"></div>
+          <div class="animation-info">
+            <h3>旋转进入</h3>
+            <p>元素旋转进入，适合创意性内容</p>
           </div>
         </div>
       </div>
     </div>
-    
-    <!-- 演示控制 -->
-    <div class="demo-controls">
-      <button 
-        class="control-btn"
-        :class="{ active: currentStep === index }"
-        v-for="(step, index) in demoSteps" 
-        :key="index"
-        @click="goToStep(index)"
-      >
-        <div class="step-number">{{ index + 1 }}</div>
-        <div class="step-info">
-          <div class="step-title">{{ step.title }}</div>
-          <div class="step-desc">{{ step.desc }}</div>
+
+    <div class="demo-section controls-section">
+      <div class="controls-content">
+        <h2 class="animate-on-scroll">交互控制</h2>
+        <p class="animate-on-scroll delay-100">支持多种交互方式，提供完整的用户体验</p>
+        
+        <div class="controls-grid">
+          <div class="control-item animate-on-scroll" style="animation-delay: 200ms">
+            <div class="control-icon">🖱️</div>
+            <h3>鼠标滚轮</h3>
+            <p>使用鼠标滚轮进行翻页，支持惯性滚动</p>
+          </div>
+          
+          <div class="control-item animate-on-scroll" style="animation-delay: 300ms">
+            <div class="control-icon">👆</div>
+            <h3>触摸滑动</h3>
+            <p>在移动设备上支持触摸滑动翻页</p>
+          </div>
+          
+          <div class="control-item animate-on-scroll" style="animation-delay: 400ms">
+            <div class="control-icon">⌨️</div>
+            <h3>键盘控制</h3>
+            <p>支持方向键、空格键、PageUp/Down等快捷键</p>
+          </div>
+          
+          <div class="control-item animate-on-scroll" style="animation-delay: 500ms">
+            <div class="control-icon">🎯</div>
+            <h3>导航点击</h3>
+            <p>点击左侧导航直接跳转到指定页面</p>
+          </div>
         </div>
-      </button>
+      </div>
     </div>
-    
-    <!-- 交互提示 -->
-    <div class="interaction-tips glass-card">
-      <h3>💡 交互提示</h3>
-      <ul>
-        <li>点击<strong>智能体卡片</strong>查看详细状态</li>
-        <li>在<strong>任务看板</strong>中拖拽任务卡片</li>
-        <li>观察<strong>终端</strong>中的实时命令执行</li>
-        <li>查看<strong>消息</strong>了解智能体间通信</li>
-        <li>使用<strong>自动播放</strong>观看完整演示流程</li>
-      </ul>
+
+    <div class="demo-section conclusion-section">
+      <div class="conclusion-content">
+        <h2 class="animate-on-scroll">体验完成</h2>
+        <p class="animate-on-scroll delay-200">
+          您已体验了完整的苹果官网风格滚动效果。这种设计模式特别适合：
+        </p>
+        
+        <div class="conclusion-points">
+          <div class="point animate-on-scroll" style="animation-delay: 300ms">
+            <span class="point-icon">📱</span>
+            <span>产品展示页面</span>
+          </div>
+          <div class="point animate-on-scroll" style="animation-delay: 400ms">
+            <span class="point-icon">🎨</span>
+            <span>设计作品集</span>
+          </div>
+          <div class="point animate-on-scroll" style="animation-delay: 500ms">
+            <span class="point-icon">📊</span>
+            <span>数据可视化</span>
+          </div>
+          <div class="point animate-on-scroll" style="animation-delay: 600ms">
+            <span class="point-icon">🎓</span>
+            <span>教育演示</span>
+          </div>
+        </div>
+        
+        <div class="scroll-to-top animate-on-scroll delay-800" @click="scrollToTop">
+          <span>回到顶部</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
-
-const tabs = [
-  { name: '团队', icon: '👥' },
-  { name: '看板', icon: '📋' },
-  { name: '终端', icon: '💻' },
-  { name: '消息', icon: '💬' },
-]
-
-const activeTab = ref(0)
-const isPlaying = ref(false)
-const currentStep = ref(0)
-
-const agents = ref([
-  { id: 1, name: 'Leader', role: '团队负责人', avatar: '👑', status: 'working', statusText: '协调中', currentTask: '分配任务', progress: 60 },
-  { id: 2, name: 'Alice', role: '架构师', avatar: '🏗️', status: 'working', statusText: '设计中', currentTask: '数据库设计', progress: 45 },
-  { id: 3, name: 'Bob', role: '后端开发', avatar: '⚙️', status: 'idle', statusText: '等待中', currentTask: null, progress: 0 },
-  { id: 4, name: 'Carol', role: '前端开发', avatar: '🎨', status: 'idle', statusText: '等待中', currentTask: null, progress: 0 },
-  { id: 5, name: 'Dave', role: '测试工程师', avatar: '🧪', status: 'idle', statusText: '等待中', currentTask: null, progress: 0 },
-])
-
-const tasks = ref([
-  { id: '001', title: '设计数据库架构', assignee: 'Alice', priority: 'high', status: 'inprogress', progress: 45 },
-  { id: '002', title: '实现用户认证API', assignee: null, priority: 'high', status: 'pending', progress: 0 },
-  { id: '003', title: '开发前端登录页', assignee: null, priority: 'medium', status: 'pending', progress: 0 },
-  { id: '004', title: '编写单元测试', assignee: null, priority: 'medium', status: 'pending', progress: 0 },
-  { id: '005', title: '部署到测试环境', assignee: null, priority: 'low', status: 'pending', progress: 0 },
-])
-
-const terminalLines = ref([
-  { type: 'output', content: 'ClawTeam v0.3.0 - Multi-agent swarm coordination' },
-  { type: 'output', content: '' },
-  { type: 'command', content: 'clawteam team spawn-team webapp -d "构建Web应用" -n leader' },
-  { type: 'output', content: '✓ Team "webapp" created successfully' },
-  { type: 'output', content: '  Data directory: ~/.clawteam/teams/webapp' },
-  { type: 'output', content: '' },
-])
-
-const messages = ref([
-  { type: 'broadcast', from: 'Leader', avatar: '👑', time: '10:00', content: '团队已创建，开始分配任务' },
-  { type: 'direct', from: 'Alice', avatar: '🏗️', time: '10:02', content: '收到数据库设计任务，开始分析需求' },
-  { type: 'broadcast', from: 'Leader', avatar: '👑', time: '10:05', content: '@Bob 请准备接手API开发任务' },
-])
-
-const demoSteps = [
-  { title: '创建团队', desc: '初始化项目和工作区' },
-  { title: '分配任务', desc: '创建任务并设置依赖' },
-  { title: '启动智能体', desc: '并行执行开发任务' },
-  { title: '协作通信', desc: '智能体间消息同步' },
-  { title: '成果合并', desc: '整合各工作区代码' },
-]
-
-const pendingTasks = computed(() => tasks.value.filter(t => t.status === 'pending'))
-const inProgressTasks = computed(() => tasks.value.filter(t => t.status === 'inprogress'))
-const doneTasks = computed(() => tasks.value.filter(t => t.status === 'completed'))
-const completedTasks = computed(() => doneTasks.value.length)
-
-let playInterval = null
-
-const toggleAutoPlay = () => {
-  isPlaying.value = !isPlaying.value
-  if (isPlaying.value) {
-    playInterval = setInterval(() => {
-      currentStep.value = (currentStep.value + 1) % demoSteps.length
-      simulateStep()
-    }, 3000)
-  } else {
-    clearInterval(playInterval)
-  }
-}
-
-const resetDemo = () => {
-  currentStep.value = 0
-  isPlaying.value = false
-  clearInterval(playInterval)
-}
-
-const goToStep = (index) => {
-  currentStep.value = index
-  simulateStep()
-}
-
-const simulateStep = () => {
-  // 模拟不同步骤的效果
-  const step = currentStep.value
-  
-  if (step === 1) {
-    // 分配任务
-    addTerminalLine('command', 'clawteam task create webapp "实现API" -o Bob --blocked-by 001')
-    addTerminalLine('output', '✓ Task created: #002')
-  } else if (step === 2) {
-    // 启动智能体
-    addTerminalLine('command', 'clawteam spawn --team webapp --agent-name Bob --task "实现API"')
-    addTerminalLine('output', '✓ Agent Bob spawned in tmux window')
-    agents.value[2].status = 'working'
-    agents.value[2].statusText = '编码中'
-    agents.value[2].currentTask = '实现用户认证API'
-    agents.value[2].progress = 30
-  } else if (step === 3) {
-    // 发送消息
-    addMessage('Bob', '⚙️', 'API接口设计完成，开始实现业务逻辑')
-  }
-}
-
-const addTerminalLine = (type, content) => {
-  terminalLines.value.push({ type, content })
-  nextTick(() => {
-    const terminal = document.querySelector('.terminal-body')
-    if (terminal) terminal.scrollTop = terminal.scrollHeight
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
   })
 }
-
-const addMessage = (from, avatar, content) => {
-  const now = new Date()
-  const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`
-  messages.value.push({ type: 'direct', from, avatar, time, content })
-}
-
-const selectAgent = (agent) => {
-  activeTab.value = 0
-  // 可以添加更多交互
-}
-
-const dragTask = (task) => {
-  // 拖拽功能
-}
-
-onUnmounted(() => {
-  clearInterval(playInterval)
-})
 </script>
 
 <style scoped>
 .demo-view {
-  max-width: 1200px;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.demo-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  position: relative;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #f4f4f8 0%, #ffffff 100%);
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.page-title {
-  font-size: 48px;
-  font-weight: 700;
-  margin-bottom: 20px;
+.hero-title {
+  font-size: 72px;
+  font-weight: 900;
+  margin-bottom: 24px;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title-separator {
+  color: rgba(60, 60, 67, 0.2);
+  font-weight: 300;
+}
+
+.title-light {
+  color: var(--text-primary);
+}
+
+.hero-desc {
+  font-size: 20px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Features Section */
+.features-section {
+  background: white;
+}
+
+.section-title {
   text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title h2 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.demo-intro {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.intro-text {
+.section-subtitle {
   font-size: 18px;
   color: var(--text-secondary);
-  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.intro-text strong {
-  color: var(--primary);
-}
-
-.demo-console {
-  margin-bottom: 32px;
-  overflow: hidden;
-}
-
-.console-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  background: var(--bg-tertiary);
-  border-bottom: 1px solid var(--border);
-}
-
-.console-tabs {
-  display: flex;
-  gap: 8px;
-}
-
-.console-tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.console-tab:hover {
-  background: white;
-  color: var(--text-primary);
-}
-
-.console-tab.active {
-  background: white;
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.tab-icon {
-  font-size: 16px;
-}
-
-.console-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-sm);
-  background: white;
-  border: 1px solid var(--border);
-  font-size: 16px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.btn-icon:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.console-body {
-  min-height: 400px;
-  padding: 20px;
-}
-
-/* 团队视图 */
-.view-team {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.team-stats {
-  display: flex;
-  gap: 16px;
-}
-
-.stat-card {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: var(--bg-tertiary);
-  border-radius: var(--radius);
-}
-
-.stat-icon {
-  font-size: 32px;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.stat-label {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.agents-grid {
+.features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.agent-tile {
-  background: white;
-  border-radius: var(--radius);
-  padding: 20px;
-  border: 2px solid var(--border);
-  cursor: pointer;
-  transition: var(--transition);
+.feature-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-.agent-tile:hover {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-
-.agent-tile.active {
-  border-color: var(--secondary);
-  background: rgba(0, 212, 170, 0.05);
-}
-
-.agent-avatar {
-  font-size: 40px;
-  margin-bottom: 12px;
-}
-
-.agent-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.agent-role {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.agent-status-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.agent-status-badge.working {
-  background: rgba(0, 212, 170, 0.1);
-  color: var(--secondary);
-}
-
-.agent-status-badge.idle {
-  background: var(--bg-tertiary);
-  color: var(--text-muted);
-}
-
-.agent-activity {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-.activity-bar {
-  height: 4px;
-  background: var(--bg-tertiary);
-  border-radius: 2px;
-  margin-bottom: 8px;
-  overflow: hidden;
-}
-
-.activity-progress {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.activity-text {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-/* 看板视图 */
-.view-board {
-  height: 100%;
-}
-
-.board-columns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  height: 100%;
-}
-
-.board-column {
-  background: var(--bg-tertiary);
-  border-radius: var(--radius);
-  padding: 16px;
-}
-
-.column-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-
-.column-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.column-header.pending .column-dot { background: var(--text-muted); }
-.column-header.inprogress .column-dot { background: var(--primary); }
-.column-header.completed .column-dot { background: var(--secondary); }
-
-.column-count {
-  margin-left: auto;
-  background: white;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.column-tasks {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.task-card {
-  background: white;
-  border-radius: var(--radius-sm);
-  padding: 16px;
-  border: 1px solid var(--border);
-  cursor: grab;
-  transition: var(--transition);
-}
-
-.task-card:hover {
-  box-shadow: var(--shadow);
-}
-
-.task-card.active {
-  border-color: var(--primary);
-}
-
-.task-card.done {
-  opacity: 0.7;
-  border-color: var(--secondary);
-}
-
-.task-priority {
-  width: 4px;
-  height: 20px;
-  border-radius: 2px;
-  margin-bottom: 8px;
-}
-
-.task-priority.high { background: var(--accent); }
-.task-priority.medium { background: var(--primary); }
-.task-priority.low { background: var(--text-muted); }
-
-.task-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 12px;
-  color: var(--text-primary);
-}
-
-.task-progress {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.task-progress .progress-bar {
-  flex: 1;
-  height: 4px;
-}
-
-.task-progress span {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.task-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.task-done {
-  color: var(--secondary);
-  font-weight: 600;
-}
-
-/* 终端视图 */
-.view-terminal {
-  height: 100%;
-}
-
-.terminal-window {
-  background: #1a1a2e;
-  border-radius: var(--radius);
-  overflow: hidden;
-  height: 100%;
-}
-
-.terminal-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.terminal-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.terminal-dots span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.terminal-dots span:nth-child(1) { background: #ff5f56; }
-.terminal-dots span:nth-child(2) { background: #ffbd2e; }
-.terminal-dots span:nth-child(3) { background: #27ca40; }
-
-.terminal-title {
-  font-size: 13px;
-  color: #8892b0;
-}
-
-.terminal-body {
-  padding: 16px;
-  font-family: 'Fira Code', monospace;
-  font-size: 13px;
-  line-height: 1.8;
-  color: #e2e8f0;
-  height: calc(100% - 44px);
-  overflow-y: auto;
-}
-
-.terminal-line {
-  margin-bottom: 4px;
-}
-
-.terminal-line.command {
-  color: #64d2ff;
-}
-
-.line-prompt {
-  margin-right: 8px;
-  color: var(--secondary);
-}
-
-.terminal-input {
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.input-prompt {
-  margin-right: 8px;
-  color: var(--secondary);
-}
-
-.input-cursor {
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-/* 消息视图 */
-.view-messages {
-  height: 100%;
-}
-
-.message-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.message-item {
-  display: flex;
-  gap: 12px;
-  padding: 16px;
-  background: white;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-
-.message-item.broadcast {
-  background: rgba(0, 102, 255, 0.05);
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 102, 255, 0.12);
   border-color: rgba(0, 102, 255, 0.2);
 }
 
-.message-avatar {
-  font-size: 28px;
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
 }
 
-.message-content {
-  flex: 1;
-}
-
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-
-.message-from {
-  font-weight: 600;
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
   color: var(--text-primary);
 }
 
-.message-time {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.message-text {
+.feature-card p {
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.6;
 }
 
-/* 演示控制 */
-.demo-controls {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
-  overflow-x: auto;
-  padding-bottom: 8px;
+/* Parallax Section */
+.parallax-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: white;
+  overflow: hidden;
 }
 
-.control-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: left;
-  min-width: 200px;
-}
-
-.control-btn:hover {
-  border-color: var(--primary);
-}
-
-.control-btn.active {
-  border-color: var(--primary);
-  background: rgba(0, 102, 255, 0.05);
-}
-
-.step-number {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--bg-tertiary);
+.parallax-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--text-muted);
+  text-align: center;
 }
 
-.control-btn.active .step-number {
-  background: var(--primary);
-  color: white;
+.parallax-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.3) 0%, transparent 70%);
+  transform: translateZ(-1px) scale(2);
+  z-index: 1;
 }
 
-.step-title {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 2px;
+.parallax-fg-layer {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
 }
 
-.step-desc {
-  font-size: 12px;
-  color: var(--text-muted);
+.parallax-fg-layer h2 {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* 交互提示 */
-.interaction-tips {
-  padding: 24px;
-}
-
-.interaction-tips h3 {
+.parallax-fg-layer p {
   font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.interaction-tips ul {
-  list-style: none;
+/* Animation Section */
+.animation-section {
+  background: #f8f9fa;
+}
+
+.animation-demo {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.interaction-tips li {
+.animation-item {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.animation-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+.animation-preview {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.fadeInLeft-preview::after {
+  content: '← 淡入';
+}
+
+.fadeInUp-preview::after {
+  content: '↑ 淡入';
+}
+
+.scaleIn-preview::after {
+  content: '↔ 缩放';
+}
+
+.rotateIn-preview::after {
+  content: '↻ 旋转';
+}
+
+.animation-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.animation-info p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Controls Section */
+.controls-section {
+  background: white;
+}
+
+.controls-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.controls-content h2 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.controls-content p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 60px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.control-item {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 102, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px 24px;
+  transition: all 0.3s ease;
+}
+
+.control-item:hover {
+  background: white;
+  border-color: rgba(0, 102, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0, 102, 255, 0.1);
+}
+
+.control-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.control-item h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.control-item p {
   font-size: 14px;
   color: var(--text-secondary);
-  padding-left: 20px;
-  position: relative;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.interaction-tips li::before {
-  content: '•';
-  position: absolute;
-  left: 0;
+/* Conclusion Section */
+.conclusion-section {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  text-align: center;
+}
+
+.conclusion-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.conclusion-content h2 {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.conclusion-content p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.conclusion-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 60px;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.point:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.point-icon {
+  font-size: 32px;
+}
+
+.point span:last-child {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.scroll-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.9);
   color: var(--primary);
-  font-weight: bold;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
 }
 
-.interaction-tips strong {
-  color: var(--primary);
+.scroll-to-top:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
+.scroll-to-top svg {
+  transform: rotate(-90deg);
+}
+
+/* 响应式调整 */
 @media (max-width: 768px) {
-  .page-title {
+  .demo-section {
+    padding: 40px 20px;
+  }
+  
+  .hero-title {
+    font-size: 48px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .section-title h2,
+  .controls-content h2 {
+    font-size: 36px;
+  }
+  
+  .parallax-fg-layer h2 {
+    font-size: 40px;
+  }
+  
+  .conclusion-content h2 {
+    font-size: 40px;
+  }
+  
+  .features-grid,
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .animation-demo {
+    grid-template-columns: 1fr;
+  }
+  
+  .conclusion-points {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 36px;
+  }
+  
+  .hero-desc {
+    font-size: 16px;
+  }
+  
+  .section-title h2,
+  .controls-content h2 {
+    font-size: 28px;
+  }
+  
+  .parallax-fg-layer h2 {
     font-size: 32px;
   }
   
-  .team-stats {
-    flex-direction: column;
-  }
-  
-  .board-columns {
-    grid-template-columns: 1fr;
-  }
-  
-  .demo-controls {
-    flex-direction: column;
-  }
-  
-  .control-btn {
-    min-width: auto;
-  }
-  
-  .interaction-tips ul {
-    grid-template-columns: 1fr;
+  .conclusion-content h2 {
+    font-size: 32px;
   }
 }
 </style>

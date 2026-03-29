@@ -1,6 +1,6 @@
 <template>
   <div class="trend-view">
-    <h1 class="page-title">AI智能体前沿趋势与技术展望</h1>
+    <h1 class="page-title">AI 智能体 2026 最前沿趋势</h1>
     
     <div class="timeline">
       <div class="trend-item" v-for="(trend, index) in trends" :key="index">
@@ -12,7 +12,7 @@
           <div class="trend-number">趋势 {{ index + 1 }}</div>
           <h2>{{ trend.title }}</h2>
           <p>{{ trend.desc }}</p>
-          <a :href="trend.link" target="_blank" class="trend-link">📎 参考资料</a>
+          <a :href="trend.link" target="_blank" class="trend-link">📎 前沿报告</a>
         </div>
       </div>
     </div>
@@ -22,39 +22,44 @@
 <script setup>
 const trends = [
   {
-    title: 'Harness Engineering（驾驭工程）',
-    desc: '2026年最热门的AI工程范式。通过构建"软件基础设施"包裹模型，为AI提供持久化记忆、隔离的安全沙盒、确定性架构护栏和强制自我验证闭环。让AI从"玩具级"迈入"工业级"，实现Humans steer, Agents execute（人类掌舵，智能体执行）。',
-    link: 'https://www.163.com/dy/article/KNUAAI0V05566TJ2.html'
+    title: '端侧原生智能体（On-Device AI Agents）',
+    desc: '从"云端依赖"到"终端原生"关键转折：OpenAI Q*端侧推理引擎、微软TinyMind终端框架、ARM首款Agent芯片Cortex-A78AE、Apple M5 Neural Engine。终端原生智能体实现低功耗、高响应、隐私保护的智能交互，手机/汽车/穿戴设备成为独立Agent载体，2026年出货量将突破20亿台。',
+    link: 'https://www.ithome.com/0/933/193.htm'
   },
   {
-    title: 'Agentic AI（自主智能体）',
-    desc: 'AI从被动响应工具向主动决策执行者跨越。具备感知-推理-行动-学习闭环能力，可自主规划、调用工具、执行任务。2025年被称为AI Agent商业元年，79%的组织已采用AI Agent，从实验性工具进入企业级实用阶段。',
-    link: 'https://baijiahao.baidu.com/s?id=1853445683827940934'
+    title: '多智能体协作操作系统（MAOS）',
+    desc: 'MetaGPT、CAMEL、AutoGen等框架向OS化演进：OpenAI的Supervisor、Anthropic的Constitutional Agents、Google的MADPS（Multi-Agent Distributed Planning System）。MAOS实现智能体间的任务调度、资源管理、安全隔离和协同学习，让AI从"工具"升级为"团队"，重构企业组织架构。',
+    link: 'https://www.sohu.com/a/997779254_468661'
   },
   {
-    title: 'MCP协议（模型上下文协议）',
-    desc: '由Anthropic提出，被称为Agent时代的"USB-C接口"。标准化AI系统与外部工具、数据源的连接，支持TypeScript/Python/Java SDK。2025年12月捐赠给Linux Foundation，从企业私有标准走向全球中立治理。',
-    link: 'https://wap.sciencenet.cn/home.php?mod=space&uid=362400&do=blog&id=1522044'
+    title: '具身AI与物理世界交互智能体',
+    desc: 'MIT CSAIL的DexNet 3.0、斯坦福HAI的RoboAgent、伯克利BAIR的Real2Sim：基于视觉-触觉-力觉多模态反馈构建的物理世界交互智能体，实现物体操作、环境感知、动态规划。Tesla Optimus Gen3、Boston Dynamics Atlas结合OpenAI VPT，形成具身智能体的产业落地。',
+    link: 'https://news.qq.com/rain/a/20260113A06NA000'
   },
   {
-    title: 'A2A协议（智能体间通信）',
-    desc: '解决多智能体协作的标准化通信问题。支持Agent之间的任务委托、状态同步、结果回调。与MCP互补：MCP解决Agent与工具的连接，A2A解决Agent与Agent的连接，共同构建"智能体互联网"。',
-    link: 'https://baijiahao.baidu.com/s?id=1860563842231223212'
+    title: 'AI Agent联邦学习与隐私计算',
+    desc: 'Google Federated Learning+、华为昇腾隐私计算、蚂蚁摩斯多方安全计算：AI Agent在不暴露原始数据的前提下，通过加密协议进行模型协同训练，解决医疗/金融/政务等敏感场景的数据合规问题。MIT Satori Lab的Secure Multi-Party Agent Learning成为隐私计算新范式。',
+    link: 'https://www.gyznsw.cn/2026/03/26/2026-03-26-AI%E6%8A%80%E6%9C%AF%E6%AF%8F%E6%97%A5%E5%88%86%E6%9E%90-20260326/'
   },
   {
-    title: 'Long Horizon Agents（长时程智能体）',
-    desc: '能够执行复杂长周期任务的智能体，自主规划、长时间运行、目标导向。应用场景包括Coding、AI SREs、Research、金融分析。关键突破：模型能力提升 + Harness设计成熟，实现从"Talkers"到"Doers"的转变。',
-    link: 'https://dreamit.blog.csdn.net/article/details/157531878'
+    title: '自演化智能体（Self-Evolving Agents）',
+    desc: 'DeepMind Gemini N+、Anthropic Constitutional AI 2.0、清华CoEvol：具备自主目标设定、能力演进、经验累积的学习型智能体。通过反思机制、任务重规划、技能合成，实现无需人类干预的持续能力提升。OpenAI的Recursive Self-Improvement（RSI）智能体成为AGI关键技术路径。',
+    link: 'https://www.tsinghua.edu.cn/info/1182/124190.htm'
   },
   {
-    title: '多智能体协作系统（Multi-Agent）',
-    desc: 'AI从单体模型走向多智能体生态。MetaGPT、CAMEL、AutoGen等框架成熟，智能体扮演程序员、测试员、产品经理等角色，通过结构化通信、反思性推理和明确任务分配，协作完成软件开发等复杂任务。',
-    link: 'https://baijiahao.baidu.com/s?id=1860563842231223212'
+    title: 'AI Agent测试与验证基础设施',
+    desc: 'Anthropic的Constitutional Safety Suite、Google Responsible AI Test Suite、微软MAVTS（Multi-Agent Verification & Test System）：随着Agent规模部署，测试验证成为工程瓶颈。2026年各大企业投入超百亿美元构建Agent验证平台，涵盖安全性、一致性、合规性和鲁棒性测试。',
+    link: 'https://qverlabs.com/blog/openai-vs-google-deepmind-vs-anthropic-2026'
   },
   {
-    title: '端云协同智能体规模化',
-    desc: '端侧负责感知与执行，云端负责复杂推理与规划。ESP32等边缘设备结合OpenClaw等云端框架，实现低功耗、低成本、高性能的智能体应用，在物联网、智能家居、工业控制场景大规模落地。',
-    link: 'https://baijiahao.baidu.com/s?id=1860533747373128466'
+    title: '神经符号智能体（Neuro-Symbolic Agents）',
+    desc: 'IBM Neurosymbolic AI、微软LogicLM、Meta LlamaLogic：融合深度学习与符号推理，提升Agent的逻辑推理、规划能力和可解释性。清华-华为联合实验室NeSy-Agent框架在金融风控、法律推理场景实现突破，成为高可靠AI系统核心架构。',
+    link: 'https://blog.csdn.net/jinanwuhuaguo/article/details/159088534'
+  },
+  {
+    title: 'AI Agent伦理与治理标准化',
+    desc: '欧盟AI Act 2026全面实施、美国NIST AI Risk Management Framework、中国AI治理白皮书：随着Agent自主性提升，伦理治理成为全球共识。Anthropic与五角大楼AI合规诉讼、OpenAI安全董事会的重组，标志着AI Agent从技术探索进入规范化发展阶段。',
+    link: 'https://www.infoq.cn/article/iHkvlLuTCWNJv27eJ1XY'
   }
 ]
 </script>

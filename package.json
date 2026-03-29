@@ -1,7 +1,7 @@
 {
   "name": "ai-agent-presentation",
   "version": "1.0.0",
-  "description": "AI智能体实践分享会 - 交互式网页演示",
+  "description": "AI智能体案例分享会 - 交互式网页演示",
   "type": "module",
   "scripts": {
     "dev": "vite --host",

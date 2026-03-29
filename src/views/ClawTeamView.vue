@@ -5,7 +5,7 @@
     <div class="positioning-section">
       <div class="positioning-card">
         <h2>核心定位</h2>
-        <p>基于OpenClaw的多智能体协作框架，采用Supervisor-Worker主从架构，通过任务自动拆分、并行执行、状态持久化，实现从"个人助手"到"组织级协作平台"的升级</p>
+        <p>ClawTeam 是基于 OpenClaw 的多智能体协作框架，用来把单个智能体升级为“会分工、会协作、会交付”的 AI 研发团队。</p>
       </div>
     </div>
     
@@ -69,19 +69,19 @@
             <div class="agent-children">
               <div class="agent-box worker">
                 <span class="agent-icon">🔬</span>
-                <span class="agent-name">研究员</span>
+                <span class="agent-name">产品经理</span>
               </div>
               <div class="agent-box worker">
                 <span class="agent-icon">✏️</span>
-                <span class="agent-name">策划</span>
+                <span class="agent-name">架构师</span>
               </div>
               <div class="agent-box worker">
                 <span class="agent-icon">📝</span>
-                <span class="agent-name">编辑</span>
+                <span class="agent-name">后端工程师</span>
               </div>
               <div class="agent-box worker">
                 <span class="agent-icon">✅</span>
-                <span class="agent-name">审核员</span>
+                <span class="agent-name">测试工程师</span>
               </div>
             </div>
           </div>
@@ -206,34 +206,34 @@
           <span class="feature-icon">⚡</span>
           <div class="feature-content">
             <h4>并行执行</h4>
-            <p>多Worker同时处理，效率提升60%</p>
+            <p>多 Worker 同时推进，减少串行等待和重复沟通</p>
           </div>
         </div>
       </div>
     </div>
     
     <div class="steps-section">
-      <h2 class="section-title">3步搭建AI团队</h2>
+      <h2 class="section-title">3 步搭建 AI 研发团队</h2>
       <div class="steps-detail">
         <div class="step-card">
           <div class="step-header">
             <span class="step-num">1</span>
-            <h3>安装ClawTeam并创建团队</h3>
+            <h3>创建一个用户管理系统团队</h3>
           </div>
           <div class="step-content">
-            <pre class="code-block"><code># 安装ClawTeam
+            <pre class="code-block"><code># 安装 ClawTeam
 pip install clawteam
 
 # 验证安装
 clawteam --help
 
-# 创建AI团队
-clawteam team spawn-team ai-news-team -d "AI前沿技术每日收集整理团队"
+# 创建团队
+clawteam team spawn-team user-system-team -d "用户管理系统研发团队"
 
 # 查看团队列表
 clawteam team list</code></pre>
             <div class="step-notes">
-              <p><strong>核心概念：</strong>Team是项目容器，包含多个Agent成员和任务分配规则</p>
+              <p><strong>核心概念：</strong>一个 Team 就是一支 AI 团队，里面包含多个分工明确的 Agent。</p>
             </div>
           </div>
         </div>
@@ -241,7 +241,7 @@ clawteam team list</code></pre>
         <div class="step-card">
           <div class="step-header">
             <span class="step-num">2</span>
-            <h3>配置智能体角色与通信</h3>
+            <h3>配置角色分工与通信机制</h3>
           </div>
           <div class="step-content">
             <pre class="code-block"><code># 配置Agent间通信（在openclaw.json中）
@@ -249,7 +249,7 @@ clawteam team list</code></pre>
   "tools": {
     "agentToAgent": {
       "enabled": true,
-      "allow": ["researcher", "writer", "reviewer"],
+      "allow": ["pm", "architect", "backend", "frontend", "tester", "ops"],
       "maxRecursion": 3
     }
   }
@@ -262,7 +262,7 @@ openclaw config set acp.sub_agent.isolate_memory true
 # 重启服务
 openclaw restart</code></pre>
             <div class="step-notes">
-              <p><strong>关键配置：</strong>启用Agent间通信、记忆隔离、最大递归3层防循环</p>
+              <p><strong>关键配置：</strong>开启 Agent 间通信和记忆隔离，让每个角色在独立上下文里协作。</p>
             </div>
           </div>
         </div>
@@ -270,26 +270,26 @@ openclaw restart</code></pre>
         <div class="step-card">
           <div class="step-header">
             <span class="step-num">3</span>
-            <h3>启动团队并监控执行</h3>
+            <h3>下发目标并查看协作过程</h3>
           </div>
           <div class="step-content">
             <pre class="code-block"><code># 启动团队执行任务
-clawteam launch ai-news-team --goal "收集整理今日AI前沿技术报告"
+clawteam launch user-system-team --goal "完成一个用户管理系统的需求分析、架构设计、开发、测试和部署方案"
 
 # 查看团队状态看板
-clawteam board show ai-news-team
+clawteam board show user-system-team
 
 # 输出示例：
 # ┌─────────────┬──────────────────┬──────────┐
 # │ Agent       │ 任务             │ 状态     │
 # ├─────────────┼──────────────────┼──────────┤
-# │ 研究员      │ 收集AI论文/新闻  │ ✅ 完成  │
-# │ 内容策划    │ 整理要点         │ 🟡 进行中│
-# │ 编辑        │ 撰写报告         │ 🔵 待开始│
-# │ 审核员      │ 质量检查         │ ⏸️ 阻塞  │
+# │ 产品经理    │ 梳理需求         │ ✅ 完成  │
+# │ 架构师      │ 设计系统架构     │ 🟡 进行中│
+# │ 后端工程师  │ 开发接口         │ 🔵 待开始│
+# │ 测试工程师  │ 编写测试         │ ⏸️ 阻塞  │
 # └─────────────┴──────────────────┴──────────┘</code></pre>
             <div class="step-notes">
-              <p><strong>监控管理：</strong>实时查看各Agent任务状态、进度、阻塞情况</p>
+              <p><strong>监控管理：</strong>实时查看各角色状态、依赖关系和当前阻塞点。</p>
             </div>
           </div>
         </div>
@@ -297,9 +297,9 @@ clawteam board show ai-news-team
     </div>
     
     <div class="template-section">
-      <h2 class="section-title">场景：AI前沿技术每日收集整理成报告</h2>
+      <h2 class="section-title">场景：多智能体协作开发一个用户管理系统</h2>
       <div class="scenario-desc">
-        <p>一个完整的AI资讯团队，自动完成从信息收集到报告输出的全流程</p>
+        <p>从需求分析到架构设计、开发测试与部署建议，完整模拟真实研发团队协作。</p>
       </div>
       <div class="template-tabs">
         <button 
@@ -330,134 +330,84 @@ const activeTab = ref(0)
 
 const templates = [
   {
-    name: '研究员 Agent',
-    role: '信息收集专家',
+    name: '产品经理 Agent',
+    role: '需求拆解专家',
     content: `# 角色定位
-你是AI前沿技术研究专家，专精全球AI领域最新动态的监测与收集。
+你是资深产品经理，负责把“做一个用户管理系统”拆成清晰需求。
 
 # 核心任务
-每日定时收集以下渠道的AI前沿信息：
-1. arXiv最新论文（AI/ML/CV/NLP方向）
-2. 顶级会议动态（NeurIPS/ICML/ACL/CVPR）
-3. 科技媒体（TechCrunch/MIT Technology Review/机器之心）
-4. 大厂技术博客（Google AI/OpenAI/DeepMind/阿里/腾讯）
+1. 输出功能范围：登录、注册、角色管理、权限管理、用户信息维护
+2. 定义用户角色和权限边界
+3. 给出接口需求与页面需求清单
 
 # 输出标准
-1. 每日收集不少于20条高质量信息
-2. 每条信息标注：来源、发布时间、核心看点
-3. 按技术领域分类：大模型/多模态/Agent/基础设施
-4. 输出格式：JSON结构化数据，便于下游处理
-
-# 协作规则
-1. 每日08:00自动执行收集任务
-2. 完成后将结构化数据发送给内容策划Agent
-3. 对高价值信息标注"重点推荐"标签`
+1. 需求列表结构清晰
+2. 每项需求包含目标、输入、输出、校验规则
+3. 输出格式：Markdown`
   },
   {
-    name: '内容策划 Agent',
-    role: '信息整理与选题专家',
+    name: '架构师 Agent',
+    role: '系统设计专家',
     content: `# 角色定位
-你是AI内容策划专家，专精从海量信息中提炼核心价值，设计内容结构。
+你是系统架构师，负责用户管理系统的架构设计。
 
 # 核心任务
-1. 接收研究员Agent收集的原始数据
-2. 筛选高价值信息（影响力、创新性、实用性）
-3. 设计报告结构：头条要闻、技术突破、产品动态、深度解读
-4. 为每条选题撰写100字以内的核心要点
+1. 定义模块划分：认证、用户、角色、权限
+2. 设计数据库表结构
+3. 设计服务接口与调用关系
 
 # 输出标准
-1. 从20+条信息中筛选出8-10条精华
-2. 每条要点包含：标题、一句话摘要、为什么重要
-3. 设计报告大纲：目录结构、篇幅分配、视觉元素建议
-4. 输出格式：Markdown结构化文档
-
-# 协作规则
-1. 接收研究员数据后2小时内完成筛选
-2. 将策划方案发送给编辑Agent撰写正文
-3. 标注需要深度解读的重点选题`
+1. 有明确模块边界
+2. 有数据模型和接口草图
+3. 输出格式：架构说明 + ER 图描述`
   },
   {
-    name: '编辑 Agent',
-    role: '报告撰写专家',
+    name: '后端 Agent',
+    role: '服务实现专家',
     content: `# 角色定位
-你是AI领域资深编辑，专精技术内容的通俗化表达与专业报告撰写。
+你是后端工程师，负责核心接口与权限逻辑实现。
 
 # 核心任务
-1. 基于内容策划的选题方案撰写完整报告
-2. 头条要闻：300字深度解读，说明技术意义
-3. 技术突破：500字详细分析，包含技术原理简述
-4. 产品动态：200字简洁报道，突出产品亮点
-5. 深度解读：800字专题分析，联系产业趋势
+1. 基于需求和架构实现用户、角色、权限接口
+2. 加入登录鉴权与异常处理
+3. 配合测试修复缺陷
 
 # 输出标准
-1. 报告总字数2000-2500字
-2. 语言风格：专业但不晦涩，适合技术从业者阅读
-3. 结构清晰：小标题、重点加粗、适当使用列表
-4. 包含：今日概览、详细内容、明日预告三部分
-
-# 协作规则
-1. 接收策划方案后4小时内完成初稿
-2. 将报告发送给审核员Agent进行质量检查
-3. 根据审核意见修改完善`
+1. 接口清单完整
+2. 关键逻辑可测试
+3. 输出格式：代码变更说明 + 接口列表`
   },
   {
-    name: '审核员 Agent',
-    role: '质量把控专家',
+    name: '测试 Agent',
+    role: '质量保障专家',
     content: `# 角色定位
-你是AI内容质量审核专家，专精技术准确性核查与内容质量把控。
+你是测试工程师，负责验证用户管理系统是否满足需求。
 
 # 核心任务
-1. 审核编辑Agent提交的报告全文
-2. 事实核查：技术细节、数据引用、来源准确性
-3. 质量评估：逻辑连贯性、表达清晰度、专业度
-4. 格式检查：结构完整性、排版规范性
-
-# 审核维度
-1. 准确性：技术概念是否正确，有无事实错误
-2. 完整性：是否覆盖所有策划选题，有无遗漏
-3. 可读性：语言是否流畅，技术术语是否解释清楚
-4. 时效性：信息是否最新，有无过时内容
+1. 根据需求设计测试点
+2. 验证登录、权限、边界值和异常流程
+3. 输出缺陷与回归建议
 
 # 输出标准
-1. 给出通过/不通过的明确结论
-2. 不通过时逐条列出修改意见
-3. 标注优秀内容和需要改进的部分
-4. 输出格式：审核报告 + 修改建议清单
-
-# 协作规则
-1. 收到报告后1小时内完成审核
-2. 审核通过则标记完成，通知Supervisor汇总
-3. 不通过则退回编辑Agent修改，说明具体问题`
+1. 包含功能测试和异常测试
+2. 缺陷描述清楚可复现
+3. 输出格式：测试报告 + 问题列表`
   },
   {
     name: 'Supervisor 主管',
     role: '团队协调与最终输出',
     content: `# 角色定位
-你是AI资讯团队的Supervisor主管智能体，负责整体协调、任务分发、结果汇总。
+你是多智能体团队主管，负责分工、协调、汇总和把控节奏。
 
 # 核心职责
-1. 每日08:00触发研究员Agent开始收集
-2. 接收各环节交付物，转发给下一环节
-3. 监控各Agent进度，处理阻塞和异常
-4. 审核通过后汇总最终报告
-5. 输出格式化的日报并分发给订阅者
-
-# 工作流程
-08:00 → 触发研究员收集
-10:00 → 接收数据，转发给内容策划
-12:00 → 接收策划方案，转发给编辑
-16:00 → 接收报告初稿，转发给审核员
-17:00 → 接收审核结果，输出最终报告
-
-# 异常处理
-1. 某Agent超时未响应，发送提醒
-2. 审核不通过，协调修改资源
-3. 各环节阻塞超过2轮，人工介入
+1. 把总目标拆给产品、架构、开发、测试等角色
+2. 管理依赖顺序和阻塞关系
+3. 汇总所有子任务结果，形成最终交付结论
 
 # 输出标准
-1. 最终报告包含：标题、日期、目录、正文、来源引用
-2. 格式：Markdown + PDF双版本
-3. 分发渠道：邮件/飞书/钉钉自动推送`
+1. 给出团队当前进展
+2. 标记阻塞点与下一步动作
+3. 输出最终交付摘要`
   }
 ]
 </script>

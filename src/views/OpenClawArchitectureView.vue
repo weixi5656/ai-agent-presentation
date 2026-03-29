@@ -1,269 +1,347 @@
 <template>
   <div class="architecture-view">
-    <h1 class="page-title">OpenClaw 架构流程图</h1>
+    <div class="page-header">
+      <h1 class="page-title">OpenClaw 核心架构</h1>
+      <p class="page-subtitle">Gateway为中心的控制面/执行面分离设计</p>
+    </div>
     
-    <div class="flow-diagram">
-      <!-- 用户入口 -->
-      <div class="flow-row">
-        <div class="flow-box user-box">
-          <span class="box-icon">👤</span>
-          <span class="box-label">用户</span>
-        </div>
-      </div>
-      
-      <!-- 向下箭头 -->
-      <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
-      </div>
-      
-      <!-- Channel 频道层 -->
-      <div class="flow-row channels">
-        <div class="flow-box channel-box" v-for="ch in channels" :key="ch.name">
-          <span class="box-icon">{{ ch.icon }}</span>
-          <span class="box-label">{{ ch.name }}</span>
-        </div>
-      </div>
-      
-      <!-- 汇聚箭头 -->
-      <div class="arrow-container">
-        <img src="/chevron-down.svg" class="arrow-svg large" alt="converge" />
-      </div>
-      
-      <!-- Gateway 网关 -->
-      <div class="flow-row">
-        <div class="flow-box gateway-box">
-          <span class="box-icon">🚪</span>
-          <span class="box-label">Gateway 网关</span>
-          <div class="box-tags">
-            <span class="tag">路由</span>
-            <span class="tag">认证</span>
-            <span class="tag">Hooks</span>
-            <span class="tag">Check Port</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Checkpoint 检查点机制 -->
-      <div class="branch-row checkpoint-branch">
-        <div class="branch-label">Checkpoint 检查点机制 - 任务状态持久化</div>
-        <div class="checkpoint-flow">
-          <div class="checkpoint-step">
-            <span class="step-icon">💾</span>
-            <span class="step-name">定期保存</span>
-            <span class="step-desc">每5步/30分钟</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="checkpoint-step">
-            <span class="step-icon">📝</span>
-            <span class="step-name">状态快照</span>
-            <span class="step-desc">已完成步骤+中间结果</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="checkpoint-step">
-            <span class="step-icon">⚡</span>
-            <span class="step-name">中断恢复</span>
-            <span class="step-desc">加载检查点继续执行</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="checkpoint-step">
-            <span class="step-icon">✅</span>
-            <span class="step-name">断点续传</span>
-            <span class="step-desc">无需从头开始</span>
-          </div>
-        </div>
-        <div class="checkpoint-storage">
-          <span class="storage-label">存储方式：</span>
-          <span class="storage-item">JSON - 任务配置</span>
-          <span class="storage-item">SQLite - 结构化数据</span>
-        </div>
-      </div>
-      
-      <!-- 向下箭头 -->
-      <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
-      </div>
-      
-      <!-- Node 节点层 -->
-      <div class="flow-row nodes">
-        <div class="flow-box node-box" v-for="node in nodes" :key="node.name">
-          <span class="box-icon">{{ node.icon }}</span>
-          <span class="box-label">{{ node.name }}</span>
-          <span class="box-sub">{{ node.type }}</span>
-        </div>
-      </div>
-      
-      <!-- 横向连接箭头 -->
-      <div class="arrow-container horizontal-arrows">
-        <img src="/arrow-left.svg" class="arrow-svg" alt="left" />
-        <span class="arrow-label">Session 会话同步</span>
-        <img src="/arrow-right.svg" class="arrow-svg" alt="right" />
-      </div>
-      
-      <!-- Session 会话 -->
-      <div class="flow-row">
-        <div class="flow-box session-box">
-          <span class="box-icon">💬</span>
-          <span class="box-label">Session 会话</span>
-          <div class="box-tags">
-            <span class="tag">消息历史</span>
-            <span class="tag">上下文</span>
-            <span class="tag">Logs</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 向下箭头 -->
-      <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
-      </div>
-      
-      <!-- 执行核心 -->
-      <div class="core-section">
-        <div class="core-left">
-          <div class="side-title">执行单元</div>
-          <div class="exec-boxes">
-            <div class="flow-box exec-box">
-              <span class="box-icon">🤖</span>
-              <span class="box-label">Agent 代理</span>
-              <div class="box-mini">Sub-agent / Agents / Work Runs</div>
-            </div>
-            <div class="flow-box exec-box">
-              <span class="box-icon">⏰</span>
-              <span class="box-label">Cron 定时任务</span>
-              <div class="box-mini">定时 / 周期 / 延迟</div>
-            </div>
-            <div class="flow-box exec-box">
-              <span class="box-icon">🔄</span>
-              <span class="box-label">Workflow 工作流</span>
-              <div class="box-mini">Work Tree / Pipeline</div>
-            </div>
-          </div>
-        </div>
+    <!-- 核心架构流程图 -->
+    <div class="architecture-container">
+      <div class="flowchart-container">
         
-        <div class="core-center">
-          <div class="center-title">能力支撑</div>
-          <div class="capability-grid">
-            <div class="cap-item" v-for="cap in capabilities" :key="cap.name">
-              <span class="cap-icon">{{ cap.icon }}</span>
-              <span class="cap-name">{{ cap.name }}</span>
-              <span class="cap-desc">{{ cap.desc }}</span>
-            </div>
+        <!-- 客户端与渠道层 -->
+        <div class="layer client-layer fade-in-up delay-1">
+          <div class="layer-header">
+            <h2>客户端与渠道层（交互入口）</h2>
+            <div class="layer-desc">用户与系统的交互入口，支持多种接入方式</div>
           </div>
-          
-          <!-- 任务执行详细流程 -->
-          <div class="task-flow">
-            <div class="task-step">
-              <span class="step-dot">1</span>
-              <span class="step-name">Skill选择</span>
+          <div class="layer-content">
+            <div class="node-box client-node" style="--delay: 1">
+              <div class="node-icon">💻</div>
+              <div class="node-title">控制客户端</div>
+              <div class="node-desc">CLI / Web UI / 原生App</div>
             </div>
-            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-            <div class="task-step">
-              <span class="step-dot">2</span>
-              <span class="step-name">步骤编排</span>
-            </div>
-            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-            <div class="task-step">
-              <span class="step-dot">3</span>
-              <span class="step-name">执行</span>
-            </div>
-            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-            <div class="task-step">
-              <span class="step-dot">4</span>
-              <span class="step-name">轮询进度</span>
-            </div>
-          </div>
-          
-          <!-- 失败重试机制 -->
-          <div class="retry-box">
-            <span class="retry-label">失败重试机制</span>
-            <div class="retry-flow">
-              <span class="retry-item">检测失败</span>
-              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-              <span class="retry-item">指数退避</span>
-              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-              <span class="retry-item">重试(最多3次)</span>
-              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-              <span class="retry-item">失败转移</span>
+            <div class="node-box client-node" style="--delay: 2">
+              <div class="node-icon">💬</div>
+              <div class="node-title">通信渠道</div>
+              <div class="node-desc">WhatsApp / Telegram / 飞书 / 钉钉等</div>
             </div>
           </div>
         </div>
-        
-        <div class="core-right">
-          <div class="side-title">数据存储</div>
-          <div class="storage-boxes">
-            <div class="flow-box storage-box">
-              <span class="box-icon">📁</span>
-              <span class="box-label">Files 文件</span>
+
+        <!-- 连接箭头 -->
+        <div class="arrow-down">
+          <svg width="40" height="40" viewBox="0 0 24 24">
+            <path d="M12 4L12 20M12 20L6 14M12 20L18 14" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <!-- 核心控制平面：Gateway网关 -->
+        <div class="layer gateway-layer fade-in-up delay-2">
+          <div class="layer-header">
+            <h2>核心控制平面：Gateway网关（系统中枢）</h2>
+            <div class="layer-desc">负责连接管理、会话调度、路由控制等核心控制功能</div>
+          </div>
+          <div class="layer-grid">
+            <!-- 第一行 -->
+            <div class="grid-row">
+              <div class="node-box gateway-node" style="--delay: 3">
+                <div class="node-icon">🔌</div>
+                <div class="node-title">WebSocket连接管理器</div>
+                <div class="node-desc">管理客户端连接状态</div>
+              </div>
+              <div class="node-box gateway-node" style="--delay: 4">
+                <div class="node-icon">🔐</div>
+                <div class="node-title">鉴权与准入控制</div>
+                <div class="node-desc">设备配对/签名/限流</div>
+              </div>
+              <div class="node-box gateway-node" style="--delay: 5">
+                <div class="node-icon">💾</div>
+                <div class="node-title">会话管理器</div>
+                <div class="node-desc">Session生命周期管理</div>
+              </div>
+              <div class="node-box gateway-node" style="--delay: 6">
+                <div class="node-icon">🔄</div>
+                <div class="node-title">消息路由引擎</div>
+                <div class="node-desc">智能消息分发与路由</div>
+              </div>
             </div>
-            <div class="flow-box storage-box">
-              <span class="box-icon">🧠</span>
-              <span class="box-label">Memory 记忆</span>
-            </div>
-            <div class="flow-box storage-box">
-              <span class="box-icon">📊</span>
-              <span class="box-label">Logs 日志</span>
+            <!-- 第二行 -->
+            <div class="grid-row">
+              <div class="node-box gateway-node" style="--delay: 7">
+                <div class="node-icon">❤️</div>
+                <div class="node-title">健康检查模块</div>
+                <div class="node-desc">存活性/就绪性/心跳巡检</div>
+              </div>
+              <div class="node-box gateway-node" style="--delay: 8">
+                <div class="node-icon">⚙️</div>
+                <div class="node-title">配置与元数据管理</div>
+                <div class="node-desc">系统配置与元数据存储</div>
+              </div>
+              <div class="node-box gateway-node" style="--delay: 9">
+                <div class="node-icon">📦</div>
+                <div class="node-title">插件生命周期管理器</div>
+                <div class="node-desc">插件加载、卸载、热更新</div>
+              </div>
+              <div class="node-box gateway-node" style="--delay: 10">
+                <div class="node-icon">📊</div>
+                <div class="node-title">Lane命令队列</div>
+                <div class="node-desc">串行任务调度与队列管理</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- 向下箭头 -->
-      <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
-      </div>
-      
-      <!-- 外部集成 -->
-      <div class="external-section">
-        <div class="external-title">外部集成</div>
-        <div class="external-groups">
-          <div class="ext-group model-group">
-            <div class="ext-label">🤖 大模型 Model</div>
-            <div class="ext-items">
-              <span class="ext-item">OpenAI</span>
-              <span class="ext-item">Claude</span>
-              <span class="ext-item">Gemini</span>
-              <span class="ext-item">Kimi</span>
+
+        <!-- 连接箭头 -->
+        <div class="arrow-down">
+          <svg width="40" height="40" viewBox="0 0 24 24">
+            <path d="M12 4L12 20M12 20L6 14M12 20L18 14" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <!-- 执行平面：Agent Runtime集群 -->
+        <div class="layer execution-layer fade-in-up delay-3">
+          <div class="layer-header">
+            <h2>执行平面：Agent Runtime集群</h2>
+            <div class="layer-desc">实际执行任务的智能体运行时环境</div>
+          </div>
+          <div class="layer-grid">
+            <!-- 第一行 -->
+            <div class="grid-row">
+              <div class="node-box execution-node" style="--delay: 11">
+                <div class="node-icon">🤖</div>
+                <div class="node-title">Pi Agent核心循环</div>
+                <div class="node-desc">Think/Act/Observe/Reflect</div>
+              </div>
+              <div class="node-box execution-node" style="--delay: 12">
+                <div class="node-icon">📋</div>
+                <div class="node-title">上下文引擎</div>
+                <div class="node-desc">提示词组装/动态注入</div>
+              </div>
+              <div class="node-box execution-node" style="--delay: 13">
+                <div class="node-icon">🧠</div>
+                <div class="node-title">三级记忆子系统</div>
+                <div class="node-desc">短期/中期/长期记忆管理</div>
+              </div>
+            </div>
+            <!-- 第二行 -->
+            <div class="grid-row">
+              <div class="node-box execution-node" style="--delay: 14">
+                <div class="node-icon">🔧</div>
+                <div class="node-title">模型Provider插件中心</div>
+                <div class="node-desc">多模型接入与切换</div>
+              </div>
+              <div class="node-box execution-node" style="--delay: 15">
+                <div class="node-icon">⚡</div>
+                <div class="node-title">工具执行器</div>
+                <div class="node-desc">外部工具调用与执行</div>
+              </div>
+              <div class="node-box execution-node" style="--delay: 16">
+                <div class="node-icon">🎯</div>
+                <div class="node-title">技能引擎</div>
+                <div class="node-desc">技能注册、发现与执行</div>
+              </div>
             </div>
           </div>
-          <div class="ext-group tools-group">
-            <div class="ext-label">🔧 开发工具 Tools</div>
-            <div class="ext-items">
-              <span class="ext-item">Git</span>
-              <span class="ext-item">Docker</span>
-              <span class="ext-item">Jenkins</span>
-              <span class="ext-item">VSCode</span>
+        </div>
+
+        <!-- 右侧扩展层 -->
+        <div class="side-layers">
+          <!-- 插件扩展层 -->
+          <div class="side-layer extension-layer fade-in-right delay-4">
+            <div class="side-layer-header">
+              <h3>插件扩展层（一级公民）</h3>
+            </div>
+            <div class="side-layer-content">
+              <div class="side-node" style="--delay: 1">
+                <div class="side-node-icon">🤖</div>
+                <div class="side-node-title">模型Provider插件</div>
+                <div class="side-node-desc">OpenAI/豆包/Ollama等</div>
+              </div>
+              <div class="side-node" style="--delay: 2">
+                <div class="side-node-icon">💬</div>
+                <div class="side-node-title">渠道适配器插件</div>
+                <div class="side-node-desc">多平台消息适配</div>
+              </div>
+              <div class="side-node" style="--delay: 3">
+                <div class="side-node-icon">🔧</div>
+                <div class="side-node-title">工具/技能插件</div>
+                <div class="side-node-desc">扩展功能与能力</div>
+              </div>
+              <div class="side-node" style="--delay: 4">
+                <div class="side-node-icon">💾</div>
+                <div class="side-node-title">记忆存储插件</div>
+                <div class="side-node-desc">多种记忆存储后端</div>
+              </div>
+              <div class="side-node" style="--delay: 5">
+                <div class="side-node-icon">🪝</div>
+                <div class="side-node-title">钩子扩展插件</div>
+                <div class="side-node-desc">生命周期事件处理</div>
+              </div>
             </div>
           </div>
-          <div class="ext-group skills-group">
-            <div class="ext-label">📦 技能 Skills</div>
-            <div class="ext-items">
-              <span class="ext-item">ClawHub</span>
-              <span class="ext-item">自定义</span>
-              <span class="ext-item">插件</span>
+
+          <!-- 持久化存储层 -->
+          <div class="side-layer storage-layer fade-in-right delay-5">
+            <div class="side-layer-header">
+              <h3>持久化存储层</h3>
             </div>
+            <div class="side-layer-content">
+              <div class="side-node" style="--delay: 6">
+                <div class="side-node-icon">📝</div>
+                <div class="side-node-title">会话存储</div>
+                <div class="side-node-desc">JSONL事件日志</div>
+              </div>
+              <div class="side-node" style="--delay: 7">
+                <div class="side-node-icon">💾</div>
+                <div class="side-node-title">Checkpoint快照存储</div>
+                <div class="side-node-desc">任务状态快照</div>
+              </div>
+              <div class="side-node" style="--delay: 8">
+                <div class="side-node-icon">🔢</div>
+                <div class="side-node-title">长期向量知识库</div>
+                <div class="side-node-desc">向量化知识存储</div>
+              </div>
+              <div class="side-node" style="--delay: 9">
+                <div class="side-node-icon">⚙️</div>
+                <div class="side-node-title">配置文件存储</div>
+                <div class="side-node-desc">系统配置与元数据</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 安全沙箱层 -->
+          <div class="side-layer security-layer fade-in-right delay-6">
+            <div class="side-layer-header">
+              <h3>安全沙箱层</h3>
+            </div>
+            <div class="side-layer-content">
+              <div class="side-node" style="--delay: 10">
+                <div class="side-node-icon">📦</div>
+                <div class="side-node-title">Docker隔离沙箱</div>
+                <div class="side-node-desc">容器化执行环境</div>
+              </div>
+              <div class="side-node" style="--delay: 11">
+                <div class="side-node-icon">📋</div>
+                <div class="side-node-title">执行策略管控</div>
+                <div class="side-node-desc">资源与权限策略</div>
+              </div>
+              <div class="side-node" style="--delay: 12">
+                <div class="side-node-icon">🔐</div>
+                <div class="side-node-title">权限与审批控制</div>
+                <div class="side-node-desc">操作权限管理</div>
+              </div>
+              <div class="side-node" style="--delay: 13">
+                <div class="side-node-icon">📊</div>
+                <div class="side-node-title">全链路审计日志</div>
+                <div class="side-node-desc">操作记录与审计</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 连接线 -->
+        <div class="connection-lines">
+          <div class="line vertical" style="left: 50%;"></div>
+          <div class="line horizontal extension" style="top: 30%;"></div>
+          <div class="line horizontal storage" style="top: 50%;"></div>
+          <div class="line horizontal security" style="top: 70%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 架构说明 -->
+    <div class="architecture-description">
+      <h2 class="section-title">架构设计理念</h2>
+      <div class="design-principles">
+        <div class="principle-card fade-in-left delay-7">
+          <div class="principle-icon">🏗️</div>
+          <h3>控制面与执行面分离</h3>
+          <p>Gateway 作为控制面中枢，统一管理连接、会话、路由；Agent Runtime 作为执行面，专注于任务执行，实现关注点分离。</p>
+        </div>
+        <div class="principle-card fade-in-left delay-8">
+          <div class="principle-icon">🔌</div>
+          <h3>插件化一级公民</h3>
+          <p>插件系统是架构的一等公民，支持模型、渠道、工具、记忆、钩子等全方位扩展，无需修改核心代码。</p>
+        </div>
+        <div class="principle-card fade-in-left delay-9">
+          <div class="principle-icon">🛡️</div>
+          <h3>安全沙箱隔离</h3>
+          <p>通过 Docker 沙箱、策略管控、权限审批、审计日志等多层安全机制，确保代码安全执行。</p>
+        </div>
+        <div class="principle-card fade-in-left delay-10">
+          <div class="principle-icon">💾</div>
+          <h3>持久化与恢复能力</h3>
+          <p>完善的 Checkpoint 机制和持久化存储，支持长时间任务中断恢复，保障生产环境稳定性。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据流向说明 -->
+    <div class="data-flow-section">
+      <h2 class="section-title">标准数据流向</h2>
+      <div class="flow-steps">
+        <div class="flow-step fade-in-right delay-7">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>客户端发起请求</h4>
+            <p>用户通过 CLI、Web UI 或 IM 工具发送请求到 Gateway。</p>
+          </div>
+        </div>
+        <div class="flow-step fade-in-right delay-8">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Gateway 控制面处理</h4>
+            <p>WebSocket 管理器接收连接，鉴权模块验证身份，路由引擎将任务分发到 Lane 队列。</p>
+          </div>
+        </div>
+        <div class="flow-step fade-in-right delay-9">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Agent Runtime 执行</h4>
+            <p>Pi Agent 核心循环执行 Think/Act/Observe/Reflect，调用模型、工具、技能完成计算。</p>
+          </div>
+        </div>
+        <div class="flow-step fade-in-right delay-10">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>插件与存储交互</h4>
+            <p>通过插件系统调用外部能力，同时将结果持久化到存储层，确保状态可恢复。</p>
+          </div>
+        </div>
+        <div class="flow-step fade-in-right delay-11">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h4>结果返回与状态同步</h4>
+            <p>执行结果通过 Gateway 返回客户端，同时更新会话状态和检查点。</p>
           </div>
         </div>
       </div>
     </div>
-    
-    <!-- 数据流向 -->
-    <div class="flow-legend">
-      <h3 class="legend-title">数据流向</h3>
-      <div class="legend-items">
-        <div class="legend-item" v-for="(step, index) in flowSteps" :key="index">
-          <span class="step-num">{{ index + 1 }}</span>
-          <span class="step-text">{{ step }}</span>
+
+    <!-- 关键特性 -->
+    <div class="key-features">
+      <h2 class="section-title">关键工程特性</h2>
+      <div class="features-grid">
+        <div class="feature-card fade-in-up delay-7">
+          <div class="feature-icon">⚡</div>
+          <h3>高并发处理</h3>
+          <p>Lane 队列机制支持并行任务处理，Gateway 可水平扩展支撑高并发场景。</p>
         </div>
-      </div>
-    </div>
-    
-    <!-- 概念详解 -->
-    <div class="concepts-section">
-      <h3 class="section-title">核心概念详解</h3>
-      <div class="concepts-grid">
-        <div class="concept-card" v-for="concept in concepts" :key="concept.name">
-          <h4>{{ concept.name }}</h4>
-          <p>{{ concept.desc }}</p>
+        <div class="feature-card fade-in-up delay-8">
+          <div class="feature-icon">🔄</div>
+          <h3>热插拔插件</h3>
+          <p>插件系统支持运行时动态加载/卸载，无需重启服务即可扩展功能。</p>
+        </div>
+        <div class="feature-card fade-in-up delay-9">
+          <div class="feature-icon">🔐</div>
+          <h3>企业级安全</h3>
+          <p>多层安全防护：网络隔离、权限管控、沙箱执行、操作审计，满足企业级安全要求。</p>
+        </div>
+        <div class="feature-card fade-in-up delay-10">
+          <div class="feature-icon">📈</div>
+          <h3>可观测性</h3>
+          <p>完善的监控指标、健康检查、日志追踪，便于问题诊断和性能优化。</p>
         </div>
       </div>
     </div>
@@ -271,717 +349,657 @@
 </template>
 
 <script setup>
-const channels = [
-  { name: 'Signal', icon: '💬' },
-  { name: 'Telegram', icon: '✈️' },
-  { name: 'Discord', icon: '🎮' },
-  { name: 'WebChat', icon: '🌐' },
-  { name: 'WhatsApp', icon: '📱' },
-  { name: 'API', icon: '🔗' },
+// 架构数据定义
+const layers = [
+  {
+    id: 'client',
+    name: '客户端与渠道层',
+    description: '用户与系统的交互入口，支持多种接入方式',
+    nodes: [
+      { icon: '💻', title: '控制客户端', desc: 'CLI / Web UI / 原生App' },
+      { icon: '💬', title: '通信渠道', desc: 'WhatsApp / Telegram / 飞书 / 钉钉等' }
+    ]
+  },
+  {
+    id: 'gateway',
+    name: '核心控制平面：Gateway网关',
+    description: '负责连接管理、会话调度、路由控制等核心控制功能',
+    nodes: [
+      { icon: '🔌', title: 'WebSocket连接管理器', desc: '管理客户端连接状态' },
+      { icon: '🔐', title: '鉴权与准入控制', desc: '设备配对/签名/限流' },
+      { icon: '💾', title: '会话管理器', desc: 'Session生命周期管理' },
+      { icon: '🔄', title: '消息路由引擎', desc: '智能消息分发与路由' },
+      { icon: '❤️', title: '健康检查模块', desc: '存活性/就绪性/心跳巡检' },
+      { icon: '⚙️', title: '配置与元数据管理', desc: '系统配置与元数据存储' },
+      { icon: '📦', title: '插件生命周期管理器', desc: '插件加载、卸载、热更新' },
+      { icon: '📊', title: 'Lane命令队列', desc: '串行任务调度与队列管理' }
+    ]
+  },
+  {
+    id: 'execution',
+    name: '执行平面：Agent Runtime集群',
+    description: '实际执行任务的智能体运行时环境',
+    nodes: [
+      { icon: '🤖', title: 'Pi Agent核心循环', desc: 'Think/Act/Observe/Reflect' },
+      { icon: '📋', title: '上下文引擎', desc: '提示词组装/动态注入' },
+      { icon: '🧠', title: '三级记忆子系统', desc: '短期/中期/长期记忆管理' },
+      { icon: '🔧', title: '模型Provider插件中心', desc: '多模型接入与切换' },
+      { icon: '⚡', title: '工具执行器', desc: '外部工具调用与执行' },
+      { icon: '🎯', title: '技能引擎', desc: '技能注册、发现与执行' }
+    ]
+  }
 ]
 
-const nodes = [
-  { name: '本地节点', icon: '🏠', type: 'Local' },
-  { name: '云端节点', icon: '☁️', type: 'Cloud' },
-  { name: '边缘节点', icon: '📟', type: 'Edge' },
-]
-
-const capabilities = [
-  { name: 'Tools', icon: '🔧', desc: '执行系统命令、读写文件、访问网页' },
-  { name: 'Skills', icon: '📦', desc: 'SKILL.md描述功能，无需编写复杂代码' },
-  { name: 'Model', icon: '🤖', desc: '大模型推理，自然语言理解' },
-  { name: 'Memory', icon: '🧠', desc: 'ContextEngine自定义记忆管理策略' },
-]
-
-const flowSteps = [
-  '用户发送消息',
-  'Channel接入',
-  'Gateway路由',
-  'Node执行',
-  'Session管理',
-  'Agent/Cron/Workflow处理',
-  '调用Tools/Model/Memory',
-  '返回结果'
-]
-
-const concepts = [
-  { name: 'Channel 频道', desc: '消息接入通道，支持Signal、Telegram、Discord、WebChat、QQ、飞书等多种平台' },
-  { name: 'Gateway 网关', desc: '通信中枢，负责接收用户指令、权限管理、模型路由和结果返回' },
-  { name: 'Agent 智能体', desc: '执行核心，理解指令、拆分任务、调用技能，具备长期记忆能力' },
-  { name: 'Skills 技能', desc: '能力单元，以SKILL.md文件为核心，无需编写复杂代码即可扩展功能' },
-  { name: 'Memory 记忆', desc: 'ContextEngine插件接口，支持自定义记忆管理策略，解决长对话记忆衰减' },
-  { name: 'Check Port 端口检测', desc: '启动时检测端口可用性，冲突时自动切换端口或回滚报错' },
-  { name: 'Node / Instance 节点', desc: '执行任务的计算单元，本地优先部署确保数据隐私安全' },
-  { name: 'Session 会话', desc: '维护对话上下文、消息历史和任务状态，实现跨会话连贯操作' },
-  { name: 'Cron 定时任务', desc: '定时触发器，支持周期性任务、延迟执行和条件触发' },
-  { name: 'Workflow 工作流', desc: '复杂任务编排，支持Work Tree树状结构和Pipeline流水线' },
-  { name: '多Agent协同', desc: '研究Agent、写作Agent、设计Agent分工合作处理复杂任务' },
-  { name: '本地优先部署', desc: '部署在用户自己的电脑或私有服务器，确保数据隐私安全' },
+const sideLayers = [
+  {
+    id: 'extension',
+    name: '插件扩展层（一级公民）',
+    nodes: [
+      { icon: '🤖', title: '模型Provider插件', desc: 'OpenAI/豆包/Ollama等' },
+      { icon: '💬', title: '渠道适配器插件', desc: '多平台消息适配' },
+      { icon: '🔧', title: '工具/技能插件', desc: '扩展功能与能力' },
+      { icon: '💾', title: '记忆存储插件', desc: '多种记忆存储后端' },
+      { icon: '🪝', title: '钩子扩展插件', desc: '生命周期事件处理' }
+    ]
+  },
+  {
+    id: 'storage',
+    name: '持久化存储层',
+    nodes: [
+      { icon: '📝', title: '会话存储', desc: 'JSONL事件日志' },
+      { icon: '💾', title: 'Checkpoint快照存储', desc: '任务状态快照' },
+      { icon: '🔢', title: '长期向量知识库', desc: '向量化知识存储' },
+      { icon: '⚙️', title: '配置文件存储', desc: '系统配置与元数据' }
+    ]
+  },
+  {
+    id: 'security',
+    name: '安全沙箱层',
+    nodes: [
+      { icon: '📦', title: 'Docker隔离沙箱', desc: '容器化执行环境' },
+      { icon: '📋', title: '执行策略管控', desc: '资源与权限策略' },
+      { icon: '🔐', title: '权限与审批控制', desc: '操作权限管理' },
+      { icon: '📊', title: '全链路审计日志', desc: '操作记录与审计' }
+    ]
+  }
 ]
 </script>
 
 <style scoped>
 .architecture-view {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 60px 40px;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
 }
 
 .page-title {
-  font-size: 42px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 50px;
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* 流程图容器 */
-.flow-diagram {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  padding: 30px;
-  background: linear-gradient(180deg, rgba(0, 102, 255, 0.03), rgba(0, 212, 170, 0.03));
-  border-radius: 20px;
+.page-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* 架构图容器 */
+.architecture-container {
+  position: relative;
+  margin-bottom: 80px;
+  min-height: 1000px;
+}
+
+.flowchart-container {
+  position: relative;
+  background: linear-gradient(180deg, rgba(0, 102, 255, 0.02), rgba(0, 212, 170, 0.02));
+  border-radius: 24px;
+  padding: 60px 40px;
   border: 1px solid rgba(0, 102, 255, 0.1);
+  /* 为侧边层预留空间 */
+  padding-right: 360px;
+  min-height: 900px;
 }
 
-/* 流程行 */
-.flow-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 12px;
+/* 层级样式 */
+.layer {
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 10;
 }
 
-.channels {
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.nodes {
-  gap: 20px;
-}
-
-/* 流程盒子 */
-.flow-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 16px 20px;
-  background: white;
-  border-radius: 12px;
-  border: 2px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-.flow-box:hover {
-  border-color: var(--primary);
-  box-shadow: 0 8px 24px rgba(0, 102, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-.box-icon {
-  font-size: 28px;
-}
-
-.box-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.box-sub {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.box-mini {
-  font-size: 10px;
-  color: var(--text-muted);
+.layer-header {
   text-align: center;
+  margin-bottom: 32px;
 }
 
-.box-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  justify-content: center;
-  margin-top: 4px;
-}
-
-.tag {
-  padding: 2px 8px;
-  background: rgba(0, 102, 255, 0.1);
-  border-radius: 10px;
-  font-size: 10px;
-  color: var(--primary);
-}
-
-/* 用户盒子 - 白底 */
-.user-box {
-  background: white;
-  border-color: var(--primary);
-  padding: 20px 30px;
-}
-
-.user-box .box-icon {
-  font-size: 36px;
-}
-
-/* Channel 盒子 */
-.channel-box {
-  min-width: 70px;
-  padding: 12px 14px;
-  background: white;
-}
-
-.channel-box .box-icon {
-  font-size: 22px;
-}
-
-.channel-box .box-label {
-  font-size: 11px;
-}
-
-/* Gateway 盒子 */
-.gateway-box {
-  min-width: 220px;
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
-  border-color: var(--primary);
-}
-
-/* SVG 箭头 */
-.arrow-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  width: 100%;
-}
-
-.arrow-svg {
-  width: 24px;
-  height: 24px;
-  filter: invert(42%) sepia(85%) saturate(3548%) hue-rotate(210deg) brightness(100%) contrast(101%);
-}
-
-.arrow-svg.large {
-  width: 32px;
-  height: 32px;
-}
-
-.arrow-svg.small {
-  width: 20px;
-  height: 20px;
-  transform: translateY(8%);
-}
-
-.arrow-svg.tiny {
-  width: 16px;
-  height: 16px;
-}
-
-/* 横向箭头 */
-.horizontal-arrows {
-  gap: 20px;
-}
-
-.arrow-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-/* Checkpoint 分支 */
-.branch-row {
-  width: 100%;
-  margin: 20px 0;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
-  border-radius: 16px;
-  border: 2px solid rgba(59, 130, 246, 0.3);
-}
-
-.branch-label {
-  text-align: center;
-  font-size: 15px;
+.layer-header h2 {
+  font-size: 24px;
   font-weight: 700;
-  color: #3b82f6;
-  margin-bottom: 20px;
-  letter-spacing: 0.5px;
+  color: var(--primary);
+  margin-bottom: 12px;
 }
 
-.checkpoint-flow {
+.layer-header .layer-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.layer-content {
   display: flex;
   justify-content: center;
-  align-items: stretch;
-  gap: 16px;
+  gap: 24px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  /* 限制宽度避免与侧边层冲突 */
+  max-width: calc(100% - 360px);
+  margin: 0 auto;
 }
 
-.checkpoint-step {
+.layer-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: calc(100% - 360px);
+  margin: 0 auto;
+}
+
+.grid-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* 节点盒子 */
+.node-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 20px;
+  padding: 24px 20px;
   background: white;
-  border-radius: 12px;
-  border: 2px solid rgba(59, 130, 246, 0.2);
-  min-width: 100px;
-  transition: all 0.3s;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 200px;
+  text-align: center;
+  opacity: 0;
+  animation: cardEnter 0.6s ease-out forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
-.checkpoint-step:hover {
+.node-box:hover {
+  border-color: var(--primary);
+  box-shadow: 0 16px 40px rgba(0, 102, 255, 0.2);
+  transform: translateY(-8px) scale(1.05);
+  z-index: 10;
+}
+
+.client-node:hover {
+  border-color: #10b981;
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.2);
+}
+
+.gateway-node:hover {
   border-color: #3b82f6;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.2);
 }
 
-.step-icon {
-  font-size: 28px;
+.execution-node:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 16px 40px rgba(139, 92, 246, 0.2);
 }
 
-.step-name {
-  font-size: 13px;
+.node-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  animation: float 3s ease-in-out infinite;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+}
+
+.node-title {
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
-}
-
-.step-desc {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-align: center;
-  line-height: 1.4;
-}
-
-.checkpoint-storage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
-}
-
-.storage-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.storage-item {
-  padding: 6px 12px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: white;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-
-
-/* Node 盒子 */
-.node-box {
-  min-width: 110px;
-  background: white;
-}
-
-/* Session 盒子 */
-.session-box {
-  min-width: 180px;
-  background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(0, 102, 255, 0.05));
-  border-color: var(--secondary);
-}
-
-/* 执行核心区域 */
-.core-section {
-  display: flex;
-  width: 100%;
-  gap: 20px;
-  justify-content: center;
-  align-items: stretch;
-  padding: 20px 0;
-}
-
-.core-left, .core-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.side-title {
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
   margin-bottom: 8px;
 }
 
-.exec-boxes, .storage-boxes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.exec-box, .storage-box {
-  padding: 14px;
-  background: white;
-}
-
-.exec-box {
-  border-color: var(--primary);
-}
-
-.storage-box {
-  border-color: var(--secondary);
-}
-
-/* 能力中心 */
-.core-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 200px;
-  gap: 16px;
-}
-
-.center-title {
-  font-size: 13px;
-  font-weight: 600;
+.node-desc {
+  font-size: 12px;
   color: var(--text-muted);
+  line-height: 1.4;
+  min-height: 34px;
 }
 
-.capability-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+/* 箭头连接 */
+.arrow-down {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  position: relative;
+  z-index: 5;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.3s forwards;
 }
 
-.cap-item {
+.arrow-down svg {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* 侧边层 */
+.side-layers {
+  position: absolute;
+  right: 40px;
+  top: 60px;
+  width: 300px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 14px 18px;
+  gap: 40px;
+  z-index: 20;
+}
+
+.side-layer {
   background: white;
-  border-radius: 10px;
+  border-radius: 16px;
   border: 2px solid var(--border);
-  transition: all 0.3s;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  animation: fadeInRight 0.8s ease-out forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.cap-item:hover {
+.side-layer:hover {
+  transform: translateX(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.extension-layer {
+  border-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(59, 130, 246, 0.05));
+  animation-delay: 0.4s;
+}
+
+.storage-layer {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+  animation-delay: 0.5s;
+}
+
+.security-layer {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(16, 185, 129, 0.05));
+  animation-delay: 0.6s;
+}
+
+.side-layer-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.side-layer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.side-node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  animation: fadeInLeft 0.6s ease-out forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s + 0.5s);
+}
+
+.side-node:hover {
+  background: white;
   border-color: var(--primary);
-  transform: scale(1.05);
+  transform: translateX(8px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.15);
 }
 
-.cap-icon {
-  font-size: 22px;
+.side-node-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  min-width: 24px;
 }
 
-.cap-name {
+.side-node-title {
   font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.cap-desc {
-  font-size: 9px;
+.side-node-desc {
+  font-size: 10px;
   color: var(--text-muted);
-  text-align: center;
-  line-height: 1.3;
+  margin-left: auto;
+  text-align: right;
+  min-width: 80px;
 }
 
-/* 任务执行流程 */
-.task-flow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: rgba(0, 102, 255, 0.05);
-  border-radius: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+/* 连接线 */
+.connection-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
 }
 
-.task-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.step-dot {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+.connection-lines .line {
+  position: absolute;
   background: var(--primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
+  opacity: 0.3;
+  transform-origin: center;
+  animation: lineDraw 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.8s;
+}
+
+@keyframes lineDraw {
+  from {
+    transform: scaleX(0) scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1) scaleY(1);
+    opacity: 0.3;
+  }
+}
+
+.connection-lines .vertical {
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-1px) scaleY(0);
+  transform-origin: top center;
+}
+
+.connection-lines .horizontal {
+  height: 2px;
+  width: 200px;
+  right: 300px;
+  transform: scaleX(0);
+}
+
+.connection-lines .horizontal.extension {
+  top: 30%;
+  transform-origin: right center;
+}
+
+.connection-lines .horizontal.storage {
+  top: 50%;
+  transform-origin: right center;
+}
+
+.connection-lines .horizontal.security {
+  top: 70%;
+  transform-origin: right center;
+}
+
+/* 架构说明 */
+.architecture-description {
+  margin: 80px 0;
+}
+
+.section-title {
+  font-size: 32px;
   font-weight: 700;
-}
-
-.step-name {
-  font-size: 10px;
   color: var(--text-primary);
-  font-weight: 500;
-}
-
-/* 失败重试机制 */
-.retry-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: rgba(239, 68, 68, 0.05);
-  border-radius: 10px;
-  border: 1px dashed rgba(239, 68, 68, 0.3);
-}
-
-.retry-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #ef4444;
-}
-
-.retry-flow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.retry-item {
-  padding: 4px 10px;
-  background: white;
-  border-radius: 16px;
-  font-size: 10px;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-/* 外部集成 */
-.external-section {
-  width: 100%;
-  padding: 20px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  margin-top: 10px;
-}
-
-.external-title {
   text-align: center;
-  font-size: 16px;
+  margin: 60px 0 40px;
+}
+
+.design-principles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.principle-card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  animation: fadeInLeft 0.6s ease-out forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+}
+
+.principle-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 16px 40px rgba(0, 102, 255, 0.12);
+  transform: translateY(-8px);
+}
+
+.principle-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.principle-card h3 {
+  font-size: 20px;
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 16px;
 }
 
-.external-groups {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.ext-group {
-  flex: 1;
-  min-width: 150px;
-  padding: 16px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.model-group {
-  background: rgba(0, 102, 255, 0.08);
-  border: 1px solid rgba(0, 102, 255, 0.2);
-}
-
-.tools-group {
-  background: rgba(0, 212, 170, 0.08);
-  border: 1px solid rgba(0, 212, 170, 0.2);
-}
-
-.skills-group {
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-}
-
-.ext-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.ext-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-}
-
-.ext-item {
-  padding: 4px 10px;
-  background: white;
-  border-radius: 16px;
-  font-size: 11px;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-/* 数据流向 */
-.flow-legend {
-  margin-top: 40px;
-  padding: 24px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-}
-
-.legend-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.legend-items {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
-  border-radius: 8px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.step-num {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.step-text {
-  font-size: 11px;
-  color: var(--text-primary);
-}
-
-/* 概念详解 */
-.concepts-section {
-  margin-top: 50px;
-}
-
-.section-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-.concepts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.concept-card {
-  background: white;
-  border-radius: 12px;
-  padding: 18px;
-  border: 1px solid var(--border);
-  transition: all 0.3s;
-}
-
-.concept-card:hover {
-  border-color: var(--primary);
-  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.1);
-}
-
-.concept-card h4 {
+.principle-card p {
   font-size: 15px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.concept-card p {
-  font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-  .core-section {
-    flex-direction: column;
+/* 数据流向 */
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+.flow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.03), rgba(0, 212, 170, 0.03));
+  border-radius: 20px;
+  border: 1px solid rgba(0, 102, 255, 0.1);
+  opacity: 0;
+  animation: fadeInRight 0.6s ease-out forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+  transition: all 0.3s ease;
+}
+
+.flow-step:hover {
+  transform: translateX(8px);
+  border-color: rgba(0, 102, 255, 0.2);
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+}
+
+.step-content h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.step-content p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* 关键特性 */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+}
+
+.feature-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 16px 40px rgba(0, 102, 255, 0.12);
+  transform: translateY(-8px);
+}
+
+.feature-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* 响应式调整 */
+@media (max-width: 1200px) {
+  .flowchart-container {
+    padding-right: 40px;
+    min-height: auto;
   }
   
-  .branch-flow {
-    flex-direction: column;
+  .layer-content,
+  .layer-grid {
+    max-width: 100%;
   }
   
-  .task-flow, .retry-flow {
-    flex-direction: column;
+  .side-layers {
+    position: static;
+    width: 100%;
+    margin-top: 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
   }
   
-  .concepts-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .side-layer {
+    flex: 1;
+    min-width: 300px;
+    max-height: none;
   }
   
-  .legend-items {
-    flex-direction: column;
-    align-items: center;
+  .connection-lines {
+    display: none;
+  }
+  
+  .grid-row {
+    gap: 20px;
+  }
+  
+  .node-box {
+    min-width: 180px;
   }
 }
 
-@media (max-width: 480px) {
-  .channels, .nodes {
-    flex-wrap: wrap;
+@media (max-width: 768px) {
+  .architecture-view {
+    padding: 40px 20px;
   }
   
-  .concepts-grid {
+  .page-title {
+    font-size: 36px;
+  }
+  
+  .layer-grid,
+  .grid-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .node-box {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .design-principles,
+  .features-grid {
     grid-template-columns: 1fr;
   }
   
-  .external-groups {
+  .side-layers {
     flex-direction: column;
+  }
+  
+  .side-layer {
+    width: 100%;
+  }
+  
+  .flow-step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }
 </style>
