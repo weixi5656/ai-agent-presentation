@@ -14,10 +14,10 @@
           </p>
         </div>
         <div class="hero-tags mt-12">
-          <span class="glass-tag">🧠 认知升级</span>
+          <span class="glass-tag">✨ 工程方法</span>
           <span class="glass-tag">🦞 OpenClaw</span>
-          <span class="glass-tag">👥 ClawTeam</span>
-          <span class="glass-tag">🚀 端侧落地</span>
+          <span class="glass-tag">📱 端侧实践</span>
+          <span class="glass-tag">🚀 团队提效</span>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const fullText = "从认知到落地，构建真正能干活的 AI 智能体"
+const fullText = "聚焦前沿、可落地、高质感的 AI 智能体方案"
 const displayedText = ref('')
 const isTyping = ref(true)
 
@@ -51,7 +51,7 @@ onMounted(() => {
 
 <style scoped>
 .intro-view {
-  min-height: 100vh;
+  min-height: calc(100vh - 200px);
   display: flex;
   align-items: center;
   justify-content: center;

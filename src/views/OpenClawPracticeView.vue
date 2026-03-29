@@ -1,6 +1,6 @@
 <template>
   <div class="openclaw-practice-view">
-    <h1 class="page-title">OpenClaw 快速上手：3 步跑通第一个研发智能体</h1>
+    <h1 class="page-title">OpenClaw  快速上手：3 步跑通第一个研发智能体</h1>
     
     <div class="steps-section">
       <div class="step-card" v-for="(step, index) in steps" :key="index">

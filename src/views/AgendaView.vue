@@ -1,17 +1,11 @@
 <template>
   <div class="agenda-view">
-    <h1 class="page-title animate-on-scroll delay-100">今天我们一起聊什么？</h1>
+    <h1 class="page-title">分享议程与收益</h1>
 
     <div class="timeline-container">
-      <div class="timeline-path animate-on-scroll delay-200"></div>
+      <div class="timeline-path"></div>
       
-      <div 
-        class="timeline-item animate-on-scroll" 
-        v-for="(item, index) in agenda" 
-        :key="'agenda-'+index" 
-        :class="index % 2 === 0 ? 'item-left' : 'item-right'"
-        :style="{ animationDelay: `${300 + index * 100}ms` }"
-      >
+      <div class="timeline-item" v-for="(item, index) in agenda" :key="'agenda-'+index" :class="index % 2 === 0 ? 'item-left' : 'item-right'">
         <div class="timeline-node">
           <span class="node-number">{{ index + 1 }}</span>
         </div>
@@ -37,7 +31,6 @@ const agenda = [
   { title: '认知与原理篇', desc: 'AI Agent 核心概念、执行闭环与组成模块解析' },
   { title: '研发场景篇', desc: '编码、测试、运维、文档与协作等典型落地案例' },
   { title: 'OpenClaw 架构篇', desc: 'Channel、Gateway、Node、Session、Skills、Memory 的协同关系' },
-  { title: '本地模型部署篇', desc: 'Ollama 快速上手：私有化部署、模型选型与 OpenClaw 无缝对接' },
   { title: 'OpenClaw 实操篇', desc: '3 步跑通第一个研发智能体，完成从安装到执行的闭环' },
   { title: 'ClawTeam 协作篇', desc: '多智能体如何分工协作，把单助手升级为 AI 团队' },
   { title: '提示词工程篇', desc: '常用提示词框架、Agent 模板与省 Token 方法' },
@@ -46,15 +39,14 @@ const agenda = [
 ]
 
 const benefits = [
-  { icon: '🧠', text: '建立从"对话模型"到"可执行智能体"的认知升级，理解 Agent 执行闭环' },
-  { icon: '🛠️', text: '看懂代码、测试、运维、文档等场景的 AI 落地思路，找到自己团队的切入点' },
-  { icon: '📌', text: '掌握 OpenClaw 六大核心组件（Channel / Gateway / Node / Session / Skills / Memory）的协同关系' },
-  { icon: '🔒', text: '掌握 Ollama 本地部署方法，3步跑通私有化模型，代码数据不出内网，零 Token 成本调试' },
-  { icon: '⚡', text: '带走可直接运行的 3 步实操路径，当天即可跑通第一个研发智能体' },
-  { icon: '👥', text: '看懂 ClawTeam 多智能体如何分工协作，把单助手升级为 AI 研发团队' },
-  { icon: '📦', text: '带走可直接复用的提示词框架（8 种）、省 Token 方法与智能体提示词模板' },
-  { icon: '🔌', text: '了解"端侧感知 - 云端规划 - 端侧执行"闭环思路，拓展 AI 落地边界' },
-  { icon: '🚀', text: '获得一套可持续演进的 AI 智能体技术判断框架，做有方向感的技术决策' },
+  { icon: '📌', text: '理解 AI 智能体在软件研发中的价值与工作方式' },
+  { icon: '🛠️', text: '掌握 OpenClaw 的整体架构与工程化落地路径' },
+  { icon: '👥', text: '看懂 ClawTeam 多智能体协作如何支撑团队级研发任务' },
+  { icon: '📦', text: '带走可直接复用的提示词框架、配置思路与实践模板' },
+  { icon: '🧠', text: '建立从“对话模型”到“可执行智能体”的认知升级' },
+  { icon: '🔍', text: '理解智能体感知、规划、记忆、工具调用的完整闭环' },
+  { icon: '⚙️', text: '看清单智能体与多智能体在实际研发任务中的分工边界' },
+  { icon: '🚀', text: '获得一套可持续演进的 AI 智能体落地判断框架' },
 ]
 </script>
 
@@ -63,10 +55,9 @@ const benefits = [
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 20px;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .page-title {

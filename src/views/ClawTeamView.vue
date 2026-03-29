@@ -5,7 +5,7 @@
     <div class="positioning-section">
       <div class="positioning-card">
         <h2>核心定位</h2>
-        <p>ClawTeam 是基于 OpenClaw 的多智能体协作框架，用来把单个智能体升级为“会分工、会协作、会交付”的 AI 研发团队。</p>
+        <p>ClawTeam  是基于 OpenClaw 的多智能体协作框架，用来把单个智能体升级为“会分工、会协作、会交付”的 AI 研发团队。</p>
       </div>
     </div>
     
