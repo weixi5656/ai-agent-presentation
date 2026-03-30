@@ -1,399 +1,116 @@
 <template>
   <div class="architecture-view">
-    <h1 class="page-title">OpenClaw 架构流程图</h1>
+    <h1 class="page-title">OpenClaw 极简架构流程图</h1>
 
-    <!-- Tab 导航 -->
-    <div class="tab-nav">
-      <button
-        v-for="(tab, i) in tabs"
-        :key="i"
-        class="tab-btn"
-        :class="{ active: activeTab === i }"
-        @click="activeTab = i"
-      >{{ tab.icon }} {{ tab.label }}</button>
-    </div>
-
-    <!-- Tab 0: 架构流程图 -->
-    <div v-show="activeTab === 0">
     <div class="flow-diagram">
       <!-- 用户入口 -->
       <div class="flow-row">
-        <div class="flow-box user-box">
+        <div class="user-box">
           <span class="box-icon">👤</span>
-          <span class="box-label">用户</span>
+          <span class="box-label">User / External</span>
         </div>
       </div>
       
-      <!-- 向下箭头 -->
       <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
+        <span class="flow-step-badge left-badge">1. 触发任务交互</span>
+        <div class="arrow-line"></div>
       </div>
       
-      <!-- Channel 频道层 -->
-      <div class="flow-row channels">
-        <div class="flow-box channel-box" v-for="ch in channels" :key="ch.name">
-          <span class="box-icon">{{ ch.icon }}</span>
-          <span class="box-label">{{ ch.name }}</span>
-        </div>
-      </div>
-      
-      <!-- 汇聚箭头 -->
-      <div class="arrow-container">
-        <img src="/chevron-down.svg" class="arrow-svg large" alt="converge" />
-      </div>
-      
-      <!-- Gateway 网关 -->
+      <!-- Messaging Surfaces (Channels) -->
       <div class="flow-row">
-        <div class="flow-box gateway-box">
+        <div class="flow-box surface-box has-tooltip">
+          <span class="box-icon">🌐</span>
+          <span class="box-label">Messaging Surfaces</span>
+          <div class="box-tags">
+            <span class="tag">IM (Telegram/Slack)</span>
+            <span class="tag">Web UI</span>
+            <span class="tag">CLI</span>
+            <span class="tag">API</span>
+          </div>
+          <div class="tooltip-content">用户交互界面层，摆脱传统Web束缚，将多渠道输入无缝化。</div>
+        </div>
+      </div>
+      
+      <div class="arrow-container">
+        <span class="flow-step-badge right-badge">2. 请求路由接入</span>
+        <div class="arrow-line"></div>
+      </div>
+      
+      <!-- Gateway Daemon -->
+      <div class="flow-row">
+        <div class="flow-box gateway-box has-tooltip">
           <span class="box-icon">🚪</span>
-          <span class="box-label">Gateway 网关</span>
+          <span class="box-label">Gateway (Daemon)</span>
+          <span class="box-sub">Local Port: 18789</span>
           <div class="box-tags">
-            <span class="tag">路由转发</span>
-            <span class="tag">消息管理</span>
-            <span class="tag">权限校验</span>
-            <span class="tag">Hooks</span>
+            <span class="tag">本地常驻守护</span>
+            <span class="tag">会话管理(Session)</span>
+            <span class="tag">路由分发分流</span>
           </div>
+          <div class="tooltip-content">中心控制平面守护进程(Daemon)，维持消息长联，统管路由并处理Hook。</div>
         </div>
       </div>
       
-      <!-- Checkpoint 检查点机制 -->
-      <div class="branch-row checkpoint-branch">
-        <div class="branch-label">Checkpoint 检查点机制 - 任务状态持久化</div>
-        <div class="checkpoint-flow">
-          <div class="checkpoint-step">
-            <span class="step-icon">💾</span>
-            <span class="step-name">定期保存</span>
-            <span class="step-desc">每 5 步自动落盘</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="checkpoint-step">
-            <span class="step-icon">📝</span>
-            <span class="step-name">状态快照</span>
-            <span class="step-desc">已完成步骤+中间结果</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="checkpoint-step">
-            <span class="step-icon">⚡</span>
-            <span class="step-name">中断恢复</span>
-            <span class="step-desc">加载检查点继续执行</span>
-          </div>
-          <img src="/arrow-right.svg" class="arrow-svg small" alt="right" />
-          <div class="checkpoint-step">
-            <span class="step-icon">✅</span>
-            <span class="step-name">断点续传</span>
-            <span class="step-desc">无需从头开始</span>
-          </div>
-        </div>
-        <div class="checkpoint-storage">
-          <span class="storage-label">存储方式：</span>
-          <span class="storage-item">JSON - 任务配置</span>
-          <span class="storage-item">SQLite - 结构化数据</span>
-        </div>
-      </div>
-      
-      <!-- 向下箭头 -->
       <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
+        <span class="flow-step-badge left-badge">3. 同步状态中枢</span>
+        <div class="arrow-line split-line"></div>
       </div>
       
-      <!-- Node 节点层 -->
-      <div class="flow-row nodes">
-        <div class="flow-box node-box" v-for="node in nodes" :key="node.name">
-          <span class="box-icon">{{ node.icon }}</span>
-          <span class="box-label">{{ node.name }}</span>
-          <span class="box-sub">{{ node.type }}</span>
-        </div>
-      </div>
-      
-      <!-- 横向连接箭头 -->
-      <div class="arrow-container horizontal-arrows">
-        <img src="/arrow-left.svg" class="arrow-svg" alt="left" />
-        <span class="arrow-label">Session 会话同步</span>
-        <img src="/arrow-right.svg" class="arrow-svg" alt="right" />
-      </div>
-      
-      <!-- Session 会话 -->
-      <div class="flow-row">
-        <div class="flow-box session-box">
-          <span class="box-icon">💬</span>
-          <span class="box-label">Session 会话</span>
+      <!-- Parallel: Agent Runtime & Checkpoint -->
+      <div class="parallel-section">
+        <div class="flow-box runtime-box has-tooltip">
+          <span class="box-icon">🧠</span>
+          <span class="box-label">Agent Runtime</span>
           <div class="box-tags">
-            <span class="tag">消息历史</span>
-            <span class="tag">上下文</span>
-            <span class="tag">Logs</span>
+            <span class="tag">上下文视窗组装</span>
+            <span class="tag">大语言模型(LLM)引擎</span>
+            <span class="tag">自治循环(Autonomous Loop)</span>
           </div>
-        </div>
-      </div>
-      
-      <!-- 向下箭头 -->
-      <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
-      </div>
-      
-      <!-- 执行核心 -->
-      <div class="core-section">
-        <div class="core-left">
-          <div class="side-title">执行单元</div>
-          <div class="exec-boxes">
-            <div class="flow-box exec-box">
-              <span class="box-icon">🤖</span>
-              <span class="box-label">Agent 代理</span>
-              <div class="box-mini">Sub-agent / Agents / Work Runs</div>
-            </div>
-            <div class="flow-box exec-box">
-              <span class="box-icon">⏰</span>
-              <span class="box-label">Cron 定时任务</span>
-              <div class="box-mini">定时 / 周期 / 延迟</div>
-            </div>
-            <div class="flow-box exec-box">
-              <span class="box-icon">🔄</span>
-              <span class="box-label">Workflow 工作流</span>
-              <div class="box-mini">Work Tree / Pipeline</div>
-            </div>
-          </div>
+          <div class="tooltip-content">真正的智能运行中枢，构建Context并通信给LLM，执行核心逻辑决策及多次循环工具调度。</div>
         </div>
         
-        <div class="core-center">
-          <div class="center-title">能力支撑</div>
-          <div class="capability-grid">
-            <div class="cap-item" v-for="cap in capabilities" :key="cap.name">
-              <span class="cap-icon">{{ cap.icon }}</span>
-              <span class="cap-name">{{ cap.name }}</span>
-              <span class="cap-desc">{{ cap.desc }}</span>
-            </div>
+        <div class="flow-box checkpoint-box has-tooltip">
+          <span class="box-icon">⚕️</span>
+          <span class="box-label">健康检查 & Checkpoint</span>
+          <div class="box-tags">
+            <span class="tag">Health Check 心跳探活</span>
+            <span class="tag">任务快照持久落盘</span>
+            <span class="tag">故障无损恢复机制</span>
           </div>
-          
-          <!-- 任务执行详细流程 -->
-          <div class="task-flow">
-            <div class="task-step">
-              <span class="step-dot">1</span>
-              <span class="step-name">Skill选择</span>
-            </div>
-            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-            <div class="task-step">
-              <span class="step-dot">2</span>
-              <span class="step-name">步骤编排</span>
-            </div>
-            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-            <div class="task-step">
-              <span class="step-dot">3</span>
-              <span class="step-name">执行</span>
-            </div>
-            <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-            <div class="task-step">
-              <span class="step-dot">4</span>
-              <span class="step-name">轮询进度</span>
-            </div>
-          </div>
-          
-          <!-- 失败重试机制 -->
-          <div class="retry-box">
-            <span class="retry-label">失败重试机制</span>
-            <div class="retry-flow">
-              <span class="retry-item">检测失败</span>
-              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-              <span class="retry-item">指数退避</span>
-              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-              <span class="retry-item">重试(最多3次)</span>
-              <img src="/arrow-right.svg" class="arrow-svg tiny" alt="right" />
-              <span class="retry-item">失败转移</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="core-right">
-          <div class="side-title">数据存储</div>
-          <div class="storage-boxes">
-            <div class="flow-box storage-box">
-              <span class="box-icon">📁</span>
-              <span class="box-label">Files 文件</span>
-            </div>
-            <div class="flow-box storage-box">
-              <span class="box-icon">🧠</span>
-              <span class="box-label">Memory 记忆</span>
-            </div>
-            <div class="flow-box storage-box">
-              <span class="box-icon">📊</span>
-              <span class="box-label">Logs 日志</span>
-            </div>
-          </div>
+          <div class="tooltip-content">并行的鲁棒防御防线：持续侦测节点心跳健康，自动存档任务状态进度，保障宕机遇险即可恢复。</div>
         </div>
       </div>
-      
-      <!-- 向下箭头 -->
+
       <div class="arrow-container">
-        <img src="/arrow-down.svg" class="arrow-svg" alt="down" />
+        <span class="flow-step-badge right-badge">4. 功能连接与存档</span>
+        <div class="arrow-line merge-line"></div>
       </div>
       
-      <!-- 外部集成 -->
-      <div class="external-section">
-        <div class="external-title">外部集成</div>
-        <div class="external-groups">
-          <div class="ext-group model-group">
-            <div class="ext-label">🤖 大模型 Model</div>
-            <div class="ext-items">
-              <span class="ext-item">OpenAI</span>
-              <span class="ext-item">Claude</span>
-              <span class="ext-item">Gemini</span>
-              <span class="ext-item">Kimi</span>
-            </div>
-          </div>
-          <div class="ext-group tools-group">
-            <div class="ext-label">🔧 开发工具 Tools</div>
-            <div class="ext-items">
-              <span class="ext-item">Git</span>
-              <span class="ext-item">Docker</span>
-              <span class="ext-item">Jenkins</span>
-              <span class="ext-item">VSCode</span>
-            </div>
-          </div>
-          <div class="ext-group skills-group">
-            <div class="ext-label">📦 技能 Skills</div>
-            <div class="ext-items">
-              <span class="ext-item">ClawHub</span>
-              <span class="ext-item">自定义</span>
-              <span class="ext-item">插件</span>
-            </div>
-          </div>
+      <!-- Capabilities -->
+      <div class="flow-row capacities">
+        <div class="flow-box cap-box has-tooltip">
+          <span class="box-icon">🔌</span>
+          <span class="box-label">Skills & Plugins</span>
+          <div class="tooltip-content">扩展插槽：从执行脚本的 Skills 到实现浏览器自动化等深层原生 Plugins 等多样拓展能力。</div>
         </div>
-      </div>
-    </div>
-    
-    <!-- 数据流向 -->
-    <div class="flow-legend">
-      <h3 class="legend-title">数据流向</h3>
-      <div class="legend-items">
-        <div class="legend-item" v-for="(step, index) in flowSteps" :key="index">
-          <span class="step-num">{{ index + 1 }}</span>
-          <span class="step-text">{{ step }}</span>
+        <div class="flow-box cap-box has-tooltip">
+          <span class="box-icon">📊</span>
+          <span class="box-label">Canvas / HTML A2UI</span>
+          <div class="tooltip-content">用户呈现拓展：Agent主动渲染响应反馈可交互的 HTML 动态面板及界面流向。</div>
         </div>
-      </div>
-    </div>
-    
-    <!-- 概念详解 -->
-    <div class="concepts-section">
-      <h3 class="section-title">核心概念详解</h3>
-      <div class="concepts-grid">
-        <div class="concept-card" v-for="concept in concepts" :key="concept.name">
-          <h4>{{ concept.name }}</h4>
-          <p>{{ concept.desc }}</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 核心工程优势 -->
-    <div class="advantages-section">
-      <h3 class="section-title">核心工程优势</h3>
-      <div class="advantages-grid">
-        <div class="advantage-card" v-for="adv in advantages" :key="adv.title">
-          <div class="adv-icon">{{ adv.icon }}</div>
-          <div class="adv-content">
-            <h4>{{ adv.title }}</h4>
-            <p>{{ adv.desc }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-
-    <!-- Tab 1: 概念详解 -->
-    <div v-show="activeTab === 1">
-      <div class="concepts-section">
-        <h3 class="section-title">核心概念详解</h3>
-        <div class="concepts-grid">
-          <div class="concept-card" v-for="concept in concepts" :key="concept.name">
-            <h4>{{ concept.name }}</h4>
-            <p>{{ concept.desc }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 2: 工程优势 -->
-    <div v-show="activeTab === 2">
-      <div class="advantages-section">
-        <h3 class="section-title">核心工程优势</h3>
-        <div class="advantages-grid">
-          <div class="advantage-card" v-for="adv in advantages" :key="adv.title">
-            <div class="adv-icon">{{ adv.icon }}</div>
-            <div class="adv-content">
-              <h4>{{ adv.title }}</h4>
-              <p>{{ adv.desc }}</p>
-            </div>
-          </div>
+        <div class="flow-box cap-box has-tooltip">
+          <span class="box-icon">💾</span>
+          <span class="box-label">Local Memory</span>
+          <div class="tooltip-content">隐私优先本地记忆：长期把交互习惯与经验直接写成 Markdown/YAML等文件纯本地驻留。</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-
-const activeTab = ref(0)
-
-const tabs = [
-  { icon: '🏗️', label: '架构流程图' },
-  { icon: '📖', label: '概念详解' },
-  { icon: '⚡', label: '工程优势' },
-]
-
-const channels = [
-  { name: 'CLI', icon: '💻' },
-  { name: 'Web UI', icon: '🌐' },
-  { name: 'IM工具', icon: '💬' },
-  { name: 'API', icon: '🔗' },
-  { name: '移动端', icon: '📱' },
-  { name: 'Webhook', icon: '🪝' },
-]
-
-const nodes = [
-  { name: '本地节点', icon: '🏠', type: 'Workspace' },
-  { name: '沙箱节点', icon: '📦', type: 'Isolated' },
-  { name: '执行节点', icon: '⚙️', type: 'Runtime' },
-]
-
-const capabilities = [
-  { name: 'Skills', icon: '📦', desc: '把复杂能力封装成可复用技能模块' },
-  { name: 'Model', icon: '🤖', desc: '负责理解、推理、规划与生成' },
-  { name: 'Tools', icon: '🔧', desc: '连接命令行、文件、浏览器、API 等外部能力' },
-  { name: 'Memory', icon: '🧠', desc: '管理上下文、长期记忆与状态恢复' },
-]
-
-const flowSteps = [
-  '用户发送消息',
-  'Channel接入',
-  'Gateway路由',
-  'Node执行',
-  'Session管理',
-  'Agent/Cron/Workflow处理',
-  '调用Tools/Model/Memory',
-  '返回结果'
-]
-
-const concepts = [
-  { name: 'Channel', desc: '负责接入用户请求，可来自命令行、网页、API 或 IM 工具。' },
-  { name: 'Gateway', desc: '负责消息路由、权限校验、会话管理和 Hook 处理，是所有请求的入口中枢。' },
-  { name: 'Node', desc: '负责实际执行任务，每个 Node 都可以运行一个或多个智能体实例。' },
-  { name: 'Session', desc: '负责维护上下文、消息记录和中间状态，让多轮任务保持连续性。' },
-  { name: 'Agent / Cron / Workflow', desc: '真正执行任务的三种核心执行单元：单智能体、定时任务、工作流。' },
-  { name: 'Skills / Model / Tools / Memory', desc: '分别负责能力扩展、智能推理、外部动作执行和长期记忆管理。' },
-  { name: 'Checkpoint', desc: '负责任务状态持久化，异常中断后可从检查点恢复执行。' },
-  { name: 'Workspaces', desc: '通过工作区隔离保证不同任务、不同角色之间互不污染。' },
-]
-
-const advantages = [
-  { icon: '🔒', title: '私有化部署', desc: '代码与数据不出内网，避免核心代码泄露；支持消费级显卡个人电脑部署，无需共享服务器，数据安全性更高。' },
-  { icon: '⚡', title: '低资源占用', desc: '4核CPU、8GB内存、中端消费级显卡（8GB显存）即可稳定运行，适合开发机、私有服务器、个人电脑部署。' },
-  { icon: '🛠️', title: '易于二次开发', desc: '模块化架构，接口清晰，可根据团队需求定制功能；二次开发后，仍可适配消费级显卡，无需升级硬件。' },
-  { icon: '💾', title: '断点续传', desc: '支持长时间任务中断后恢复，解决研发任务超时问题；针对消费级显卡优化，中断后重启不占用额外显存。' },
-  { icon: '💻', title: '多模型与多平台', desc: '支持云端API与本地模型灵活切换；支持Windows/Linux/MacOS，适配主流消费级显卡（NVIDIA、AMD）。' }
-]
-</script>
-
 <style scoped>
 .architecture-view {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 40px 20px;
 }
@@ -408,696 +125,262 @@ const advantages = [
   -webkit-text-fill-color: transparent;
 }
 
-/* 流程图容器 */
 .flow-diagram {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
-  padding: 30px;
-  background: linear-gradient(180deg, rgba(0, 102, 255, 0.03), rgba(0, 212, 170, 0.03));
-  border-radius: 20px;
-  border: 1px solid rgba(0, 102, 255, 0.1);
+  padding: 40px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 102, 255, 0.08);
 }
 
-/* 流程行 */
 .flow-row {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
-  gap: 12px;
 }
 
-.channels {
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.nodes {
+.capacities {
   gap: 20px;
+  flex-wrap: wrap;
 }
 
-/* 流程盒子 */
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: rgba(0, 102, 255, 0.05);
+  border: 2px solid var(--primary);
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.box-icon {
+  font-size: 24px;
+}
+
+.arrow-container {
+  position: relative;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.arrow-line {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary) 0%, rgba(0, 212, 170, 0.5) 100%);
+  position: relative;
+}
+
+.arrow-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid rgba(0, 212, 170, 0.6);
+}
+
+.flow-step-badge {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 14px;
+  background: white;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px dashed var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  white-space: nowrap;
+}
+
+.left-badge {
+  right: calc(50% + 20px);
+}
+.right-badge {
+  left: calc(50% + 20px);
+}
+
 .flow-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 16px 20px;
-  background: white;
-  border-radius: 12px;
+  padding: 24px;
+  border-radius: 16px;
   border: 2px solid var(--border);
+  background: white;
   transition: all 0.3s ease;
+  min-width: 240px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .flow-box:hover {
   border-color: var(--primary);
-  box-shadow: 0 8px 24px rgba(0, 102, 255, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 102, 255, 0.1);
   transform: translateY(-2px);
-}
-
-.box-icon {
-  font-size: 28px;
+  z-index: 100;
 }
 
 .box-label {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--text-primary);
+  margin-top: 8px;
 }
 
 .box-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
-}
-
-.box-mini {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-align: center;
+  margin-top: 4px;
 }
 
 .box-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 8px;
   justify-content: center;
-  margin-top: 4px;
+  margin-top: 16px;
 }
 
 .tag {
-  padding: 2px 8px;
-  background: rgba(0, 102, 255, 0.1);
-  border-radius: 10px;
-  font-size: 10px;
-  color: var(--primary);
-}
-
-/* 用户盒子 - 白底 */
-.user-box {
-  background: white;
-  border-color: var(--primary);
-  padding: 20px 30px;
-}
-
-.user-box .box-icon {
-  font-size: 36px;
-}
-
-/* Channel 盒子 */
-.channel-box {
-  min-width: 70px;
-  padding: 12px 14px;
-  background: white;
-}
-
-.channel-box .box-icon {
-  font-size: 22px;
-}
-
-.channel-box .box-label {
-  font-size: 11px;
-}
-
-/* Gateway 盒子 */
-.gateway-box {
-  min-width: 220px;
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
-  border-color: var(--primary);
-}
-
-/* SVG 箭头 */
-.arrow-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 0;
-  width: 100%;
-}
-
-.arrow-svg {
-  width: 24px;
-  height: 24px;
-  filter: invert(42%) sepia(85%) saturate(3548%) hue-rotate(210deg) brightness(100%) contrast(101%);
-}
-
-.arrow-svg.large {
-  width: 32px;
-  height: 32px;
-}
-
-.arrow-svg.small {
-  width: 20px;
-  height: 20px;
-  transform: translateY(8%);
-}
-
-.arrow-svg.tiny {
-  width: 16px;
-  height: 16px;
-}
-
-/* 横向箭头 */
-.horizontal-arrows {
-  gap: 20px;
-}
-
-.arrow-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-/* Checkpoint 分支 */
-.branch-row {
-  width: 100%;
-  margin: 20px 0;
-  padding: 24px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
-  border-radius: 16px;
-  border: 2px solid rgba(59, 130, 246, 0.3);
-}
-
-.branch-label {
-  text-align: center;
-  font-size: 15px;
-  font-weight: 700;
-  color: #3b82f6;
-  margin-bottom: 20px;
-  letter-spacing: 0.5px;
-}
-
-.checkpoint-flow {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.checkpoint-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 20px;
-  background: white;
-  border-radius: 12px;
-  border: 2px solid rgba(59, 130, 246, 0.2);
-  min-width: 100px;
-  transition: all 0.3s;
-}
-
-.checkpoint-step:hover {
-  border-color: #3b82f6;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
-}
-
-.step-icon {
-  font-size: 28px;
-}
-
-.step-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.step-desc {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-align: center;
-  line-height: 1.4;
-}
-
-.checkpoint-storage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
-}
-
-.storage-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.storage-item {
   padding: 6px 12px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: white;
-  border-radius: 20px;
-  font-size: 11px;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
-
-
-/* Node 盒子 */
-.node-box {
-  min-width: 110px;
-  background: white;
+/* Specific styling */
+.gateway-box {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.03), rgba(0, 212, 170, 0.03));
+}
+.gateway-box .tag {
+  background: rgba(0, 102, 255, 0.1);
+  color: var(--primary);
+  font-weight: 600;
 }
 
-/* Session 盒子 */
-.session-box {
-  min-width: 180px;
+.parallel-section {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  justify-content: center;
+}
+
+.runtime-box {
+  flex: 1;
+  max-width: 360px;
+  border-color: var(--secondary);
   background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(0, 102, 255, 0.05));
-  border-color: var(--secondary);
+}
+.runtime-box .tag {
+  background: rgba(0, 212, 170, 0.1);
+  color: var(--secondary);
+  font-weight: 600;
 }
 
-/* 执行核心区域 */
-.core-section {
-  display: flex;
-  width: 100%;
-  gap: 20px;
-  justify-content: center;
-  align-items: stretch;
-  padding: 20px 0;
-}
-
-.core-left, .core-right {
+.checkpoint-box {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  max-width: 360px;
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(239, 68, 68, 0.05));
 }
-
-.side-title {
-  text-align: center;
-  font-size: 13px;
+.checkpoint-box .tag {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
   font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 8px;
 }
 
-.exec-boxes, .storage-boxes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.exec-box, .storage-box {
-  padding: 14px;
-  background: white;
-}
-
-.exec-box {
-  border-color: var(--primary);
-}
-
-.storage-box {
-  border-color: var(--secondary);
-}
-
-/* 能力中心 */
-.core-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 200px;
-  gap: 16px;
-}
-
-.center-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.capability-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.cap-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 14px 18px;
-  background: white;
-  border-radius: 10px;
-  border: 2px solid var(--border);
-  transition: all 0.3s;
-}
-
-.cap-item:hover {
-  border-color: var(--primary);
-  transform: scale(1.05);
-}
-
-.cap-icon {
-  font-size: 22px;
-}
-
-.cap-name {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.cap-desc {
-  font-size: 9px;
-  color: var(--text-muted);
-  text-align: center;
-  line-height: 1.3;
-}
-
-/* 任务执行流程 */
-.task-flow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: rgba(0, 102, 255, 0.05);
-  border-radius: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.task-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.step-dot {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.step-name {
-  font-size: 10px;
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-/* 失败重试机制 */
-.retry-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background: rgba(239, 68, 68, 0.05);
-  border-radius: 10px;
-  border: 1px dashed rgba(239, 68, 68, 0.3);
-}
-
-.retry-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #ef4444;
-}
-
-.retry-flow {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.retry-item {
-  padding: 4px 10px;
-  background: white;
-  border-radius: 16px;
-  font-size: 10px;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-/* 外部集成 */
-.external-section {
-  width: 100%;
-  padding: 20px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  margin-top: 10px;
-}
-
-.external-title {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 16px;
-}
-
-.external-groups {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.ext-group {
+.cap-box {
   flex: 1;
-  min-width: 150px;
-  padding: 16px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.model-group {
-  background: rgba(0, 102, 255, 0.08);
-  border: 1px solid rgba(0, 102, 255, 0.2);
-}
-
-.tools-group {
-  background: rgba(0, 212, 170, 0.08);
-  border: 1px solid rgba(0, 212, 170, 0.2);
-}
-
-.skills-group {
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-}
-
-.ext-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-}
-
-.ext-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-}
-
-.ext-item {
-  padding: 4px 10px;
-  background: white;
-  border-radius: 16px;
-  font-size: 11px;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-/* 数据流向 */
-.flow-legend {
-  margin-top: 40px;
-  padding: 24px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-}
-
-.legend-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.legend-items {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
-  border-radius: 8px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.step-num {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.step-text {
-  font-size: 11px;
-  color: var(--text-primary);
-}
-
-/* 概念详解 */
-.concepts-section {
-  margin-top: 50px;
-}
-
-.section-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-.concepts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.concept-card {
-  background: white;
-  border-radius: 12px;
-  padding: 18px;
-  border: 1px solid var(--border);
-  transition: all 0.3s;
-}
-
-.concept-card:hover {
-  border-color: var(--primary);
-  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.1);
-}
-
-.concept-card h4 {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.concept-card p {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* 核心工程优势 */
-.advantages-section {
-  margin-top: 50px;
-}
-
-.advantages-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.advantage-card {
-  display: flex;
-  gap: 16px;
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.04), rgba(0, 212, 170, 0.04));
-  border-radius: 12px;
+  min-width: 180px;
+  max-width: 250px;
   padding: 20px;
-  border: 1px solid rgba(0, 102, 255, 0.1);
-  transition: all 0.3s;
 }
 
-.advantage-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 102, 255, 0.12);
-  border-color: rgba(0, 102, 255, 0.3);
+/* Tooltip implementation with z-index 9999 requirement */
+.has-tooltip {
+  position: relative;
+  cursor: help;
 }
 
-.adv-icon {
-  font-size: 32px;
-  flex-shrink: 0;
-}
-
-.adv-content h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.adv-content p {
+.has-tooltip .tooltip-content {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 15px);
+  transform: translateY(-50%) translateX(10px);
+  width: max-content;
+  max-width: 280px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--text-primary);
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 102, 255, 0.14);
   font-size: 13px;
-  color: var(--text-secondary);
   line-height: 1.6;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  z-index: 9999;
+  box-shadow: 0 16px 40px rgba(0, 102, 255, 0.16), 0 8px 18px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  backdrop-filter: blur(18px);
+  text-align: left;
+}
+
+.has-tooltip .tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid rgba(0, 102, 255, 0.14);
+  border-left: 1px solid rgba(0, 102, 255, 0.14);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.has-tooltip:hover .tooltip-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
 }
 
 @media (max-width: 768px) {
-  .core-section {
+  .parallel-section {
     flex-direction: column;
   }
-  
-  .branch-flow {
+  .flow-box {
+    min-width: 100%;
+  }
+  .flow-step-badge {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    margin: 10px 0;
+  }
+  .arrow-container {
     flex-direction: column;
-  }
-  
-  .task-flow, .retry-flow {
-    flex-direction: column;
-  }
-  
-  .concepts-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .legend-items {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .channels, .nodes {
-    flex-wrap: wrap;
-  }
-  
-  .concepts-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .external-groups {
-    flex-direction: column;
+    height: 80px;
   }
 }
 </style>

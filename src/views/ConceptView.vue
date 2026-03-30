@@ -2,19 +2,8 @@
   <div class="concept-view">
     <h1 class="page-title">AI Agent 核心概念：不是更强的聊天，而是更强的执行</h1>
 
-    <!-- Tab 导航 -->
-    <div class="tab-nav">
-      <button
-        v-for="(tab, i) in tabs"
-        :key="i"
-        class="tab-btn"
-        :class="{ active: activeTab === i }"
-        @click="activeTab = i"
-      >{{ tab.icon }} {{ tab.label }}</button>
-    </div>
-
-    <!-- Tab 0: 核心结论 -->
-    <div v-show="activeTab === 0">
+    <!-- 核心结论 -->
+    <div class="concept-section">
       <div class="conclusion-box">
         <div class="conclusion-header">
           <span class="icon">💡</span>
@@ -33,8 +22,8 @@
       </div>
     </div>
 
-    <!-- Tab 1: 能力对比 -->
-    <div v-show="activeTab === 1">
+    <!-- 能力对比 -->
+    <div class="concept-section">
       <div class="comparison-section">
         <div class="comparison-cards">
           <div class="comp-card traditional-card">
@@ -72,8 +61,8 @@
       </div>
     </div>
 
-    <!-- Tab 2: 核心能力 -->
-    <div v-show="activeTab === 2">
+    <!-- 核心能力 -->
+    <div class="concept-section">
       <div class="definition-section">
         <h2 class="section-title">AI智能体5大核心能力</h2>
         <div class="cycle-container">
@@ -127,23 +116,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
-const activeTab = ref(0)
-
-const tabs = [
-  { icon: '💡', label: '核心结论' },
-  { icon: '⚖️', label: '能力对比' },
-  { icon: '🦞', label: '核心能力' },
-]
-
 const comparisonRows = [
   { dimension: '定位', traditional: '回答问题', agent: '完成任务' },
   { dimension: '行为方式', traditional: '用户问一步，模型答一步', agent: '接收目标后自主拆解、多步执行' },
   { dimension: '工具能力', traditional: '通常只输出文本', agent: '可调用 IDE、终端、API、数据库、浏览器等工具' },
   { dimension: '记忆能力', traditional: '依赖当前上下文窗口', agent: '可接入长期记忆，跨任务积累经验' },
-  { dimension: '典型研发场景', traditional: '写个函数、解释报错、生成注释', agent: '自动修 Bug、批量写测试、巡检服务、生成文档、执行部署' },
-  { dimension: '部署门槛', traditional: '主要依赖云端 API，本地私有化部署门槛高，需要专业硬件资源', agent: '支持消费级显卡个人电脑部署，门槛极低，私有数据不出内网' }
+  { dimension: '典型研发场景', traditional: '写个函数、解释报错、生成注释', agent: '自动修 Bug、批量写测试、巡检服务、生成文档、执行部署' }
 ]
 
 const modules = [
@@ -201,31 +179,8 @@ const modules = [
   padding: 40px 20px;
 }
 
-/* Tab 导航 */
-.tab-nav {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-
-.tab-btn {
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: white;
-  color: var(--text-secondary);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 500;
-}
-
-.tab-btn:hover { border-color: var(--primary); color: var(--primary); }
-.tab-btn.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
+.concept-section {
+  margin-bottom: 40px;
 }
 
 .page-title {

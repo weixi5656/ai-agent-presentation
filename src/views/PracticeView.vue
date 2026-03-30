@@ -2,29 +2,9 @@
   <div class="practice-view">
     <h1 class="page-title">提示词工程：研发实战</h1>
 
-    <div class="token-tips-section">
-      <h2 class="section-title">💰 5个省Token小妙招</h2>
-      <div class="tips-grid">
-        <div class="tip-card" v-for="(tip, index) in tokenTips" :key="index">
-          <span class="tip-number">{{ index + 1 }}</span>
-          <div class="tip-content">
-            <h3>{{ tip.title }}</h3>
-            <p>{{ tip.desc }}</p>
-          </div>
-          <!-- 悬浮气泡 -->
-          <div class="tip-bubble">
-            <div class="example-item negative">
-              <span class="example-label">❌ 错误示例</span>
-              <p>{{ tip.negative }}</p>
-            </div>
-            <div class="example-item positive">
-              <span class="example-label">✅ 正确示例</span>
-              <p>{{ tip.positive }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+
+
 
     <div class="frameworks-section">
       <h2 class="section-title">🛠️ 常用提示词框架（8个）</h2>
@@ -58,6 +38,29 @@
           <div class="template-section" v-for="(section, index) in agentTemplate" :key="index">
             <span class="section-tag">{{ section.tag }}</span>
             <span class="section-desc">{{ section.desc }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="token-tips-sub">
+      <h3 class="sub-title">💡 进阶：5个省Token小妙招 (Hover查看示例)</h3>
+      <div class="tips-grid">
+        <div class="tip-card" v-for="(tip, index) in tokenTips" :key="index" :class="{ 'bubble-right': index === 4 }">
+          <span class="tip-number">{{ index + 1 }}</span>
+          <div class="tip-content">
+            <h4>{{ tip.title }}</h4>
+            <p>{{ tip.desc }}</p>
+          </div>
+          <div class="tip-bubble">
+            <div class="example-item negative">
+              <span class="example-label">❌ 错误示例</span>
+              <p>{{ tip.negative }}</p>
+            </div>
+            <div class="example-item positive">
+              <span class="example-label">✅ 正确示例</span>
+              <p>{{ tip.positive }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -225,8 +228,18 @@ const agentTemplate = [
   color: var(--text-primary);
 }
 
-.token-tips-section {
-  margin-bottom: 60px;
+
+.token-tips-sub {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.sub-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
 }
 
 .tips-grid {
@@ -291,6 +304,23 @@ const agentTemplate = [
   transform: translateX(-50%) translateY(15px);
 }
 
+/* 针对第5个卡片的右侧气泡样式 */
+.tip-card.bubble-right .tip-bubble {
+  top: 50%;
+  left: calc(100% + 15px);
+  transform: translateY(-50%) translateX(10px);
+}
+
+.tip-card.bubble-right:hover .tip-bubble {
+  transform: translateY(-50%) translateX(0);
+}
+
+.tip-card.bubble-right .tip-bubble::before {
+  top: 50%;
+  left: -7px;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
 .example-item {
   margin-bottom: 12px;
 }
@@ -347,8 +377,8 @@ const agentTemplate = [
   flex-shrink: 0;
 }
 
-.tip-content h3 {
-  font-size: 15px;
+.tip-content h4 {
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 4px;
@@ -388,7 +418,6 @@ const agentTemplate = [
 }
 
 .framework-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
@@ -547,8 +576,22 @@ const agentTemplate = [
     transform: translateX(-50%) translateY(10px);
   }
 
-  .tip-card:hover .tip-bubble {
+  .tip-card:hover .tip-bubble,
+  .tip-card.bubble-right:hover .tip-bubble {
     transform: translateX(-50%) translateY(15px);
+  }
+
+  /* 重置第5个卡片在手机端的状态，改回向下弹出 */
+  .tip-card.bubble-right .tip-bubble {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+  }
+  
+  .tip-card.bubble-right .tip-bubble::before {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
   }
 
   .template-section {

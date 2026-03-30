@@ -2,6 +2,45 @@
   <div class="openclaw-practice-view">
     <h1 class="page-title">OpenClaw  快速上手：3 步跑通第一个研发智能体</h1>
     
+    <!-- 新增 Ollama 初始化配置 -->
+    <div class="ollama-section">
+      <h2 class="section-title">🦙 Ollama 本地安装与配置</h2>
+      <div class="ollama-card">
+        <div class="ollama-step">
+          <span class="step-num">1</span>
+          <div class="step-content">
+            <h3>一键下载与安装</h3>
+            <p>前往官网 <strong>https://ollama.com</strong> 下载对应操作系统的安装包（Windows/macOS/Linux）。双击执行并一路默认安装即可，安装完毕后它会自动作为一个后台服务静默运行。</p>
+          </div>
+        </div>
+        <div class="ollama-step">
+          <span class="step-num">2</span>
+          <div class="step-content">
+            <h3>环境变量配置</h3>
+            <p>为了让 OpenClaw 等工具通过局域网访问，请配置系统环境变量（重启生效）：</p>
+            <div class="code-block"><code>OLLAMA_HOST=0.0.0.0</code></div>
+          </div>
+        </div>
+        <div class="ollama-step">
+          <span class="step-num">3</span>
+          <div class="step-content">
+            <h3>入站规则放行</h3>
+            <p>如果在 Windows 运行，请在高级安全 Windows Defender 防火墙中新建<strong>入站规则</strong>，放行 <strong>11434</strong> 端口。</p>
+          </div>
+        </div>
+        <div class="ollama-step">
+          <span class="step-num">4</span>
+          <div class="step-content">
+            <h3>推荐实战模型</h3>
+            <div class="model-tags">
+              <span class="model-tag"><strong>代码开发：</strong>qwen2.5-coder:7b</span>
+              <span class="model-tag"><strong>全能推理：</strong>deepseek-r1:8b</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="steps-section">
       <div class="step-card" v-for="(step, index) in steps" :key="index">
         <div class="step-header" @click="toggleStep(index)">
@@ -45,15 +84,6 @@
       </div>
     </div>
     
-    <div class="tips-section">
-      <h2 class="section-title">单智能体提示词基础优化小建议</h2>
-      <div class="tips-list">
-        <div class="tip-item" v-for="(tip, index) in tips" :key="index">
-          <span class="tip-number">{{ index + 1 }}</span>
-          <p>{{ tip }}</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -298,6 +328,83 @@ const tips = [
   color: var(--text-primary);
 }
 
+.ollama-section {
+  margin-bottom: 60px;
+}
+
+.ollama-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+}
+
+.ollama-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.ollama-step:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.ollama-step .step-num {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+}
+
+.step-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.model-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.model-tag {
+  padding: 6px 14px;
+  background: rgba(0, 212, 170, 0.05);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 13px;
+  border: 1px solid rgba(0, 212, 170, 0.3);
+}
+
+.model-tag strong {
+  color: var(--secondary);
+}
+
 .template-section {
   margin-bottom: 60px;
 }
@@ -357,44 +464,7 @@ const tips = [
   padding: 20px;
 }
 
-.tips-section {
-  margin-top: 60px;
-}
 
-.tips-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.tip-item {
-  display: flex;
-  gap: 16px;
-  padding: 20px 24px;
-  background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(0, 102, 255, 0.05));
-  border-radius: 12px;
-  border-left: 4px solid var(--secondary);
-}
-
-.tip-number {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--secondary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-.tip-item p {
-  font-size: 15px;
-  color: var(--text-primary);
-  line-height: 1.6;
-}
 
 @media (max-width: 768px) {
   .tab-btn {

@@ -1,192 +1,216 @@
 <template>
   <div class="intro-view">
-    <div class="hero naked-hero">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          <span class="title-gradient">AI智能体</span>
-          <span class="title-separator">·</span>
-          <span class="title-light">应用案例</span>
-        </h1>
-        <div class="typewriter-container">
-          <p class="hero-desc">
-            <span class="typewriter-text">{{ displayedText }}</span>
-            <span class="cursor" :class="{ 'cursor-blink': !isTyping }">|</span>
-          </p>
+    <div class="hero-content">
+
+      
+      <h1 class="hero-title">
+        <span class="gradient-text typewriter">聚焦前沿、可落地、高质感的</span><br>
+        <span class="main-text">AI 智能体方案</span>
+      </h1>
+      
+      <p class="hero-desc">
+        <strong>AI智能体应用场景分享</strong>
+      </p>
+      
+      <div class="feature-tags">
+        <div class="tag glass">
+          <span class="icon">✨</span>
+          <span>干货满满，拒绝空谈</span>
         </div>
-        <div class="hero-tags mt-12">
-          <span class="glass-tag">✨ 工程方法</span>
-          <span class="glass-tag">🦞 OpenClaw</span>
-          <span class="glass-tag">📱 端侧实践</span>
-          <span class="glass-tag">🚀 团队提效</span>
+        <div class="tag glass">
+          <span class="icon">🗺️</span>
+          <span>全景视角，一览无余</span>
         </div>
+        <div class="tag glass">
+          <span class="icon">🤖</span>
+          <span>端云协同，硬核实战</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 滚动提示 -->
+    <div class="scroll-prompt">
+      <span>向下滑动探索</span>
+      <div class="mouse-icon">
+        <div class="wheel"></div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue'
-
-const fullText = "聚焦前沿、可落地、高质感的 AI 智能体方案"
-const displayedText = ref('')
-const isTyping = ref(true)
-
-onMounted(() => {
-  let i = 0
-  const speed = 120 // 120ms per character
-  
-  const typeWriter = () => {
-    if (i < fullText.length) {
-      displayedText.value += fullText.charAt(i)
-      i++
-      setTimeout(typeWriter, speed)
-    } else {
-      isTyping.value = false
-    }
-  }
-  
-  setTimeout(typeWriter, 400) // initial delay
-})
-</script>
-
 <style scoped>
 .intro-view {
-  min-height: calc(100vh - 200px);
+  width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding: 40px 20px;
-}
-
-.hero.naked-hero {
+  align-items: center;
   position: relative;
   text-align: center;
-  width: 100%;
-  padding: 40px 20px;
-  overflow: visible;
+  padding-top: 40px;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/* 巨大的标题 */
+.badge-container {
+  margin-bottom: 24px;
+  display: inline-block;
+}
+
+.version-badge {
+  background: rgba(0, 102, 255, 0.1);
+  color: var(--primary);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid rgba(0, 102, 255, 0.2);
+  display: inline-block;
+  backdrop-filter: blur(10px);
+}
+
 .hero-title {
-  font-size: 110px;
-  font-weight: 900;
-  margin-bottom: 30px;
-  letter-spacing: -4px;
-  line-height: 1.1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  text-shadow: 0 16px 32px rgba(94, 92, 230, 0.15);
+  font-size: 58px;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
-.title-gradient {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 42px;
 }
 
-.title-separator {
-  color: rgba(60, 60, 67, 0.2);
-  font-weight: 300;
-}
-
-.title-light {
+.main-text {
   color: var(--text-primary);
-}
-
-/* 打字机副标题 */
-.typewriter-container {
-  height: 40px; 
-  margin: 0 auto 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 72px;
 }
 
 .hero-desc {
-  font-size: 26px;
+  font-size: 20px;
   color: var(--text-secondary);
-  font-weight: 500;
-  line-height: 1.6;
-  letter-spacing: 2px;
-  margin: 0;
+  line-height: 1.8;
+  margin: 0 auto 40px;
+  max-width: 700px;
 }
 
-.typewriter-text {
-  background: linear-gradient(90deg, var(--text-secondary) 0%, var(--text-muted) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.cursor {
-  display: inline-block;
-  color: var(--primary);
-  font-weight: 900;
-  margin-left: 4px;
-  transform: translateY(-2px);
-}
-
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* 标签样式 */
-.hero-tags {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 48px;
-}
-
-.glass-tag {
-  padding: 14px 28px;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 999px;
-  font-size: 16px;
+.hero-desc strong {
   color: var(--text-primary);
   font-weight: 600;
-  box-shadow: 0 12px 24px rgba(32, 32, 40, 0.04);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: default;
 }
 
-.glass-tag:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(32, 32, 40, 0.08);
-  border-color: #ffffff;
+/* 毛玻璃标签 */
+.feature-tags {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 1024px) {
-  .hero-title { font-size: 80px; letter-spacing: -2px; }
-  .hero-desc { font-size: 20px; }
-  .typewriter-container { height: 32px; }
+.tag.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 12px 24px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--text-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tag.glass:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 102, 255, 0.12);
+  border-color: rgba(0, 102, 255, 0.2);
+}
+
+/* 打字机动画 */
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2.5s steps(40, end);
+}
+
+@keyframes typing {
+  from { width: 0; opacity: 0; }
+  1% { opacity: 1; }
+  to { width: 100%; opacity: 1; }
+}
+
+/* 滚动提示 */
+.scroll-prompt {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  animation: bounce 2s infinite;
+}
+
+.mouse-icon {
+  width: 24px;
+  height: 36px;
+  border: 2px solid var(--text-muted);
+  border-radius: 12px;
+  position: relative;
+}
+
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll 1.5s infinite;
+}
+
+@keyframes scroll {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, 12px); opacity: 0; }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
 }
 
 @media (max-width: 768px) {
-  .intro-view { padding: 20px 16px; }
-  .hero.naked-hero { padding: 20px 0; }
-  .hero-title { font-size: 48px; letter-spacing: -1px; gap: 8px; }
-  .hero-desc { font-size: 16px; letter-spacing: 1px; }
-  .typewriter-container { height: 28px; margin-bottom: 30px; }
-  .glass-tag { padding: 10px 18px; font-size: 14px; }
+  .hero-title {
+    font-size: 40px;
+  }
+  .gradient-text {
+    font-size: 28px;
+  }
+  .main-text {
+    font-size: 48px;
+  }
+  .hero-desc {
+    font-size: 16px;
+    padding: 0 20px;
+  }
+  .feature-tags {
+    flex-direction: column;
+    padding: 0 40px;
+  }
 }
 </style>

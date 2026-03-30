@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app-scroller">
     <!-- 极光背景效果 -->
     <div class="aurora-container">
       <div class="aurora-orb aurora-orb-1"></div>
@@ -8,146 +8,158 @@
       <div class="aurora-overlay"></div>
     </div>
     
-    <!-- 顶部导航 -->
-    <nav class="nav">
+    <!-- 顶部极简毛玻璃导航 -->
+    <nav class="apple-nav" :class="{ 'scrolled': isScrolled }">
       <div class="nav-brand">
         <span class="logo">🤖</span>
-        <span class="brand-text">AI智能体案例分享</span>
+        <span class="brand-text">AI Agent Presentation</span>
       </div>
-      <div class="nav-progress">
-        <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: progress + '%' }"></div>
-        </div>
-        <span class="progress-text">{{ currentIndex + 1 }} / {{ routes.length }}</span>
-      </div>
-      <div class="nav-dots">
-        <div 
-          v-for="(route, index) in routes" 
-          :key="route.path"
-          class="nav-dot"
-          :class="{ active: currentIndex === index }"
-          @click="$router.push(route.path)"
-          :title="route.title"
-        ></div>
+      <div class="nav-links">
+        <a 
+          v-for="(section, index) in sections" 
+          :key="index"
+          @click="scrollToSection(section.id)"
+          :class="{ active: currentSection === section.id }"
+        >
+          {{ section.title }}
+        </a>
       </div>
     </nav>
     
-    <!-- 主内容 -->
-    <main class="main">
-      <router-view v-slot="{ Component }">
-        <transition name="slide" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+    <!-- 主内容区：各视图垂直堆叠 -->
+    <main class="main-content" ref="mainContent">
+      <section id="intro"><IntroView /></section>
+      <section id="agenda"><AgendaView /></section>
+      <section id="concept"><ConceptView /></section>
+      <section id="architecture"><OpenClawArchitectureView /></section>
+      <section id="dev-case"><DevCaseView /></section>
+      <section id="openclaw-practice"><OpenClawPracticeView /></section>
+      <section id="clawteam"><ClawTeamView /></section>
+      <section id="practice"><PracticeView /></section>
+      <section id="esp32-case"><ESP32CaseView /></section>
+      <section id="trend"><TrendView /></section>
     </main>
-    
-    <!-- 底部导航 -->
-    <footer class="footer">
-      <button 
-        v-if="currentIndex > 0" 
-        class="btn btn-secondary"
-        @click="prev"
-      >
-        ← 上一页
-      </button>
-      <div class="spacer"></div>
-      <button 
-        v-if="currentIndex < routes.length - 1" 
-        class="btn btn-primary"
-        @click="next"
-      >
-        下一页 →
-      </button>
-      <button 
-        v-else 
-        class="btn btn-primary"
-        @click="restart"
-      >
-        重新开始 ↻
-      </button>
-    </footer>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-const route = useRoute()
-const router = useRouter()
+gsap.registerPlugin(ScrollTrigger)
 
-const routes = [
-  { path: '/intro', title: '封面' },
-  { path: '/agenda', title: '议程' },
-  { path: '/concept', title: '认知与原理' },
-  { path: '/dev-case', title: '研发场景' },
-  { path: '/openclaw-architecture', title: 'OpenClaw架构' },
-  { path: '/openclaw-practice', title: 'OpenClaw实操' },
-  { path: '/clawteam', title: 'ClawTeam协作' },
-  { path: '/practice', title: '提示词工程' },
-  { path: '/esp32-case', title: '端侧实践' },
-  { path: '/trend', title: '趋势展望' },
+// Import all views
+import IntroView from './views/IntroView.vue'
+import AgendaView from './views/AgendaView.vue'
+import ConceptView from './views/ConceptView.vue'
+import DevCaseView from './views/DevCaseView.vue'
+import OpenClawArchitectureView from './views/OpenClawArchitectureView.vue'
+import OpenClawPracticeView from './views/OpenClawPracticeView.vue'
+import ClawTeamView from './views/ClawTeamView.vue'
+import PracticeView from './views/PracticeView.vue'
+import ESP32CaseView from './views/ESP32CaseView.vue'
+import TrendView from './views/TrendView.vue'
+
+const isScrolled = ref(false)
+const currentSection = ref('intro')
+
+const sections = [
+  { id: 'intro', title: '概述' },
+  { id: 'agenda', title: '议程' },
+  { id: 'concept', title: '原理' },
+  { id: 'architecture', title: '架构/原理' },
+  { id: 'dev-case', title: '研发场景' },
+  { id: 'openclaw-practice', title: '实操' },
+  { id: 'clawteam', title: '协作' },
+  { id: 'practice', title: '提示词' },
+  { id: 'esp32-case', title: '端侧' },
+  { id: 'trend', title: '趋势' }
 ]
 
-const currentIndex = computed(() => {
-  return routes.findIndex(r => r.path === route.path)
-})
-
-const progress = computed(() => {
-  return ((currentIndex.value + 1) / routes.length) * 100
-})
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50
+  
+  // Track current section
+  const sectionElements = document.querySelectorAll('main.main-content > section')
+  let currentId = 'intro'
+  
+  sectionElements.forEach(sec => {
+    const rect = sec.getBoundingClientRect()
+    if (rect.top <= window.innerHeight / 3 && rect.bottom >= window.innerHeight / 3) {
+      currentId = sec.id
+    }
+  })
+  currentSection.value = currentId
 }
 
-const next = () => {
-  if (currentIndex.value < routes.length - 1) {
-    router.push(routes[currentIndex.value + 1].path)
-    scrollToTop()
+const scrollToSection = (id) => {
+  const element = document.getElementById(id)
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop - 60, // offset for navbar
+      behavior: 'smooth'
+    })
   }
 }
 
-const prev = () => {
-  if (currentIndex.value > 0) {
-    router.push(routes[currentIndex.value - 1].path)
-    scrollToTop()
-  }
-}
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  
+  // Create fade/slide animations for all sections
+  const childSections = document.querySelectorAll('main.main-content > section')
+  childSections.forEach((sec, i) => {
+    // Skip intro for immediate render
+    if (i === 0) return 
+    
+    gsap.from(sec, {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: sec,
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+      }
+    })
+  })
+})
 
-const restart = () => {
-  router.push('/intro')
-  scrollToTop()
-}
-
-
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  ScrollTrigger.getAll().forEach(t => t.kill())
+})
 </script>
 
 <style scoped>
-.app {
+.app-scroller {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   position: relative;
 }
 
-
-
-/* 顶部导航 */
-.nav {
+/* 极简毛玻璃导航 */
+.apple-nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0 40px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.apple-nav.scrolled {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
 }
 
 .nav-brand {
@@ -157,177 +169,59 @@ const restart = () => {
 }
 
 .logo {
-  font-size: 28px;
+  font-size: 24px;
 }
 
 .brand-text {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.nav-progress {
+.nav-links {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  max-width: 300px;
-  margin: 0 40px;
+  gap: 24px;
 }
 
-.progress-bar {
-  flex: 1;
-  height: 4px;
-  background: var(--bg-tertiary);
-  border-radius: 2px;
+.nav-links a {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--primary);
+}
+
+/* 核心内容区：各 section 独占高度与大留白 */
+.main-content {
+  position: relative;
+  z-index: 10;
+  padding-top: 60px; /* offset for nav */
+}
+
+section {
+  min-height: 100vh;
+  padding: 120px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.progress-text {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-weight: 500;
-  min-width: 50px;
-  text-align: right;
-}
-
-.nav-dots {
-  display: flex;
-  gap: 12px;
-}
-
-.nav-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--border);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.nav-dot:hover {
-  background: var(--primary-light);
-}
-
-.nav-dot.active {
-  background: var(--primary);
-  box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);
-}
-
-/* 主内容 */
-.main {
-  flex: 1;
-  padding: 100px 40px 120px;
-  position: relative;
-  z-index: 10;
-}
-
-/* 底部导航 */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.spacer {
-  flex: 1;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-  outline: none;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: white;
-  box-shadow: 0 4px 14px rgba(0, 102, 255, 0.4);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.5);
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-.btn-secondary:hover {
-  background: white;
-  border-color: var(--primary);
-}
-
-/* 页面过渡动画 */
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slide-enter-from {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.slide-leave-to {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
 @media (max-width: 768px) {
-  .nav {
-    padding: 16px 20px;
+  .apple-nav {
+    padding: 0 20px;
   }
-  
-  .nav-progress {
-    display: none;
-  }
-  
-  .nav-dots {
-    gap: 8px;
-  }
-  
-  .nav-dot {
-    width: 10px;
-    height: 10px;
-  }
-  
-  .main {
-    padding: 80px 20px 100px;
-  }
-  
-  .footer {
-    padding: 16px 20px;
+  .nav-links {
+    display: none; /* simple responsive hide for now */
   }
 }
 </style>

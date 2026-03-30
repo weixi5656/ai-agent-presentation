@@ -22,9 +22,9 @@
 <script setup>
 const trends = [
   {
-    title: '端侧原生智能体（On-Device AI Agents）',
-    desc: '从"云端依赖"到"终端原生"关键转折：OpenAI Q*端侧推理引擎、微软TinyMind终端框架、ARM首款Agent芯片Cortex-A78AE、Apple M5 Neural Engine。终端原生智能体实现低功耗、高响应、隐私保护的智能交互，手机/汽车/穿戴设备成为独立Agent载体，2026年出货量将突破20亿台。',
-    link: 'https://www.ithome.com/0/933/193.htm'
+    title: 'Harness Engineering (智能体基建工程)',
+    desc: '脚手架/基建工程相关的宣讲，阐述如何利用自动化脚手架快速验证智能体。在真实落地中，Harness Engineering 提供一整套仿真、构建与评测的基础设施，以应对安全、可靠和工程化的核心挑战。',
+    link: 'https://openai.com/zh-Hans-CN/index/harness-engineering/'
   },
   {
     title: '多智能体协作操作系统（MAOS）',

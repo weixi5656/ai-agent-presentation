@@ -3,7 +3,7 @@
     <h1 class="page-title">研发全场景落地案例</h1>
 
     <div class="cases-grid">
-      <div class="case-card" v-for="(caseItem, index) in cases" :key="index">
+      <div class="case-card" v-for="(caseItem, index) in cases" :key="index" :class="{ 'claw-team-card': caseItem.method === 'ClawTeam' }">
         <div class="case-header">
           <span class="case-icon">{{ caseItem.icon }}</span>
           <div class="case-title-area">
@@ -138,6 +138,30 @@ const cases = [
   border-color: var(--primary);
   transform: translateY(-5px);
   box-shadow: 0 12px 32px rgba(0, 102, 255, 0.12);
+}
+
+/* 专属 ClawTeam 卡片样式 */
+.claw-team-card {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(249, 115, 22, 0.05) 100%);
+  border: 2px solid rgba(139, 92, 246, 0.2);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.06);
+}
+
+.claw-team-card:hover {
+  border-color: rgba(139, 92, 246, 0.6);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(139, 92, 246, 0.15);
+}
+
+.claw-team-card .case-title-area h2 {
+  background: linear-gradient(135deg, #8b5cf6 0%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.claw-team-card .method-tag {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
 }
 
 .case-header {

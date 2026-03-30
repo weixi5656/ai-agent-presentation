@@ -78,16 +78,18 @@ const benefits = [
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 20px;
+  width: 900px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .timeline-path {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  left: 30px;
   width: 4px;
   background: linear-gradient(180deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 170, 0.3) 50%, rgba(0, 102, 255, 0.1) 100%);
-  transform: translateX(-50%);
   border-radius: 4px;
 }
 
@@ -96,26 +98,18 @@ const benefits = [
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  padding: 0 0 0 80px;
 }
 
 .timeline-item:last-child {
   margin-bottom: 0;
 }
 
-.item-left {
-  justify-content: flex-end;
-  padding-right: 50%;
-}
-
-.item-right {
-  justify-content: flex-start;
-  padding-left: 50%;
-}
-
 .timeline-node {
   position: absolute;
-  left: 50%;
+  left: 30px;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 36px;
@@ -149,25 +143,17 @@ const benefits = [
 }
 
 .timeline-card {
-  width: 95%;
+  width: 800px;
+  max-width: 100%;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 18px 24px;
   border: 1px solid rgba(0, 102, 255, 0.1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.item-left .timeline-card {
-  margin-right: 40px;
-  transform-origin: right center;
-}
-
-.item-right .timeline-card {
-  margin-left: 40px;
-  transform-origin: left center;
+  margin: 0;
 }
 
 .timeline-item:hover .timeline-card {
@@ -176,19 +162,7 @@ const benefits = [
   transform: translateY(-2px);
 }
 
-.item-left .timeline-card::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -10px;
-  transform: translateY(-50%);
-  border-width: 10px 0 10px 10px;
-  border-style: solid;
-  border-color: transparent transparent transparent white;
-  filter: drop-shadow(2px 0 1px rgba(0, 102, 255, 0.05));
-}
-
-.item-right .timeline-card::after {
+.timeline-card::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -237,36 +211,23 @@ const benefits = [
 @media (max-width: 968px) {
   .timeline-container {
     padding-bottom: 20px;
+    width: 100%;
   }
 
   .timeline-path {
-    left: 24px;
+    left: 20px;
   }
   
-  .item-left, .item-right {
-    justify-content: flex-start;
-    padding: 0 0 0 60px;
+  .timeline-item {
+    padding: 0 0 0 50px;
   }
   
   .timeline-node {
-    left: 24px;
+    left: 20px;
   }
   
   .timeline-card {
     width: 100%;
-  }
-  
-  .item-left .timeline-card,
-  .item-right .timeline-card {
-    margin: 0;
-  }
-  
-  .item-left .timeline-card::after,
-  .item-right .timeline-card::after {
-    left: -10px;
-    right: auto;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
   }
 }
 </style>

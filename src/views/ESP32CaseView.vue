@@ -43,36 +43,47 @@
           </div>
 
           <div class="arch-section">
-            <h2 class="section-title">端云协同架构</h2>
-            <div class="arch-flow">
-              <div class="arch-node edge">
-                <div class="arch-icon">📟</div>
-                <div class="arch-label">ESP32-S3</div>
-                <div class="arch-sub">感知 · 采集 · 执行</div>
+            <h2 class="section-title">端云协同架构与工作流</h2>
+            <div class="arch-card">
+              <div class="arch-diagram-vertical">
+                <!-- 云端 -->
+                <div class="arch-node-v cloud">
+                  <div class="node-icon">☁️</div>
+                  <div class="node-info">
+                    <h4>云端：DeepSeek 智能体</h4>
+                    <p>NLP理解 · 动作规划 · JSON指令生成</p>
+                  </div>
+                </div>
+                
+                <!-- 链接 -->
+                <div class="arch-link-v">
+                  <div class="link-text left">↑ 硬件数据/音频流</div>
+                  <div class="link-line"></div>
+                  <div class="link-text right">↓ 执行指令/TTS音频</div>
+                </div>
+                
+                <!-- 端侧 -->
+                <div class="arch-node-v edge">
+                  <div class="node-icon">📟</div>
+                  <div class="node-info">
+                    <h4>端侧：ESP32-S3 物理代理</h4>
+                    <p>VAD唤醒 · I2S采集音频 · GPIO驱动外设</p>
+                  </div>
+                </div>
               </div>
-              <div class="arch-arrow">
-                <span>音频 / 传感器数据</span>
-                <div class="arrow-line">→</div>
-                <span>语音 / 指令回放</span>
-              </div>
-              <div class="arch-node cloud">
-                <div class="arch-icon">☁️</div>
-                <div class="arch-label">DeepSeek</div>
-                <div class="arch-sub">理解 · 规划 · 决策</div>
-              </div>
-            </div>
-
-            <div class="feature-pills">
-              <div class="pill" v-for="f in features" :key="f">
-                <span class="pill-check">✓</span>{{ f }}
+              
+              <div class="arch-capsules">
+                <div class="capsule" v-for="f in features" :key="f">
+                  <span class="capsule-dot"></span>{{ f }}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ===== Tab 1: 详细烧录步骤（可折叠） ===== -->
-      <div v-show="activeTab === 1">
+      <!-- ===== Tab 3: 详细烧录步骤（可折叠） ===== -->
+      <div v-show="activeTab === 3">
         <div class="flash-intro">
           <p>以下为 ESP32-S3 烧录 MicroPython 固件的完整流程，覆盖 Windows / macOS / Linux 三平台。</p>
         </div>
@@ -145,8 +156,8 @@
         </div>
       </div>
 
-      <!-- ===== Tab 3: 实时验证 Demo ===== -->
-      <div v-show="activeTab === 3">
+      <!-- ===== Tab 1: 实时验证 Demo ===== -->
+      <div v-show="activeTab === 1">
         <div class="demo-intro">
           <p>以下三个功能在浏览器端模拟验证，对接 DeepSeek API，无需真实 ESP32 硬件即可体验完整交互逻辑。</p>
           <div class="api-status-bar">
@@ -422,12 +433,12 @@ const activeTab = ref(0)
 const copiedKey = ref(null)
 const apiReady = ref(true)
 
-// Tab 顺序：硬件架构 / 烧录步骤 / 核心代码 / 实时Demo
+// Tab 顺序：硬件架构 / 实时Demo / 核心代码 / 烧录步骤
 const tabs = [
   { icon: '📟', label: '硬件架构' },
-  { icon: '🔥', label: '烧录步骤' },
-  { icon: '📄', label: '核心代码' },
   { icon: '🧪', label: '实时验证 Demo' },
+  { icon: '📄', label: '核心代码' },
+  { icon: '🔥', label: '烧录步骤' },
 ]
 
 const hardware = [
@@ -1150,7 +1161,12 @@ asyncio.run(ESP32AIAgent(config).run())`
   border-bottom: 2px solid rgba(0, 102, 255, 0.12);
 }
 
-.hw-list { display: flex; flex-direction: column; gap: 10px; }
+.tech-section, .arch-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.hw-list { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .hw-item {
   display: flex;
   align-items: center;
@@ -1159,61 +1175,101 @@ asyncio.run(ESP32AIAgent(config).run())`
   background: white;
   border-radius: 10px;
   border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 .hw-icon { font-size: 22px; }
 .hw-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
 .hw-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 
-.arch-flow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 20px;
+.arch-card {
   background: white;
   border-radius: 14px;
   border: 1px solid var(--border);
-  margin-bottom: 16px;
-}
-
-.arch-node {
-  text-align: center;
-  padding: 16px 20px;
-  border-radius: 12px;
-}
-.arch-node.edge { background: rgba(0, 102, 255, 0.07); border: 1px solid rgba(0, 102, 255, 0.2); }
-.arch-node.cloud { background: rgba(0, 212, 170, 0.07); border: 1px solid rgba(0, 212, 170, 0.2); }
-.arch-icon { font-size: 28px; margin-bottom: 6px; }
-.arch-label { font-weight: 700; font-size: 15px; color: var(--text-primary); }
-.arch-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
-
-.arch-arrow {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.arch-diagram-vertical {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: var(--text-secondary);
+  flex: 1;
+  justify-content: center;
+  margin-bottom: 24px;
 }
-.arrow-line { font-size: 28px; color: var(--primary); line-height: 1; }
 
-.feature-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.pill {
+.arch-node-v {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+.arch-node-v:hover { transform: translateY(-2px); }
+
+.arch-node-v.cloud { background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(0, 102, 255, 0.2); box-shadow: 0 8px 24px rgba(0,102,255,0.08); }
+.arch-node-v.edge { background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(0, 102, 255, 0.03)); border: 1px solid rgba(0, 212, 170, 0.2); box-shadow: 0 8px 24px rgba(0,212,170,0.08); }
+
+.node-icon { font-size: 32px; flex-shrink: 0; }
+.node-info h4 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.node-info p { font-size: 13px; color: var(--text-secondary); line-height: 1.4; margin: 0; }
+
+.arch-link-v {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 0;
+  position: relative;
+  gap: 16px;
+}
+.link-text { font-size: 12px; font-weight: 600; width: 130px; }
+.link-text.left { text-align: right; color: var(--primary); }
+.link-text.right { text-align: left; color: var(--secondary); }
+.link-line {
+  height: 40px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  position: relative;
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.arch-capsules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.capsule {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  background: white;
-  border-radius: 20px;
+  background: #f8fafc;
   border: 1px solid var(--border);
-  font-size: 13px;
-  color: var(--text-primary);
-}
-.pill-check {
-  color: var(--secondary);
-  font-weight: 700;
+  border-radius: 20px;
   font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all 0.3s;
+}
+.capsule:hover {
+  border-color: var(--secondary);
+  background: rgba(0, 212, 170, 0.05);
+}
+.capsule-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  color: var(--secondary);
 }
 
 /* ====== Tab1: 烧录步骤（可折叠） ====== */

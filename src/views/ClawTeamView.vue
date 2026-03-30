@@ -16,113 +16,113 @@
         <!-- 人类输入层 -->
         <div class="arch-layer user-layer">
           <div class="layer-title">👤 人类</div>
-          <div class="layer-box primary">
-            <span class="layer-icon">💬</span>
+          <div class="layer-box primary user-action" style="min-width: 250px; padding: 12px;">
+            <span class="layer-icon" style="font-size: 22px;">💬</span>
             <span class="layer-name">"Optimize this LLM"</span>
           </div>
         </div>
         
         <div class="arch-arrow down"></div>
         
-        <!-- Leader Agent 层 -->
-        <div class="arch-layer leader-layer">
-          <div class="layer-title">🦞 Leader Agent</div>
-          <div class="layer-box primary">
-            <span class="layer-icon">🧠</span>
-            <span class="layer-name">Claude Code / Codex / OpenClaw</span>
-            <span class="layer-desc">任务分解 · 子智能体生成 · 进度监控</span>
-          </div>
-          <div class="leader-commands">
-            <span class="cmd-tag">spawn</span>
-            <span class="cmd-tag">task create</span>
-            <span class="cmd-tag">inbox send</span>
-            <span class="cmd-tag">board show</span>
-            <span class="cmd-tag">task wait</span>
-          </div>
-        </div>
-        
-        <div class="arch-arrow down"></div>
-        
-        <!-- Worker Agents 层 -->
-        <div class="arch-layer worker-layer">
-          <div class="layer-title">🤖 Worker Agents（并行执行）</div>
-          <div class="worker-grid">
-            <div class="worker-box">
-              <span class="worker-icon">🤖</span>
-              <span class="worker-name">Worker 1</span>
-              <span class="worker-env">Claude Code</span>
-              <span class="worker-info">git worktree + tmux</span>
-            </div>
-            <div class="worker-box">
-              <span class="worker-icon">⚡</span>
-              <span class="worker-name">Worker 2</span>
-              <span class="worker-env">Codex</span>
-              <span class="worker-info">git worktree + tmux</span>
-            </div>
-            <div class="worker-box">
-              <span class="worker-icon">🔧</span>
-              <span class="worker-name">Worker N</span>
-              <span class="worker-env">any CLI</span>
-              <span class="worker-info">git worktree + tmux</span>
+        <!-- 核心并列层：Leader 与 Workers -->
+        <div class="team-core-layout">
+          
+          <!-- 左侧：Leader -->
+          <div class="leader-section">
+            <div class="arch-layer leader-layer" style="padding: 0;">
+              <div class="layer-title">🦞 Leader Agent</div>
+              <div class="layer-box primary">
+                <span class="layer-icon">🧠</span>
+                <span class="layer-name">Claude Code / OpenClaw</span>
+                <span class="layer-desc">接收人类意图 · 分解任务 · 生成集群</span>
+                <div class="leader-commands">
+                  <span class="cmd-tag">spawn</span>
+                  <span class="cmd-tag">task create</span>
+                  <span class="cmd-tag">inbox send</span>
+                  <span class="cmd-tag">board show</span>
+                  <span class="cmd-tag">task wait</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="arch-arrow down"></div>
-        
-        <!-- 协调协议层 -->
-        <div class="arch-layer coord-layer">
-          <div class="layer-title">🔄 协调协议</div>
-          <div class="coord-grid">
-            <div class="coord-item">
-              <span class="coord-icon">📋</span>
-              <span class="coord-name">clawteam task list</span>
-              <span class="coord-desc">查看任务</span>
-            </div>
-            <div class="coord-item">
-              <span class="coord-icon">✅</span>
-              <span class="coord-name">clawteam task update --status completed</span>
-              <span class="coord-desc">更新状态</span>
-            </div>
-            <div class="coord-item">
-              <span class="coord-icon">📨</span>
-              <span class="coord-name">clawteam inbox send</span>
-              <span class="coord-desc">发送消息</span>
-            </div>
-            <div class="coord-item">
-              <span class="coord-icon">⏳</span>
-              <span class="coord-name">clawteam lifecycle idle</span>
-              <span class="coord-desc">空闲报告</span>
+          
+          <!-- 中间：Spawn 箭头 -->
+          <div class="spawn-arrow">
+            <span class="spawn-text">clawteam spawn</span>
+            <div class="arrow-line-right"></div>
+          </div>
+          
+          <!-- 右侧：Workers 集群 -->
+          <div class="workers-section">
+            <div class="arch-layer worker-layer" style="padding: 0;">
+              <div class="layer-title">🤖 Worker Agents (独立隔离仓)</div>
+              <div class="worker-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 450px;">
+                <div class="worker-box">
+                  <span class="worker-icon">🤖</span>
+                  <span class="worker-name">Worker 1</span>
+                  <div class="worker-tags">
+                    <span class="w-tag">Claude Code</span>
+                    <span class="w-tag">git worktree</span>
+                  </div>
+                </div>
+                <div class="worker-box">
+                  <span class="worker-icon">⚡</span>
+                  <span class="worker-name">Worker 2</span>
+                  <div class="worker-tags">
+                    <span class="w-tag">Codex</span>
+                    <span class="w-tag">git worktree</span>
+                  </div>
+                </div>
+                <div class="worker-box">
+                  <span class="worker-icon">🔧</span>
+                  <span class="worker-name">Worker N</span>
+                  <div class="worker-tags">
+                    <span class="w-tag">any CLI</span>
+                    <span class="w-tag">git worktree</span>
+                  </div>
+                </div>
+              </div>
+              <div class="worker-commands">
+                <span class="proto-tag">task list (查任务)</span>
+                <span class="proto-tag">task update (报进度)</span>
+                <span class="proto-tag">inbox send (发内容)</span>
+                <span class="proto-tag">inbox receive (取指令)</span>
+              </div>
             </div>
           </div>
         </div>
         
-        <div class="arch-arrow down"></div>
+        <div class="arch-arrow down wide"></div>
         
         <!-- 数据存储层 -->
         <div class="arch-layer storage-layer">
-          <div class="layer-title">💾 本地存储 ~/.clawteam/</div>
+          <div class="layer-title">💾 共有状态层 ~/.clawteam/</div>
           <div class="storage-box">
             <div class="storage-item">
               <span class="storage-icon">👥</span>
               <span class="storage-name">teams/</span>
-              <span class="storage-desc">谁（团队成员）</span>
+              <span class="storage-desc">人员 (who)</span>
             </div>
             <div class="storage-item">
               <span class="storage-icon">📝</span>
               <span class="storage-name">tasks/</span>
-              <span class="storage-desc">什么（任务列表）</span>
+              <span class="storage-desc">看板 (what)</span>
             </div>
             <div class="storage-item">
               <span class="storage-icon">💬</span>
               <span class="storage-name">inboxes/</span>
-              <span class="storage-desc">通信（消息）</span>
+              <span class="storage-desc">网状通信 (talk)</span>
             </div>
             <div class="storage-item">
               <span class="storage-icon">📂</span>
               <span class="storage-name">workspaces/</span>
-              <span class="storage-desc">隔离代码</span>
+              <span class="storage-desc">代码沙箱隔离</span>
             </div>
+          </div>
+          <div class="storage-features">
+            <span class="feat-badge">🚫 无中心数据库 (No DB)</span>
+            <span class="feat-badge">⚛️ Atomic tmp+rename 原子防碰落盘</span>
+            <span class="feat-badge">🛜 File / ZeroMQ P2P Transport</span>
           </div>
         </div>
         
@@ -164,81 +164,20 @@
     <div class="steps-section">
       <h2 class="section-title">3 步搭建 AI 研发团队</h2>
       <div class="steps-detail">
-        <div class="step-card">
-          <div class="step-header">
-            <span class="step-num">1</span>
-            <h3>创建一个用户管理系统团队</h3>
+        <div class="step-card" v-for="(step, index) in steps" :key="index">
+          <div class="step-header" @click="toggleStep(index)">
+            <span class="step-num">{{ index + 1 }}</span>
+            <h3>{{ step.title }}</h3>
+            <span class="toggle-icon" :class="{ 'is-open': expandedSteps.includes(index) }">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
           </div>
-          <div class="step-content">
-            <pre class="code-block"><code># 安装 ClawTeam
-pip install clawteam
-
-# 验证安装
-clawteam --help
-
-# 创建团队
-clawteam team spawn-team user-system-team -d "用户管理系统研发团队"
-
-# 查看团队列表
-clawteam team list</code></pre>
+          <div class="step-content" v-show="expandedSteps.includes(index)">
+            <pre class="code-block"><code>{{ step.code }}</code></pre>
             <div class="step-notes">
-              <p><strong>核心概念：</strong>一个 Team 就是一支 AI 团队，里面包含多个分工明确的 Agent。</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="step-card">
-          <div class="step-header">
-            <span class="step-num">2</span>
-            <h3>配置角色分工与通信机制</h3>
-          </div>
-          <div class="step-content">
-            <pre class="code-block"><code># 配置Agent间通信（在openclaw.json中）
-{
-  "tools": {
-    "agentToAgent": {
-      "enabled": true,
-      "allow": ["pm", "architect", "backend", "frontend", "tester", "ops"],
-      "maxRecursion": 3
-    }
-  }
-}
-
-# 启用ACP子代理模式
-openclaw config set acp.sub_agent.enabled true
-openclaw config set acp.sub_agent.isolate_memory true
-
-# 重启服务
-openclaw restart</code></pre>
-            <div class="step-notes">
-              <p><strong>关键配置：</strong>开启 Agent 间通信和记忆隔离，让每个角色在独立上下文里协作。</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="step-card">
-          <div class="step-header">
-            <span class="step-num">3</span>
-            <h3>下发目标并查看协作过程</h3>
-          </div>
-          <div class="step-content">
-            <pre class="code-block"><code># 启动团队执行任务
-clawteam launch user-system-team --goal "完成一个用户管理系统的需求分析、架构设计、开发、测试和部署方案"
-
-# 查看团队状态看板
-clawteam board show user-system-team
-
-# 输出示例：
-# ┌─────────────┬──────────────────┬──────────┐
-# │ Agent       │ 任务             │ 状态     │
-# ├─────────────┼──────────────────┼──────────┤
-# │ 产品经理    │ 梳理需求         │ ✅ 完成  │
-# │ 架构师      │ 设计系统架构     │ 🟡 进行中│
-# │ 后端工程师  │ 开发接口         │ 🔵 待开始│
-# │ 测试工程师  │ 编写测试         │ ⏸️ 阻塞  │
-# └─────────────┴──────────────────┴──────────┘</code></pre>
-            <div class="step-notes">
-              <p><strong>监控管理：</strong>实时查看各角色状态、依赖关系和当前阻塞点。</p>
+              <p><strong>{{ step.noteLabel }}</strong>{{ step.noteText }}</p>
             </div>
           </div>
         </div>
@@ -276,6 +215,37 @@ clawteam board show user-system-team
 import { ref } from 'vue'
 
 const activeTab = ref(0)
+const expandedSteps = ref([0])
+
+const toggleStep = (index) => {
+  const i = expandedSteps.value.indexOf(index)
+  if (i > -1) {
+    expandedSteps.value.splice(i, 1)
+  } else {
+    expandedSteps.value.push(index)
+  }
+}
+
+const steps = [
+  {
+    title: '创建一个用户管理系统团队',
+    code: `# 安装 ClawTeam\npip install clawteam\n\n# 验证安装\nclawteam --help\n\n# 创建团队\nclawteam team spawn-team user-system-team -d "用户管理系统研发团队"\n\n# 查看团队列表\nclawteam team list`,
+    noteLabel: '核心概念：',
+    noteText: '一个 Team 就是一支 AI 团队，里面包含多个分工明确的 Agent。'
+  },
+  {
+    title: '配置角色分工与通信机制',
+    code: `# 配置Agent间通信（在openclaw.json中）\n{\n  "tools": {\n    "agentToAgent": {\n      "enabled": true,\n      "allow": ["pm", "architect", "backend", "frontend", "tester", "ops"],\n      "maxRecursion": 3\n    }\n  }\n}\n\n# 启用ACP子代理模式\nopenclaw config set acp.sub_agent.enabled true\nopenclaw config set acp.sub_agent.isolate_memory true\n\n# 重启服务\nopenclaw restart`,
+    noteLabel: '关键配置：',
+    noteText: '开启 Agent 间通信和记忆隔离，让每个角色在独立上下文里协作。'
+  },
+  {
+    title: '下发目标并查看协作过程',
+    code: `# 启动团队执行任务\nclawteam launch user-system-team --goal "完成一个用户管理系统的需求分析、架构设计、开发、测试和部署方案"\n\n# 查看团队状态看板\nclawteam board show user-system-team\n\n# 输出示例：\n# ┌─────────────┬──────────────────┬──────────┐\n# │ Agent       │ 任务             │ 状态     │\n# ├─────────────┼──────────────────┼──────────┤\n# │ 产品经理    │ 梳理需求         │ ✅ 完成  │\n# │ 架构师      │ 设计系统架构     │ 🟡 进行中│\n# │ 后端工程师  │ 开发接口         │ 🔵 待开始│\n# │ 测试工程师  │ 编写测试         │ ⏸️ 阻塞  │\n# └─────────────┴──────────────────┴──────────┘`,
+    noteLabel: '监控管理：',
+    noteText: '实时查看各角色状态、依赖关系和当前阻塞点。'
+  }
+]
 
 const templates = [
   {
@@ -518,8 +488,78 @@ const templates = [
 }
 
 /* Leader层 */
+.team-core-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+@media (max-width: 900px) {
+  .team-core-layout {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.spawn-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: -20px;
+}
+
+.spawn-text {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 8px;
+  background: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px dashed rgba(0, 102, 255, 0.3);
+  z-index: 2;
+}
+
+.arrow-line-right {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  position: relative;
+}
+
+.arrow-line-right::after {
+  content: '▶';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary);
+  font-size: 16px;
+  line-height: 0;
+}
+
+@media (max-width: 900px) {
+  .arrow-line-right {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+  }
+  .arrow-line-right::after {
+    content: '▼';
+    right: 50%;
+    transform: translateX(50%);
+    top: auto;
+    bottom: -10px;
+  }
+}
+
 .leader-layer {
-  padding: 20px 0;
+  padding: 0;
 }
 
 .leader-commands {
@@ -541,16 +581,11 @@ const templates = [
 }
 
 /* Worker层 */
-.worker-layer {
-  padding: 20px 0;
-}
-
 .worker-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   width: 100%;
-  max-width: 700px;
 }
 
 .worker-box {
@@ -558,7 +593,7 @@ const templates = [
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 16px;
+  padding: 16px 12px;
   background: white;
   border-radius: 10px;
   border: 2px solid var(--secondary);
@@ -578,64 +613,47 @@ const templates = [
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
+  margin-bottom: 4px;
 }
 
-.worker-env {
-  font-size: 11px;
-  color: var(--primary);
-  font-weight: 500;
-}
-
-.worker-info {
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-/* 协调层 */
-.coord-layer {
-  padding: 20px 0;
-}
-
-.coord-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 100%;
-  max-width: 800px;
-}
-
-.coord-item {
+.worker-tags {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 4px;
+  align-items: center;
+}
+
+.w-tag {
+  font-size: 10px;
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.worker-commands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
   padding: 12px;
-  background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(0, 102, 255, 0.05));
-  border-radius: 10px;
-  border: 1px solid rgba(0, 212, 170, 0.2);
-  transition: all 0.3s;
+  background: rgba(0, 212, 170, 0.05);
+  border-radius: 12px;
+  border: 1px dashed rgba(0, 212, 170, 0.3);
+  max-width: 450px;
 }
 
-.coord-item:hover {
-  border-color: var(--secondary);
-  transform: translateY(-2px);
-}
-
-.coord-icon {
-  font-size: 20px;
-}
-
-.coord-name {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
+.proto-tag {
   font-family: monospace;
-}
-
-.coord-desc {
-  font-size: 10px;
-  color: var(--text-muted);
+  font-size: 11px;
+  color: var(--secondary);
+  background: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 /* 存储层 */
@@ -677,223 +695,26 @@ const templates = [
   color: var(--text-muted);
 }
 
-/* Gateway层 */
-.gateway-layer {
-  padding: 20px 0;
-}
-
-.gateway-functions {
+.storage-features {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  margin-top: 20px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 12px;
 }
 
-.func-tag {
-  padding: 4px 12px;
-  background: rgba(0, 102, 255, 0.1);
-  border-radius: 16px;
-  font-size: 11px;
-  color: var(--primary);
-  font-weight: 500;
-}
-
-/* Agent层 */
-.agent-layer {
-  padding: 20px 0;
-}
-
-.agent-hierarchy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-}
-
-.agent-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 16px 24px;
+.feat-badge {
+  padding: 6px 14px;
   background: white;
-  border-radius: 12px;
-  border: 2px solid var(--border);
-  text-align: center;
-  transition: all 0.3s;
-}
-
-.agent-box:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 102, 255, 0.15);
-}
-
-.agent-box.supervisor {
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(139, 92, 246, 0.1));
-  border-color: var(--primary);
-  min-width: 280px;
-}
-
-.agent-children {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 100%;
-  max-width: 700px;
-}
-
-.agent-box.worker {
-  border-color: var(--secondary);
-}
-
-.agent-icon {
-  font-size: 28px;
-}
-
-.agent-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.agent-desc {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Runtime层 */
-.runtime-layer {
-  padding: 20px 0;
-}
-
-.runtime-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 100%;
-  max-width: 700px;
-}
-
-.runtime-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 16px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
-  border-radius: 10px;
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  transition: all 0.3s;
-}
-
-.runtime-item:hover {
-  border-color: #3b82f6;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
-}
-
-.runtime-icon {
-  font-size: 26px;
-}
-
-.runtime-name {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-.runtime-desc {
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-/* Skills层 */
-.skills-layer {
-  padding: 20px 0;
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  width: 100%;
-  max-width: 800px;
-}
-
-.skill-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 16px 12px;
-  background: white;
-  border-radius: 10px;
   border: 1px solid var(--border);
-  transition: all 0.3s;
-}
-
-.skill-item:hover {
-  border-color: var(--secondary);
-  transform: scale(1.05);
-}
-
-.skill-icon {
-  font-size: 24px;
-}
-
-.skill-name {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-/* Memory层 */
-.memory-layer {
-  padding: 20px 0;
-}
-
-.memory-boxes {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 100%;
-  max-width: 800px;
-}
-
-.memory-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 16px;
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  transition: all 0.3s;
-}
-
-.memory-box:hover {
-  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-}
-
-.memory-icon {
-  font-size: 24px;
-}
-
-.memory-name {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.memory-desc {
-  font-size: 10px;
-  color: var(--text-muted);
-}
+
 
 /* 架构特性 */
 .arch-features {
@@ -959,6 +780,22 @@ const templates = [
   padding: 20px 24px;
   background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
   border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-icon {
+  margin-left: auto;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.is-open {
+  transform: rotate(180deg);
+  color: var(--primary);
 }
 
 .step-num {
