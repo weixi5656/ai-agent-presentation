@@ -2,106 +2,100 @@
   <div class="architecture-view">
     <h1 class="page-title">OpenClaw 极简架构流程图</h1>
 
+    <div class="intro-card-new glass">
+      <div class="intro-badge">2026 最火智能体框架</div>
+      <h2>从“动口”到“动手”的脚手架</h2>
+      <p>
+        OpenClaw 不仅是 AI 助手，更是具备本地执行能力的<strong>研发引擎</strong>。
+        代码与数据<strong>不上云</strong>，解决企业核心隐私痛点。通过“组装智能体”替代“编写业务逻辑”。
+      </p>
+    </div>
+
     <div class="flow-diagram">
-      <!-- 用户入口 -->
-      <div class="flow-row">
-        <div class="user-box">
-          <span class="box-icon">👤</span>
-          <span class="box-label">User / External</span>
-        </div>
-      </div>
-      
-      <div class="arrow-container">
-        <span class="flow-step-badge left-badge">1. 触发任务交互</span>
-        <div class="arrow-line"></div>
-      </div>
-      
-      <!-- Messaging Surfaces (Channels) -->
+      <!-- Channel & Security -->
       <div class="flow-row">
         <div class="flow-box surface-box has-tooltip">
-          <span class="box-icon">🌐</span>
-          <span class="box-label">Messaging Surfaces</span>
+          <span class="box-icon">🛡️</span>
+          <span class="box-label">Channel-SecurityChecker</span>
+          <span class="box-sub">安全校验组件</span>
           <div class="box-tags">
-            <span class="tag">IM (Telegram/Slack)</span>
-            <span class="tag">Web UI</span>
-            <span class="tag">CLI</span>
-            <span class="tag">API</span>
+            <span class="tag">输入校验</span>
+            <span class="tag">合规审计</span>
+            <span class="tag">越权防护</span>
           </div>
-          <div class="tooltip-content">用户交互界面层，摆脱传统Web束缚，将多渠道输入无缝化。</div>
+          <div class="tooltip-content">安全屏障：负责管控组件运行安全、规避违规操作与越权调用，贯穿任务执行全流程。</div>
         </div>
       </div>
       
       <div class="arrow-container">
-        <span class="flow-step-badge right-badge">2. 请求路由接入</span>
+        <span class="flow-step-badge left-badge">1. 安全准入与触发</span>
         <div class="arrow-line"></div>
       </div>
       
-      <!-- Gateway Daemon -->
+      <!-- Planning Layer -->
       <div class="flow-row">
         <div class="flow-box gateway-box has-tooltip">
-          <span class="box-icon">🚪</span>
-          <span class="box-label">Gateway (Daemon)</span>
-          <span class="box-sub">Local Port: 18789</span>
+          <span class="box-icon">🧠</span>
+          <span class="box-label">Agent-TaskSplitter</span>
+          <span class="box-sub">任务规划层 / 目标拆解组件</span>
           <div class="box-tags">
-            <span class="tag">本地常驻守护</span>
-            <span class="tag">会话管理(Session)</span>
-            <span class="tag">路由分发分流</span>
+            <span class="tag">任务拆解</span>
+            <span class="tag">计划制定</span>
+            <span class="tag">目标对齐</span>
           </div>
-          <div class="tooltip-content">中心控制平面守护进程(Daemon)，维持消息长联，统管路由并处理Hook。</div>
+          <div class="tooltip-content">决策核心：接收用户目标，完成任务拆解并输出可执行任务流。</div>
         </div>
       </div>
       
       <div class="arrow-container">
-        <span class="flow-step-badge left-badge">3. 同步状态中枢</span>
-        <div class="arrow-line split-line"></div>
+        <span class="flow-step-badge right-badge">2. 向执行层分发指令</span>
+        <div class="arrow-line"></div>
       </div>
       
-      <!-- Parallel: Agent Runtime & Checkpoint -->
+      <!-- Execution & Feedback -->
       <div class="parallel-section">
         <div class="flow-box runtime-box has-tooltip">
-          <span class="box-icon">🧠</span>
-          <span class="box-label">Agent Runtime</span>
+          <span class="box-icon">🔧</span>
+          <span class="box-label">Tools.md</span>
+          <span class="box-sub">执行层 / 工具调度组件</span>
           <div class="box-tags">
-            <span class="tag">上下文视窗组装</span>
-            <span class="tag">大语言模型(LLM)引擎</span>
-            <span class="tag">自治循环(Autonomous Loop)</span>
+            <span class="tag">代码执行</span>
+            <span class="tag">API 调用</span>
+            <span class="tag">自动化工具</span>
           </div>
-          <div class="tooltip-content">真正的智能运行中枢，构建Context并通信给LLM，执行核心逻辑决策及多次循环工具调度。</div>
+          <div class="tooltip-content">执行手脚：识别任务需求，筛选并调用外部工具落地任务。</div>
         </div>
         
         <div class="flow-box checkpoint-box has-tooltip">
-          <span class="box-icon">⚕️</span>
-          <span class="box-label">健康检查 & Checkpoint</span>
+          <span class="box-icon">🔄</span>
+          <span class="box-label">Skill-Reflector</span>
+          <span class="box-sub">反馈层 / 反思优化组件</span>
           <div class="box-tags">
-            <span class="tag">Health Check 心跳探活</span>
-            <span class="tag">任务快照持久落盘</span>
-            <span class="tag">故障无损恢复机制</span>
+            <span class="tag">结果校验</span>
+            <span class="tag">异常识别</span>
+            <span class="tag">策略优化</span>
           </div>
-          <div class="tooltip-content">并行的鲁棒防御防线：持续侦测节点心跳健康，自动存档任务状态进度，保障宕机遇险即可恢复。</div>
+          <div class="tooltip-content">校验中枢：实时采集结果、识别偏差并输出复盘优化建议。</div>
         </div>
       </div>
 
       <div class="arrow-container">
-        <span class="flow-step-badge right-badge">4. 功能连接与存档</span>
+        <span class="flow-step-badge left-badge">3. 记忆存取与知识增益</span>
         <div class="arrow-line merge-line"></div>
       </div>
       
-      <!-- Capabilities -->
-      <div class="flow-row capacities">
-        <div class="flow-box cap-box has-tooltip">
-          <span class="box-icon">🔌</span>
-          <span class="box-label">Skills & Plugins</span>
-          <div class="tooltip-content">扩展插槽：从执行脚本的 Skills 到实现浏览器自动化等深层原生 Plugins 等多样拓展能力。</div>
-        </div>
-        <div class="flow-box cap-box has-tooltip">
-          <span class="box-icon">📊</span>
-          <span class="box-label">Canvas / HTML A2UI</span>
-          <div class="tooltip-content">用户呈现拓展：Agent主动渲染响应反馈可交互的 HTML 动态面板及界面流向。</div>
-        </div>
-        <div class="flow-box cap-box has-tooltip">
+      <!-- Knowledge Base -->
+      <div class="flow-row">
+        <div class="flow-box cap-box has-tooltip knowledge-box">
           <span class="box-icon">💾</span>
-          <span class="box-label">Local Memory</span>
-          <div class="tooltip-content">隐私优先本地记忆：长期把交互习惯与经验直接写成 Markdown/YAML等文件纯本地驻留。</div>
+          <span class="box-label">Model-MemoryManager</span>
+          <span class="box-sub">知识库层 / 记忆管理组件</span>
+          <div class="box-tags">
+            <span class="tag">RAG 检索</span>
+            <span class="tag">长期记忆</span>
+            <span class="tag">知识库维护</span>
+          </div>
+          <div class="tooltip-content">长期记忆库：存储领域知识、历史经验及用户偏好，支撑任务连贯性。</div>
         </div>
       </div>
     </div>
@@ -109,10 +103,39 @@
 </template>
 
 <style scoped>
-.architecture-view {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 20px;
+.intro-card-new {
+  background: linear-gradient(135deg, rgba(255, 217, 61, 0.12) 0%, rgba(0, 212, 170, 0.08) 50%, rgba(0, 102, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 217, 61, 0.3);
+  padding: 32px 40px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.03);
+}
+
+.intro-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255, 217, 61, 0.2);
+  color: #c09100;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.intro-card-new h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 12px 0;
+}
+
+.intro-card-new p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 0;
 }
 
 .page-title {

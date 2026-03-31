@@ -78,6 +78,15 @@
           </div>
         </div>
 
+        <!-- 环境变量配置 -->
+        <h2 class="section-title">环境变量关键配置</h2>
+        <div class="env-config-block">
+          <div class="env-row" v-for="env in envConfigs" :key="env.key">
+            <code class="env-key">{{ env.key }}</code>
+            <span class="env-desc">{{ env.desc }}</span>
+          </div>
+        </div>
+
         <!-- 实时 Ollama 状态检测 -->
         <h2 class="section-title">本地服务状态检测</h2>
         <div class="status-checker">
@@ -174,11 +183,9 @@ curl http://localhost:11434/v1/chat/completions \\
 ]
 
 const models = [
-  { name: 'qwen2.5-coder:7b', size: '7B', vram: '8GB', scene: '代码生成 / Code Review', highlight: true },
-  { name: 'qwen2.5-coder:14b', size: '14B', vram: '16GB', scene: '复杂代码推理 / 架构设计' },
-  { name: 'deepseek-r1:7b', size: '7B 蒸馏', vram: '8GB', scene: '复杂任务推理 / 问题分析', highlight: true },
-  { name: 'llama3.2:3b', size: '3B', vram: '4GB', scene: '轻量快速响应 / 分类任务' },
-  { name: 'nomic-embed-text', size: '—', vram: '< 1GB', scene: 'Embedding / 向量检索' },
+  { name: 'DeepSeek-Coder / Qwen3-Coder', size: '7B INT4', vram: '8-10GB', scene: '代码场景：智能机编码、调试、部署', highlight: true },
+  { name: 'MiniCPM-o', size: '7B 级量化', vram: '7-9GB', scene: '多模态场景：OCR图文识别、文档解析', highlight: true },
+  { name: 'bge-large-zh / m3e', size: '轻量化', vram: '2-4GB', scene: '向量场景：知识库检索与长上下文' },
 ]
 
 const openclaw_code = `# OpenClaw 配置文件 config.yaml
@@ -217,6 +224,13 @@ async function checkOllama() {
   }
   checking.value = false
 }
+
+const envConfigs = [
+  { key: 'OLLAMA_MODELS', desc: '指定模型本地保存位置，规避系统盘占用' },
+  { key: 'OLLAMA_PORT', desc: '自定义服务端口，规避端口占用冲突（默认11434）' },
+  { key: 'OLLAMA_MAX_MEMORY', desc: '合理分配显存资源，建议分配10G（适配16G显卡）' },
+  { key: 'OLLAMA_LOG_LEVEL', desc: '日志级别配置（debug/info/warn/error）' }
+]
 
 function copyCode(code, idx) {
   navigator.clipboard.writeText(code).then(() => {
@@ -494,6 +508,42 @@ checkOllama()
   border-radius: 4px;
   color: var(--primary);
   font-size: 13px;
+}
+
+/* 环境变量配置 */
+.env-config-block {
+  background: rgba(0, 102, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(0, 102, 255, 0.08);
+}
+
+.env-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(0, 102, 255, 0.1);
+}
+
+.env-row:last-child {
+  border-bottom: none;
+}
+
+.env-key {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 600;
+  background: rgba(0, 102, 255, 0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.env-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 /* 状态检测 */

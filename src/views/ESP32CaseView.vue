@@ -1,10 +1,9 @@
 <template>
   <div class="esp32-case-view">
-    <h1 class="page-title">ESP32 端侧智能体开发实践</h1>
-
+    <h1 class="page-title">Agentic AI：从云端大脑到具身智能</h1>
     <div class="optional-banner">
       <span class="banner-icon">📌</span>
-      <span class="banner-text"><strong>进阶拓展</strong> — 「端侧感知 → 云端智能体规划 → 端侧执行」完整闭环实现</span>
+      <span class="banner-text">2026 新趋势：AI 智能体不再局限于对话框，而是深入终端与边缘设备。 ESP32-S3 搭载智能体实现“数字决策 + 物理执行”的具身智能闭环。</span>
     </div>
 
     <!-- Tab 导航 -->
@@ -2062,6 +2061,6 @@ asyncio.run(ESP32AIAgent(config).run())`
 @media (max-width: 968px) {
   .content-grid { grid-template-columns: 1fr; }
   .plan-section.two-col { grid-template-columns: 1fr; }
-  .prompt-tooltip { width: 340px; }
+  .prompt-tooltip { width: calc(100vw - 32px); max-width: 400px; }
 }
 </style>

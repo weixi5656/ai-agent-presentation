@@ -1,15 +1,46 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const fullText = '从辅助工具到研发引擎'
+const typedText = ref('')
+const typingSpeed = 120 // ms per char
+
+const startTyping = () => {
+  let i = 0
+  typedText.value = ''
+  const timer = setInterval(() => {
+    if (i < fullText.length) {
+      typedText.value += fullText.charAt(i)
+      i++
+    } else {
+      clearInterval(timer)
+    }
+  }, typingSpeed)
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    startTyping()
+  }, 800) // Delay for initial visual impact
+})
+</script>
+
 <template>
-  <div class="intro-view">
+<div class="intro-view">
     <div class="hero-content">
 
       
       <h1 class="hero-title">
-        <span class="gradient-text typewriter">聚焦前沿、可落地、高质感的</span><br>
-        <span class="main-text">AI 智能体方案</span>
+        <span class="gradient-text title-glow">2026年的AI 智能体：</span><br>
+        <div class="typing-container">
+          <span class="main-text metallic-text">{{ typedText }}</span>
+          <span class="cursor-glow">|</span>
+        </div>
       </h1>
       
       <p class="hero-desc">
-        <strong>AI智能体应用场景分享</strong>
+        <span class="hl-blue">AI原生开发</span> · <span class="hl-purple">Vibe Coding</span> · <span class="hl-cyan">OpenClaw</span> · <span class="hl-green">多智能体编排</span><br>
+        不再只是“对话”，而是<strong>“对话即工程”</strong>。让 AI 成为团队的核心引擎。
       </p>
       
       <div class="feature-tags">
@@ -83,15 +114,62 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background: linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 42px;
+  filter: drop-shadow(0 0 10px rgba(0, 201, 255, 0.2));
+}
+
+.title-glow {
+  animation: static-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes static-glow {
+  from { filter: drop-shadow(0 0 5px rgba(0, 201, 255, 0.1)); }
+  to { filter: drop-shadow(0 0 15px rgba(0, 201, 255, 0.3)); }
 }
 
 .main-text {
   color: var(--text-primary);
   font-size: 72px;
+  display: inline-block;
+  min-height: 1.2em;
+}
+
+.metallic-text {
+  background: linear-gradient(135deg, #1d1d1f 0%, #434343 50%, #1d1d1f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+.typing-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+}
+
+.cursor-glow {
+  font-size: 64px;
+  color: #0066FF;
+  font-weight: 200;
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+  display: inline-block;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(0, 102, 255, 0.6);
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .hero-desc {
@@ -101,6 +179,11 @@
   margin: 0 auto 40px;
   max-width: 700px;
 }
+
+.hl-blue { color: #007AFF; font-weight: 600; }
+.hl-purple { color: #AF52DE; font-weight: 600; }
+.hl-cyan { color: #00C7BE; font-weight: 600; }
+.hl-green { color: #34C759; font-weight: 600; }
 
 .hero-desc strong {
   color: var(--text-primary);
@@ -196,21 +279,32 @@
 
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 40px;
+    font-size: 34px;
+    margin-bottom: 20px;
   }
   .gradient-text {
-    font-size: 28px;
+    font-size: 24px;
   }
   .main-text {
-    font-size: 48px;
+    font-size: 40px;
+  }
+  .typing-container {
+    min-height: 60px;
+  }
+  .cursor-glow {
+    font-size: 36px;
   }
   .hero-desc {
-    font-size: 16px;
-    padding: 0 20px;
+    font-size: 15px;
+    padding: 0 10px;
   }
   .feature-tags {
-    flex-direction: column;
-    padding: 0 40px;
+    gap: 12px;
+    padding: 0 20px;
+  }
+  .tag.glass {
+    padding: 10px 16px;
+    font-size: 13px;
   }
 }
 </style>

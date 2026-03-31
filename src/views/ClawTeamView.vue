@@ -3,9 +3,14 @@
     <h1 class="page-title">ClawTeam 多智能体协作：架构与应用</h1>
     
     <div class="positioning-section">
-      <div class="positioning-card">
-        <h2>核心定位</h2>
-        <p>ClawTeam  是基于 OpenClaw 的多智能体协作框架，用来把单个智能体升级为“会分工、会协作、会交付”的 AI 研发团队。</p>
+      <div class="intro-card-new glass">
+        <div class="intro-badge">2026 研发新范式</div>
+        <h2>多智能体协同：从“助手”到“团队”</h2>
+        <p>
+          不再只是单一助手，而是由<strong>需求、架构、编码、测试、部署</strong>五大专业智能体构成的战队。
+          <br>
+          <span class="highlight-text">案例：开发用户登录接口（含校验+单测），人工耗时 <strong>30 分钟</strong> → 智能体战队仅需 <strong>5 分钟</strong>。</span>
+        </p>
       </div>
     </div>
     
@@ -352,24 +357,39 @@ const templates = [
   margin-bottom: 50px;
 }
 
-.positioning-card {
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(0, 212, 170, 0.1));
-  border-radius: 16px;
-  padding: 40px;
-  border: 1px solid rgba(0, 102, 255, 0.2);
+.intro-card-new {
+  background: linear-gradient(135deg, rgba(255, 217, 61, 0.12) 0%, rgba(0, 212, 170, 0.08) 50%, rgba(0, 102, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 217, 61, 0.3);
+  padding: 32px 40px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.03);
 }
 
-.positioning-card h2 {
-  font-size: 24px;
-  font-weight: 600;
+.intro-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255, 217, 61, 0.2);
+  color: #c09100;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
   margin-bottom: 16px;
-  color: var(--primary);
+  text-transform: uppercase;
 }
 
-.positioning-card p {
-  font-size: 18px;
-  line-height: 1.7;
+.intro-card-new h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 12px 0;
+}
+
+.intro-card-new p {
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--text-primary);
+  margin: 0;
 }
 
 .section-title {

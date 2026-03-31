@@ -71,136 +71,137 @@
 <script setup>
 const tokenTips = [
   { 
-    title: '极简指令原则', 
-    desc: '指令简洁明了，避免重复描述',
+    title: '指令精简原则', 
+    desc: '采用短句、分点表述，剔除冗余修饰，保留强约束规则',
     negative: '请你帮我写一个函数，这个函数的作用是用来计算两个数字相加的，你一定要用Python来写，而且写完之后要告诉我怎么用。',
-    positive: '用Python写一个两数相加的函数，并附带调用示例。'
+    positive: '用Python编写两数相加函数，并附带调用示例。'
   },
   { 
-    title: '固定输出格式', 
-    desc: '指定JSON/列表等格式，减少推理消耗',
-    negative: '帮我分析一下这段代码有什么问题，把结果告诉我。',
-    positive: '分析代码问题。按以下JSON格式输出：{"issues": [{"line": 1, "desc": "描述", "fix": "建议"}]}'
+    title: '上下文动态裁剪', 
+    desc: '仅保留最近3轮核心结果与关键上下文，避免无限膨胀',
+    negative: '这是我们整个项目的50个文件的代码，帮我看看 LoginController 里的登录逻辑。',
+    positive: '这是 LoginController 的代码和对应的 User 实体类，请检查登录逻辑。'
   },
   { 
-    title: '上下文精准过滤', 
-    desc: '只传递相关上下文，裁剪无关信息',
-    negative: '这是我们整个项目的50个文件的代码（附带几万行代码），帮我看看 LoginController 里的登录逻辑对不对。',
-    positive: '这是 LoginController 的代码和对应的 User 实体类（附带2个核心文件），请检查登录逻辑。'
+    title: '批量任务合并执行', 
+    desc: '同类原子任务合并为单次指令，减少重复消耗',
+    negative: '请分析 A 组件。请分析 B 组件。请分析 C 组件。',
+    positive: '请一次性分析 A、B、C 组件的逻辑并输出对比报告。'
   },
   { 
-    title: '长任务分阶段', 
-    desc: '拆分为多个短任务，避免上下文溢出',
-    negative: '帮我设计一个完整的电商系统，包括数据库表结构、后端API代码、前端Vue组件、部署脚本。',
-    positive: '任务1：请先帮我设计电商系统核心模块（商品、订单、用户）的数据库表结构。'
+    title: '知识库分层检索', 
+    desc: '区分高频核心与低频长尾知识，仅检索强相关内容',
+    negative: '全文检索整个 10 万字的架构手册并在上下文中完整输出。',
+    positive: '仅检索与当前分布式锁实现相关的 3 个架构片段并输出。'
   },
   { 
-    title: '模型分级调用', 
-    desc: '简单任务用小模型，复杂任务再用大模型',
-    negative: '调用 GPT-4o / Claude-3.5-Sonnet 来给代码批量添加注释。',
-    positive: '用 Qwen-2.5-Coder-7B 批量生成注释；用 GPT-4o 处理复杂重构或系统架构设计。'
+    title: '输出格式轻量化', 
+    desc: '非必要场景避免强制 JSON/Markdown 复杂格式',
+    negative: '所有的回复必须使用这种复杂的嵌套 JSON 格式。',
+    positive: '仅在最终交付环节采用 JSON 格式，中间过程建议简短文字。'
   }
 ]
 
 const frameworks = [
   {
     name: 'APE',
-    badge: '简单快速',
+    badge: '角色确立',
     colorClass: 'ape',
     structure: [
-      { key: 'A - Action', desc: '行动' },
-      { key: 'P - Purpose', desc: '目的' },
-      { key: 'E - Expect', desc: '期望' }
+      { key: 'A - Agent Persona', desc: '智能体角色背景' },
+      { key: 'P - Purpose', desc: '核心目标与职责' },
+      { key: 'E - Expectation', desc: '交付期望与标准' }
     ]
   },
   {
     name: 'TAG',
-    badge: '极简',
+    badge: '任务对齐',
     colorClass: 'tag-framework',
     structure: [
-      { key: 'T - Task', desc: '任务' },
-      { key: 'A - Action', desc: '行动' },
-      { key: 'G - Goal', desc: '目标' }
-    ]
-  },
-  {
-    name: 'RTF',
-    badge: '简洁高效',
-    colorClass: 'rtf',
-    structure: [
-      { key: 'R - Role', desc: '角色定位' },
-      { key: 'T - Task', desc: '具体任务' },
-      { key: 'F - Format', desc: '输出格式' }
+      { key: 'T - Task', desc: '核心任务分解' },
+      { key: 'A - Alignment', desc: '目标与需求对齐' },
+      { key: 'G - Guide', desc: '执行逻辑指引' }
     ]
   },
   {
     name: 'ICIO',
-    badge: '框架通用',
+    badge: '工具调用',
     colorClass: 'icio',
     structure: [
-      { key: 'I - Instruction', desc: '指令' },
-      { key: 'C - Context', desc: '背景' },
-      { key: 'I - Input', desc: '输入数据' },
-      { key: 'O - Output', desc: '输出格式' }
+      { key: 'I - Instruction', desc: '核心指令' },
+      { key: 'C - Context', desc: '上下文环境' },
+      { key: 'I - Input', desc: '工具输入参数' },
+      { key: 'O - Output', desc: '输出处理规则' }
     ]
   },
   {
     name: 'BROKE',
-    badge: '目标达成',
+    badge: '反思优化',
     colorClass: 'broke',
     structure: [
-      { key: 'B - Background', desc: '背景' },
-      { key: 'R - Role', desc: '角色' },
-      { key: 'O - Objectives', desc: '目标' },
-      { key: 'K - Key Result', desc: '关键结果' },
-      { key: 'E - Evolve', desc: '改进调整' }
+      { key: 'B - Background', desc: '背景分析' },
+      { key: 'R - Role', desc: '角色设定' },
+      { key: 'O - Objectives', desc: '执行目标' },
+      { key: 'K - Keep/Revise', desc: '校验与修订' },
+      { key: 'E - Evaluate', desc: '评估优化' }
     ]
   },
   {
     name: 'RISEN',
-    badge: '任务执行',
+    badge: '记忆管理',
     colorClass: 'risen',
     structure: [
-      { key: 'R - Role', desc: '角色' },
-      { key: 'I - Instruction', desc: '指令' },
-      { key: 'S - Steps', desc: '步骤' },
-      { key: 'E - End Goal', desc: '最终目标' },
-      { key: 'N - Narrowing', desc: '约束条件' }
-    ]
-  },
-  {
-    name: 'CRISPE',
-    badge: '专业开发',
-    colorClass: 'crispe',
-    structure: [
-      { key: 'C - Capacity', desc: '能力与角色' },
-      { key: 'I - Insight', desc: '洞察与背景' },
-      { key: 'S - Statement', desc: '具体任务' },
-      { key: 'P - Personality', desc: '个性风格' },
-      { key: 'E - Experiment', desc: '实验改进' }
+      { key: 'R - Retention', desc: '信息留存' },
+      { key: 'I - Indexing', desc: '索引逻辑' },
+      { key: 'S - Search', desc: '检索召回' },
+      { key: 'E - Evaluation', desc: '相关性评估' },
+      { key: 'N - Navigation', desc: '上下文导航' }
     ]
   },
   {
     name: 'Co-STAR',
-    badge: '结构完整',
+    badge: '多智能体协同',
     colorClass: 'costar',
     structure: [
-      { key: 'C - Context', desc: '背景上下文' },
-      { key: 'O - Objective', desc: '明确目标' },
-      { key: 'S - Style', desc: '写作风格' },
-      { key: 'T - Tone', desc: '语气语调' },
-      { key: 'A - Audience', desc: '目标受众' },
-      { key: 'R - Response', desc: '响应格式' }
+      { key: 'C - Collaborative', desc: '协同分工' },
+      { key: 'O - Objective', desc: '共同目标' },
+      { key: 'S - Smart Agent', desc: '智能体角色' },
+      { key: 'T - Teamwork', desc: '团队协作规则' },
+      { key: 'A - Alignment', desc: '对齐资源' },
+      { key: 'R - Resource', desc: '共享资源枢纽' }
+    ]
+  },
+  {
+    name: 'CRISPER',
+    badge: '安全合规',
+    colorClass: 'crispe',
+    structure: [
+      { key: 'C - Compliance', desc: '合规红线' },
+      { key: 'R - Risk', desc: '风险识别' },
+      { key: 'I - Inspection', desc: '安全审查' },
+      { key: 'S - Security', desc: '运行权限' },
+      { key: 'P - Permission', desc: '执行控制' },
+      { key: 'R - Review', desc: '结果回顾' }
+    ]
+  },
+  {
+    name: 'RTF',
+    badge: '响应模版',
+    colorClass: 'rtf',
+    structure: [
+      { key: 'R - Response', desc: '响应内容' },
+      { key: 'T - Template', desc: '结构化模版' },
+      { key: 'F - Format', desc: '数据交换格式' }
     ]
   }
 ]
 
 const agentTemplate = [
-  { tag: '🎯 角色', desc: '你是一个 Code Review 智能体，专注于发现代码中的安全漏洞和潜在风险' },
-  { tag: '📋 目标', desc: '对提交的代码变更进行安全审查，输出结构化的问题列表和修复方案' },
-  { tag: '⚠️ 约束', desc: '只关注安全问题（注入、越权、敏感信息泄露等），不做代码风格建议；发现漏洞必须给出具体修复代码' },
-  { tag: '🔧 工具', desc: '可调用：代码搜索工具、Git 提交历史、依赖包查询、CVE 漏洞库' },
-  { tag: '📤 输出', desc: '按 JSON 格式输出：漏洞列表（位置 + 类型 + 严重程度 + 修复建议 + 修复代码示例）' }
+  { tag: '👤 角色定义', desc: '你是[XX领域专业智能体]，核心职责是[核心目标]，具备[核心能力]，严格遵守[执行红线]。' },
+  { tag: '🎯 任务目标', desc: '交付标准：[明确的交付物、验收标准、完成标志]。' },
+  { tag: '📋 执行规则', desc: '任务拆解逻辑：按[需求分析→方案设计→落地执行→结果校验]拆解，每步仅执行一个原子动作。' },
+  { tag: '🔧 工具/记忆', desc: '仅在[场景]调用[工具]；每3步回顾一次上下文，避免信息偏差。' },
+  { tag: '📤 输出要求', desc: '输出：当前步骤、内容、结果、下步计划，全流程完成后输出交付物与复盘总结。' }
 ]
 </script>
 

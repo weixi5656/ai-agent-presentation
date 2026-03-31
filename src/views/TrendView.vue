@@ -1,6 +1,6 @@
 <template>
   <div class="trend-view">
-    <h1 class="page-title">AI 智能体 2026 最前沿趋势</h1>
+    <h1 class="page-title">2026 AI智能体的未来展望</h1>
     
     <div class="timeline">
       <div class="trend-item" v-for="(trend, index) in trends" :key="index">
@@ -22,44 +22,29 @@
 <script setup>
 const trends = [
   {
-    title: 'Harness Engineering (智能体基建工程)',
-    desc: '脚手架/基建工程相关的宣讲，阐述如何利用自动化脚手架快速验证智能体。在真实落地中，Harness Engineering 提供一整套仿真、构建与评测的基础设施，以应对安全、可靠和工程化的核心挑战。',
-    link: 'https://openai.com/zh-Hans-CN/index/harness-engineering/'
+    title: 'Harness engineering 驾驭工程',
+    desc: '从底层的代码实现转向高层的逻辑编排与驾驭。研发人员的核心职责从“写代码”进化为“定义北极星目标并监管执行路径”。',
+    link: 'https://www.gartner.com/en/information-technology/insights/top-technology-trends'
   },
   {
-    title: '多智能体协作操作系统（MAOS）',
-    desc: 'MetaGPT、CAMEL、AutoGen等框架向OS化演进：OpenAI的Supervisor、Anthropic的Constitutional Agents、Google的MADPS（Multi-Agent Distributed Planning System）。MAOS实现智能体间的任务调度、资源管理、安全隔离和协同学习，让AI从"工具"升级为"团队"，重构企业组织架构。',
-    link: 'https://www.sohu.com/a/997779254_468661'
+    title: 'GaaS 智能体即服务',
+    desc: '智能体能力原子化与接口化。未来企业内部将形成庞大的 Agent 资源池，通过标准协议随取随用，构建动态的、自适应的业务流水线。',
+    link: 'https://www.forrester.com/bold/ai-agents-digital-coworkers/'
   },
   {
-    title: '具身AI与物理世界交互智能体',
-    desc: 'MIT CSAIL的DexNet 3.0、斯坦福HAI的RoboAgent、伯克利BAIR的Real2Sim：基于视觉-触觉-力觉多模态反馈构建的物理世界交互智能体，实现物体操作、环境感知、动态规划。Tesla Optimus Gen3、Boston Dynamics Atlas结合OpenAI VPT，形成具身智能体的产业落地。',
-    link: 'https://news.qq.com/rain/a/20260113A06NA000'
+    title: '深度端侧化与边缘计算',
+    desc: '大模型向终端设备（手机、PC、嵌入式 NPU）迁移，通过端云协同实现亚秒级响应与 100% 数据离岸，拓展 Agent 在离线与高隐私场景的落地。',
+    link: 'https://www.nvidia.com/en-us/glossary/edge-ai/'
   },
   {
-    title: 'AI Agent联邦学习与隐私计算',
-    desc: 'Google Federated Learning+、华为昇腾隐私计算、蚂蚁摩斯多方安全计算：AI Agent在不暴露原始数据的前提下，通过加密协议进行模型协同训练，解决医疗/金融/政务等敏感场景的数据合规问题。MIT Satori Lab的Secure Multi-Party Agent Learning成为隐私计算新范式。',
-    link: 'https://www.gyznsw.cn/2026/03/26/2026-03-26-AI%E6%8A%80%E6%9C%AF%E6%AF%8F%E6%97%A5%E5%88%86%E6%9E%90-20260326/'
+    title: '去媒介化交互模式',
+    desc: '摆脱传统 GUI 限制，转向全语音、多模态、无痕式智能交互。智能体将成为系统底层的一部分，实现“意图即触发”的流畅体验。',
+    link: 'https://openai.com/index/gpt-4o-real-time-audio-and-vision-capabilities/'
   },
   {
-    title: '自演化智能体（Self-Evolving Agents）',
-    desc: 'DeepMind Gemini N+、Anthropic Constitutional AI 2.0、清华CoEvol：具备自主目标设定、能力演进、经验累积的学习型智能体。通过反思机制、任务重规划、技能合成，实现无需人类干预的持续能力提升。OpenAI的Recursive Self-Improvement（RSI）智能体成为AGI关键技术路径。',
-    link: 'https://www.tsinghua.edu.cn/info/1182/124190.htm'
-  },
-  {
-    title: 'AI Agent测试与验证基础设施',
-    desc: 'Anthropic的Constitutional Safety Suite、Google Responsible AI Test Suite、微软MAVTS（Multi-Agent Verification & Test System）：随着Agent规模部署，测试验证成为工程瓶颈。2026年各大企业投入超百亿美元构建Agent验证平台，涵盖安全性、一致性、合规性和鲁棒性测试。',
-    link: 'https://qverlabs.com/blog/openai-vs-google-deepmind-vs-anthropic-2026'
-  },
-  {
-    title: '神经符号智能体（Neuro-Symbolic Agents）',
-    desc: 'IBM Neurosymbolic AI、微软LogicLM、Meta LlamaLogic：融合深度学习与符号推理，提升Agent的逻辑推理、规划能力和可解释性。清华-华为联合实验室NeSy-Agent框架在金融风控、法律推理场景实现突破，成为高可靠AI系统核心架构。',
-    link: 'https://blog.csdn.net/jinanwuhuaguo/article/details/159088534'
-  },
-  {
-    title: 'AI Agent伦理与治理标准化',
-    desc: '欧盟AI Act 2026全面实施、美国NIST AI Risk Management Framework、中国AI治理白皮书：随着Agent自主性提升，伦理治理成为全球共识。Anthropic与五角大楼AI合规诉讼、OpenAI安全董事会的重组，标志着AI Agent从技术探索进入规范化发展阶段。',
-    link: 'https://www.infoq.cn/article/iHkvlLuTCWNJv27eJ1XY'
+    title: '持续自主演进能力',
+    desc: '智能体具备基于执行结果的自主闭环学习能力。通过“反思优化”模块，智能体能在任务执行中不断修正策略，实现越用越好、越用越准。',
+    link: 'https://deepmind.google/technologies/robotics/'
   }
 ]
 </script>

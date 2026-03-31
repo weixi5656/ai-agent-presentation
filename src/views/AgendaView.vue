@@ -28,25 +28,19 @@
 
 <script setup>
 const agenda = [
-  { title: '认知与原理篇', desc: 'AI Agent 核心概念、执行闭环与组成模块解析' },
-  { title: '研发场景篇', desc: '编码、测试、运维、文档与协作等典型落地案例' },
-  { title: 'OpenClaw 架构篇', desc: 'Channel、Gateway、Node、Session、Skills、Memory 的协同关系' },
-  { title: 'OpenClaw 实操篇', desc: '3 步跑通第一个研发智能体，完成从安装到执行的闭环' },
-  { title: 'ClawTeam 协作篇', desc: '多智能体如何分工协作，把单助手升级为 AI 团队' },
-  { title: '提示词工程篇', desc: '常用提示词框架、Agent 模板与省 Token 方法' },
-  { title: '端侧实践篇', desc: 'ESP32 端侧智能体的实现思路与落地价值' },
-  { title: '趋势展望篇', desc: 'AI 智能体后续演进方向与实践判断' },
+  { title: '1. AI智能体核心概念', desc: '厘清本质，构建完整认知体系：涵盖与传统智能体核心差异及六大核心能力。' },
+  { title: '2. OpenClaw开源智能体深度解析', desc: '从环境搭建到运行原理全维度拆解：包含 Ollama 本地部署、分层架构及数据流转。' },
+  { title: '3. 智能体提示词工程实战', desc: '提效降本的核心技巧与标准化模版：深度解析 8 类常用模版与 Token 优化实用技巧。' },
+  { title: '4. AI智能体主流落地应用场景', desc: '从代码开发到物理世界的全场景覆盖：聚焦 Vibe Coding、多智能体协同及具身智能。' },
+  { title: '5. 核心总结与行业未来展望', desc: '总结落地经验，展望行业新范式：GaaS、编码平权及 Harness Engineering 岗位崛起。' },
 ]
 
 const benefits = [
-  { icon: '📌', text: '理解 AI 智能体在软件研发中的价值与工作方式' },
-  { icon: '🛠️', text: '掌握 OpenClaw 的整体架构与工程化落地路径' },
-  { icon: '👥', text: '看懂 ClawTeam 多智能体协作如何支撑团队级研发任务' },
-  { icon: '📦', text: '带走可直接复用的提示词框架、配置思路与实践模板' },
-  { icon: '🧠', text: '建立从“对话模型”到“可执行智能体”的认知升级' },
-  { icon: '🔍', text: '理解智能体感知、规划、记忆、工具调用的完整闭环' },
-  { icon: '⚙️', text: '看清单智能体与多智能体在实际研发任务中的分工边界' },
-  { icon: '🚀', text: '获得一套可持续演进的 AI 智能体落地判断框架' },
+  { icon: '🧠', text: '建立从 AIGC 到 Agent 的核心认知闭环' },
+  { icon: '🛠️', text: '掌握消费级显卡部署私有化智能体的实战方案' },
+  { icon: '📝', text: '获得 8 套可直接复用的标准化智能体提示词模版' },
+  { icon: '🚀', text: '理解 Vibe Coding 与多智能体协作如何重塑交付效率' },
+  { icon: '🌐', text: '洞察 AI 智能体引领的行业变革与职业发展新机遇' },
 ]
 </script>
 

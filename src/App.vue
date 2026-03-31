@@ -31,13 +31,15 @@
       <section id="intro"><IntroView /></section>
       <section id="agenda"><AgendaView /></section>
       <section id="concept"><ConceptView /></section>
+      <section id="ollama"><OllamaView /></section>
       <section id="architecture"><OpenClawArchitectureView /></section>
-      <section id="dev-case"><DevCaseView /></section>
-      <section id="openclaw-practice"><OpenClawPracticeView /></section>
-      <section id="clawteam"><ClawTeamView /></section>
       <section id="practice"><PracticeView /></section>
+      <section id="dev-case"><DevCaseView /></section>
+      <section id="clawteam"><ClawTeamView /></section>
       <section id="esp32-case"><ESP32CaseView /></section>
       <section id="trend"><TrendView /></section>
+      <section id="challenges"><ChallengesView /></section>
+      <section id="summary"><SummaryView /></section>
     </main>
   </div>
 </template>
@@ -53,13 +55,16 @@ gsap.registerPlugin(ScrollTrigger)
 import IntroView from './views/IntroView.vue'
 import AgendaView from './views/AgendaView.vue'
 import ConceptView from './views/ConceptView.vue'
-import DevCaseView from './views/DevCaseView.vue'
+import OllamaView from './views/OllamaView.vue'
 import OpenClawArchitectureView from './views/OpenClawArchitectureView.vue'
 import OpenClawPracticeView from './views/OpenClawPracticeView.vue'
-import ClawTeamView from './views/ClawTeamView.vue'
 import PracticeView from './views/PracticeView.vue'
+import DevCaseView from './views/DevCaseView.vue'
+import ClawTeamView from './views/ClawTeamView.vue'
 import ESP32CaseView from './views/ESP32CaseView.vue'
+import SummaryView from './views/SummaryView.vue'
 import TrendView from './views/TrendView.vue'
+import ChallengesView from './views/ChallengesView.vue'
 
 const isScrolled = ref(false)
 const currentSection = ref('intro')
@@ -67,14 +72,16 @@ const currentSection = ref('intro')
 const sections = [
   { id: 'intro', title: '概述' },
   { id: 'agenda', title: '议程' },
-  { id: 'concept', title: '原理' },
-  { id: 'architecture', title: '架构/原理' },
-  { id: 'dev-case', title: '研发场景' },
-  { id: 'openclaw-practice', title: '实操' },
-  { id: 'clawteam', title: '协作' },
-  { id: 'practice', title: '提示词' },
-  { id: 'esp32-case', title: '端侧' },
-  { id: 'trend', title: '趋势' }
+  { id: 'concept', title: '核心概念' },
+  { id: 'ollama', title: '本地部署' },
+  { id: 'architecture', title: '分层架构' },
+  { id: 'practice', title: '提示词实战' },
+  { id: 'dev-case', title: '智能编程' },
+  { id: 'clawteam', title: '多智能体' },
+  { id: 'esp32-case', title: '具身智能' },
+  { id: 'trend', title: '未来展望' },
+  { id: 'challenges', title: '安全治理' },
+  { id: 'summary', title: '核心总结' }
 ]
 
 const handleScroll = () => {
@@ -218,10 +225,17 @@ section {
 
 @media (max-width: 768px) {
   .apple-nav {
-    padding: 0 20px;
+    padding: 0 16px;
+  }
+  .brand-text {
+    font-size: 16px;
   }
   .nav-links {
-    display: none; /* simple responsive hide for now */
+    display: none; /* hide for now */
+  }
+  section {
+    padding: 80px 16px; /* more compact for mobile */
+    min-height: auto;
   }
 }
 </style>

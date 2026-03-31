@@ -13,12 +13,6 @@
           <p>传统大模型更像<strong>知识问答机</strong>，AI Agent 更像<strong>能动手、能协作、能交付结果的数字工程师</strong>。</p>
           <p>核心差异不在<strong>更会说</strong>，而在于<strong>能感知、会规划、能调用工具、能记忆、会执行和反思</strong>。</p>
         </div>
-        <div class="highlight-badge">
-          <span class="badge-icon">✨</span>
-          <div class="badge-text">
-            <strong>补充：</strong>当前AI智能体已支持消费级显卡部署在个人电脑，普通研发电脑即可满足需求，大幅降低落地门槛。
-          </div>
-        </div>
       </div>
     </div>
 
@@ -64,7 +58,7 @@
     <!-- 核心能力 -->
     <div class="concept-section">
       <div class="definition-section">
-        <h2 class="section-title">AI智能体5大核心能力</h2>
+        <h2 class="section-title">AI智能体 6 大核心能力</h2>
         <div class="cycle-container">
           <div class="glow-ring"></div>
           <div class="orbit-ring outer"></div>
@@ -117,57 +111,61 @@
 
 <script setup>
 const comparisonRows = [
-  { dimension: '定位', traditional: '回答问题', agent: '完成任务' },
-  { dimension: '行为方式', traditional: '用户问一步，模型答一步', agent: '接收目标后自主拆解、多步执行' },
-  { dimension: '工具能力', traditional: '通常只输出文本', agent: '可调用 IDE、终端、API、数据库、浏览器等工具' },
-  { dimension: '记忆能力', traditional: '依赖当前上下文窗口', agent: '可接入长期记忆，跨任务积累经验' },
-  { dimension: '典型研发场景', traditional: '写个函数、解释报错、生成注释', agent: '自动修 Bug、批量写测试、巡检服务、生成文档、执行部署' }
+  { dimension: '自主性', traditional: '依赖预设规则与人工指令，不具备主动决策能力，仅能响应固定场景需求', agent: '具备目标导向的自主决策能力，可主动发起操作、适配未知场景，无需人工逐轮引导' },
+  { dimension: '任务链路', traditional: '仅支持单轮或短链路执行，无法完成跨环节复杂任务，不具备闭环执行能力', agent: '支持需求-拆解-执行-验证-优化的全链路闭环，可端到端处理跨领域复杂任务' },
+  { dimension: '迭代能力', traditional: '规则固定，需通过人工手动更新实现迭代，不具备自主学习与优化能力', agent: '具备持续学习与自我反思能力，可基于执行结果自主优化策略，无需人工反复干预' }
 ]
 
 const modules = [
   {
-    name: '环境感知',
     icon: '👁️',
     label: '环境感知',
     angle: '-90deg',
-    bubbleClass: 'bubble-right',
-    title: '感知模块',
-    desc: '负责读取外部环境信息，包括代码仓库、接口文档、日志、数据库、用户输入、监控指标等；没有感知，智能体就像"闭着眼睛写代码"。',
-    scenario: '读取一个老项目的目录结构、接口定义和最近报错日志，然后理解当前系统问题'
+    title: '环境感知',
+    desc: '实时感知上下文信息、用户核心需求、外部运行环境及工具反馈数据，全面获取任务执行所需的有效信息。',
+    scenario: '读取仓库目录、接口定义及报错日志，理解当前问题'
   },
   {
     icon: '🧠',
     label: '自主规划',
-    angle: '-18deg',
-    title: '规划模块',
-    desc: '智能体的大脑引擎，通过思维链和树状思维等方式，把模糊目标拆成可执行子任务，再决定执行顺序与策略。',
-    scenario: '把"帮我优化接口性能"拆成：定位慢查询 → 分析索引 → 修改 SQL → 回归验证'
+    angle: '-30deg',
+    title: '自主规划',
+    desc: '基于用户核心目标，自主完成任务步骤拆解、计划制定，预判风险并设计备选方案。',
+    scenario: '把"优化性能"拆成：定位慢查询 -> 分析索引 -> 修改 SQL -> 验证'
   },
   {
     icon: '💾',
-    label: '长期记忆',
-    angle: '54deg',
-    bubbleClass: 'bubble-right',
-    title: '记忆模块',
-    desc: '负责保存短期上下文和长期经验，比如"这个项目用的不是 MyBatis，而是 JPA""这个团队禁止直接改生产配置"。没有记忆，智能体每次都像新来的实习生。',
-    scenario: '记住团队代码规范、历史架构约束和常见问题修复方式，在后续任务中持续复用'
+    label: '记忆系统',
+    angle: '30deg',
+    title: '记忆系统',
+    desc: '涵盖短期上下文与长期知识库记忆，留存历史经验、偏好及专业知识，支撑长周期执行。',
+    scenario: '记住团队代码规范、架构约束和以往的修复方案'
   },
   {
     icon: '🛠️',
     label: '工具调用',
-    angle: '126deg',
-    bubbleClass: 'bubble-left',
-    title: '工具调用模块',
-    desc: '这是让智能体真正"能干活"的关键模块。大模型本身不会改代码、不会跑测试、不会查数据库，但通过工具调用，它就能连接 IDE、终端、Git、Jenkins、Docker、浏览器、传感器等系统。',
-    scenario: '调用测试框架跑单元测试，调用 Git 查看变更，调用 Jenkins 触发构建，调用数据库检查线上数据'
+    angle: '90deg',
+    title: '工具调用',
+    desc: '自主识别需求，筛选并调用外部工具（代码执行、搜索、API、数据库），突破模型边界。',
+    scenario: '调用 Git 操作代码、调用终端跑测试、调用搜索引擎查文档'
   },
   {
     icon: '🔄',
-    label: '执行反思',
-    angle: '198deg',
-    title: '执行与反思模块',
-    desc: '执行模块负责真正把计划落地，反思模块负责检查结果是否达标；这两个模块一起构成智能体"能闭环"的核心。没有反思，智能体就会像只会蛮干的脚本。',
-    scenario: '代码修改后自动跑测试，发现失败再回溯原因、调整方案并重新执行'
+    label: '闭环执行',
+    angle: '150deg',
+    bubbleClass: 'bubble-left',
+    title: '闭环执行',
+    desc: '依据规划步骤端到端完成任务落地，无需人工逐轮确认，保障执行的连贯性与完整性。',
+    scenario: '代码修改后自动触发构建及冒烟测试，完成交付闭环'
+  },
+  {
+    icon: '⚖️',
+    label: '反思优化',
+    angle: '210deg',
+    bubbleClass: 'bubble-left',
+    title: '反思优化',
+    desc: '对结果进行校验与复盘，识别偏差，自主优化后续执行策略，实现持续迭代提效。',
+    scenario: '测试失败时自动回溯原因，调整代码并重新测试直至通过'
   }
 ]
 </script>
@@ -780,24 +778,24 @@ const modules = [
   }
 
   .cycle-container {
-    width: 340px;
-    height: 340px;
-    margin-top: 80px;
+    width: 300px;
+    height: 300px;
+    margin-top: 60px;
   }
 
   .glow-ring {
-    width: 280px;
-    height: 280px;
+    width: 240px;
+    height: 240px;
   }
 
   .orbit-ring.outer {
-    width: 300px;
-    height: 300px;
+    width: 260px;
+    height: 260px;
   }
 
   .orbit-ring.inner {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
   }
 
   .rotating-ring {
@@ -819,9 +817,9 @@ const modules = [
   }
 
   .capability-card {
-    width: 80px;
-    height: 80px;
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist, 170px)) rotate(calc(var(--angle) * -1));
+    width: 70px;
+    height: 70px;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist, 145px)) rotate(calc(var(--angle) * -1));
   }
 
   .capability-card .card-icon {
