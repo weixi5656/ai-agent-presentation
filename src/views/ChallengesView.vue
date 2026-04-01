@@ -1,8 +1,8 @@
 <template>
   <div class="challenges-view">
     <h1 class="page-title">AI 安全与治理：2026 核心挑战</h1>
-    <div class="banner-hint glass">
-      人机协作机治理 (Human-in-the-Loop) —— AI 干活，人类决策、审核并担责。
+    <div class="intro-card-new">
+      <p>人机协作机治理 (Human-in-the-Loop) —— AI 干活，人类决策、审核并担责。</p>
     </div>
     
     <div class="challenges-grid">

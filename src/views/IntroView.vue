@@ -31,7 +31,7 @@ onMounted(() => {
 
       
       <h1 class="hero-title">
-        <span class="gradient-text title-glow">2026年的AI 智能体：</span><br>
+        <span class="gradient-text title-glow">2026年的AI 智能体</span><br>
         <div class="typing-container">
           <span class="main-text metallic-text">{{ typedText }}</span>
           <span class="cursor-glow">|</span>
@@ -114,7 +114,7 @@ onMounted(() => {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 42px;

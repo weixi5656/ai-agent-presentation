@@ -46,7 +46,7 @@
     <div class="token-tips-sub">
       <h3 class="sub-title">💡 进阶：5个省Token小妙招 (Hover查看示例)</h3>
       <div class="tips-grid">
-        <div class="tip-card" v-for="(tip, index) in tokenTips" :key="index" :class="{ 'bubble-right': index === 4 }">
+        <div class="tip-card" v-for="(tip, index) in tokenTips" :key="index" :class="{ 'bubble-right': index > 2 }">
           <span class="tip-number">{{ index + 1 }}</span>
           <div class="tip-content">
             <h4>{{ tip.title }}</h4>
@@ -245,7 +245,7 @@ const agentTemplate = [
 
 .tips-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
 }
 

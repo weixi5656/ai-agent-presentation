@@ -2,12 +2,9 @@
   <div class="vibe-coding-view">
     <h1 class="page-title">Vibe Coding：全链路智能编程</h1>
 
-    <div class="definition-card glass">
-      <div class="def-header">
-        <span class="def-icon">⚡</span>
-        <h2>核心定义</h2>
-      </div>
-      <p class="def-text">
+    <div class="intro-card-new glass">
+      <h2>核心定义</h2>
+      <p>
         Vibe Coding 是基于 AI 智能体的新一代编程模式，可实现从<strong>需求 → 架构设计 → 编码 → 调试 → 测试 → 部署</strong>的全链路智能驱动，无需人工逐轮干预，即可完成从需求想法到可运行项目的完整闭环，实现对传统 Copilot 辅助编程模式的根本性变革。
       </p>
     </div>
@@ -119,7 +116,7 @@ const scenarios = [
 
 .scenarios-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 24px;
 }
 

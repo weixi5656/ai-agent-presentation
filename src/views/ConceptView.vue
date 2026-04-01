@@ -4,8 +4,8 @@
 
     <!-- 核心结论 -->
     <div class="concept-section">
-      <div class="conclusion-box">
-        <div class="conclusion-header">
+      <div class="intro-card-new">
+        <div class="flex">
           <span class="icon">💡</span>
           <h2>核心结论</h2>
         </div>
@@ -207,15 +207,10 @@ const modules = [
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.03);
 }
 
-.conclusion-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.conclusion-header .icon {
+.concept-section .icon {
   font-size: 24px;
+  margin-block-end: 12px;
+  margin-inline-end: 8px;
 }
 
 .conclusion-header h2 {
@@ -230,11 +225,10 @@ const modules = [
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 24px;
 }
 
 .conclusion-content p {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.75;
   color: var(--text-primary);
   margin: 0;
