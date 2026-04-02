@@ -1,6 +1,14 @@
 <template>
   <div class="clawteam-view">
     <h1 class="page-title">ClawTeam 多智能体协作：架构与应用</h1>
+
+    <div class="repo-link-container">
+      <a href="https://github.com/win4r/ClawTeam-OpenClaw" target="_blank" class="repo-link-btn">
+        <span class="icon">📁</span>
+        <span class="text">ClawTeam-OpenClaw</span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
     
     <div class="positioning-section">
       <div class="intro-card-new glass">
@@ -933,6 +941,41 @@ const templates = [
   line-height: 1.7;
   overflow-x: auto;
   margin: 0;
+}
+
+.repo-link-container {
+  display: flex;
+  justify-content: center;
+  margin-top: -30px;
+  margin-bottom: 40px;
+}
+
+.repo-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 102, 255, 0.05);
+  border: 1px solid rgba(0, 102, 255, 0.1);
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+}
+
+.repo-link-btn:hover {
+  background: rgba(0, 102, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.1);
+  border-color: var(--primary);
+}
+
+.repo-link-btn .arrow {
+  font-size: 12px;
+  opacity: 0.6;
 }
 
 @media (max-width: 968px) {

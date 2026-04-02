@@ -148,63 +148,62 @@ ollama --version`,
   {
     title: '拉取并运行模型',
     lang: 'Shell',
-    desc: '推荐研发场景首选 qwen2.5-coder（代码能力强，7B 仅需 8GB 显存）',
-    code: `# 拉取 Qwen2.5-Coder 7B（推荐研发场景）
-ollama pull qwen2.5-coder:7b
+    desc: '推荐根据使用场景拉取专属模型，以获得最佳的性能与显存平衡。',
+    code: `# 编码推荐（全链路开发）：qwen3.5:30b
+ollama pull qwen3.5:30b
 
-# 拉取 DeepSeek-R1 蒸馏版（推理能力强）
-ollama pull deepseek-r1:7b
+# 图片识别推荐（UI转代码/多模态）：qwen3.5:4b
+ollama pull qwen3.5:4b
+
+# 对话推荐（逻辑推理/日常问答）：deepseek-r1:8b
+ollama pull deepseek-r1:8b
 
 # 运行模型（交互对话）
-ollama run qwen2.5-coder:7b
+ollama run qwen3.5:30b
 
 # 后台服务模式（供 OpenClaw 调用）
 ollama serve`,
-    tip: '首次拉取需要下载模型文件（约 4-8GB），之后本地缓存直接使用'
+    tip: '首次拉取需要下载模型文件，不同参数量下载耗时和占用空间不同。'
   },
   {
     title: '验证 API 接口',
-    lang: 'Shell',
-    desc: 'Ollama 默认在 11434 端口暴露 OpenAI 兼容接口，可直接用 curl 验证',
-    code: `# 测试 API 是否正常
+    lang: 'Python / Shell',
+    desc: 'Ollama 默认在 11434 端口暴露 OpenAI 兼容接口，可直接用官方 SDK 调用。',
+    code: `# 1. (选做) 终端直接检查服务是否正常启动
 curl http://localhost:11434/api/tags
 
-# 发送对话请求（OpenAI 兼容格式）
-curl http://localhost:11434/v1/chat/completions \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "model": "qwen2.5-coder:7b",
-    "messages": [
+# 2. Python 代码方式 (完全兼容 OpenAI 官方库)
+# pip install openai
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:11434/v1",
+    api_key="ollama"         # 随便填，Ollama 不校验 key
+)
+
+response = client.chat.completions.create(
+    model="qwen3.5:30b",
+    messages=[
       {"role": "user", "content": "帮我写一个 Python 冒泡排序"}
     ]
-  }'`,
+)
+print(response.choices[0].message.content)`,
     tip: '返回 JSON 中的 models 列表即代表服务正常'
   }
 ]
 
 const models = [
-  { name: 'DeepSeek-Coder / Qwen3-Coder', size: '7B INT4', vram: '8-10GB', scene: '代码场景：智能机编码、调试、部署', highlight: true },
-  { name: 'MiniCPM-o', size: '7B 级量化', vram: '7-9GB', scene: '多模态场景：OCR图文识别、文档解析', highlight: true },
-  { name: 'bge-large-zh / m3e', size: '轻量化', vram: '2-4GB', scene: '向量场景：知识库检索与长上下文' },
+  { name: 'qwen3.5:30b', size: '30B', vram: '18-24GB', scene: '💻 编码推荐：全链路架构、编码与漏洞修复', highlight: true },
+  { name: 'deepseek-r1:8b', size: '8B', vram: '6-8GB', scene: '💬 对话推荐：逻辑推理、文档问答、辅助决策', highlight: true },
+  { name: 'qwen3.5:4b', size: '4B', vram: '4-6GB', scene: '👁️ 图片识别推荐：UI转代码、视觉理解解析' },
 ]
 
-const openclaw_code = `# OpenClaw 配置文件 config.yaml
+const openclaw_code = `# OpenClaw 配置文件 (config.yaml)
 model:
-  provider: ollama          # 切换为本地 Ollama
+  provider: ollama          # 指定使用 ollama 适配器
   base_url: http://localhost:11434/v1
-  model_name: qwen2.5-coder:7b
-  api_key: ollama           # Ollama 不校验 key，填任意值即可
-
-# Python 代码方式
-from openclaw import Agent
-
-agent = Agent(
-    model="qwen2.5-coder:7b",
-    base_url="http://localhost:11434/v1",
-    api_key="ollama"         # 兼容 OpenAI 格式
-)
-
-response = agent.run("帮我 Review 这段代码是否有安全漏洞")`
+  model_name: qwen3.5:30b
+  api_key: ollama           # Ollama 不校验 key，填任意值即可`
 
 async function checkOllama() {
   checking.value = true
@@ -226,10 +225,11 @@ async function checkOllama() {
 }
 
 const envConfigs = [
-  { key: 'OLLAMA_MODELS', desc: '指定模型本地保存位置，规避系统盘占用' },
-  { key: 'OLLAMA_PORT', desc: '自定义服务端口，规避端口占用冲突（默认11434）' },
-  { key: 'OLLAMA_MAX_MEMORY', desc: '合理分配显存资源，建议分配10G（适配16G显卡）' },
-  { key: 'OLLAMA_LOG_LEVEL', desc: '日志级别配置（debug/info/warn/error）' }
+  { key: 'OLLAMA_HOST', desc: '网络绑定：允许局域网访问及自定义端口（默认127.0.0.1:11434，填 0.0.0.0 对外放行）' },
+  { key: 'OLLAMA_MODELS', desc: '存储路径：指定模型文件的本地存放磁盘，有效规避 C 盘空间被占满' },
+  { key: 'OLLAMA_KEEP_ALIVE', desc: '模型停留时间：模型加载后在显存中的驻留时长（默认 5m，频繁调用建议设为 -1 常驻）' },
+  { key: 'OLLAMA_MAX_LOADED_MODELS', desc: '同时加载模型数：允许同时驻留显存的最大模型实例个数（依据显卡显存量力而行）' },
+  { key: 'OLLAMA_NUM_PARALLEL', desc: '请求并发数：指定同一模型并行处理请求的能力（默认 1 排队处理，团队共享时务必调大）' }
 ]
 
 function copyCode(code, idx) {
@@ -455,6 +455,7 @@ checkOllama()
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border);
+  margin-bottom: 40px;
 }
 
 .model-row {
@@ -495,6 +496,10 @@ checkOllama()
 }
 
 /* OpenClaw 对接 */
+.connect-block {
+  margin-bottom: 40px;
+}
+
 .connect-desc {
   font-size: 14px;
   color: var(--text-secondary);
@@ -514,16 +519,17 @@ checkOllama()
 .env-config-block {
   background: rgba(0, 102, 255, 0.03);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 30px;
+  padding: 16px 20px;
+  margin-bottom: 40px;
   border: 1px solid rgba(0, 102, 255, 0.08);
 }
 
 .env-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 0;
   border-bottom: 1px dashed rgba(0, 102, 255, 0.1);
 }
 
@@ -533,17 +539,22 @@ checkOllama()
 
 .env-key {
   font-family: 'Fira Code', monospace;
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--primary);
   font-weight: 600;
   background: rgba(0, 102, 255, 0.06);
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
 }
 
 .env-desc {
-  font-size: 13px;
+  font-size: 13.5px;
+  line-height: 1.5;
   color: var(--text-secondary);
+  padding-top: 4px;
 }
 
 /* 状态检测 */

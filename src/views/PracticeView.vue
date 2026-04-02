@@ -28,16 +28,23 @@
     </div>
 
     <div class="agent-prompt-section">
-      <h2 class="section-title">🤖 智能体专用提示词模板</h2>
-      <div class="agent-template">
+      <h2 class="section-title">🤖 智能体专用提示词模板 (可视化工作台)</h2>
+      <div class="agent-template-workbench">
         <div class="template-header">
-          <span class="template-label">推荐结构</span>
-          <span class="template-note">智能体提示词 = 角色 + 目标 + 约束 + 工具 + 输出</span>
+          <span class="template-badge">研发标准</span>
+          <span class="template-note">智能体指令 = 角色 + 目标 + 约束 + 工具 + 输出</span>
         </div>
-        <div class="template-sections">
-          <div class="template-section" v-for="(section, index) in agentTemplate" :key="index">
-            <span class="section-tag">{{ section.tag }}</span>
-            <span class="section-desc">{{ section.desc }}</span>
+
+        <div class="template-steps">
+          <div class="template-step" v-for="(section, index) in agentTemplate" :key="index">
+            <div class="step-card">
+              <div class="step-header">
+                <span class="step-tag">{{ section.tag }}</span>
+              </div>
+              <div class="step-body">
+                <div class="section-desc" v-html="highlightVariables(section.desc)"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -46,13 +53,21 @@
     <div class="token-tips-sub">
       <h3 class="sub-title">💡 进阶：5个省Token小妙招 (Hover查看示例)</h3>
       <div class="tips-grid">
-        <div class="tip-card" v-for="(tip, index) in tokenTips" :key="index" :class="{ 'bubble-right': index > 2 }">
+        <component 
+          :is="tip.link ? 'a' : 'div'" 
+          :href="tip.link"
+          :target="tip.link ? '_blank' : null"
+          class="tip-card" 
+          v-for="(tip, index) in tokenTips" 
+          :key="index" 
+          :class="{ 'bubble-right': index > 2, 'link-card': tip.link }"
+        >
           <span class="tip-number">{{ index + 1 }}</span>
           <div class="tip-content">
             <h4>{{ tip.title }}</h4>
             <p>{{ tip.desc }}</p>
           </div>
-          <div class="tip-bubble">
+          <div class="tip-bubble" v-if="!tip.link">
             <div class="example-item negative">
               <span class="example-label">❌ 错误示例</span>
               <p>{{ tip.negative }}</p>
@@ -62,7 +77,7 @@
               <p>{{ tip.positive }}</p>
             </div>
           </div>
-        </div>
+        </component>
       </div>
     </div>
   </div>
@@ -99,6 +114,12 @@ const tokenTips = [
     desc: '非必要场景避免强制 JSON/Markdown 复杂格式',
     negative: '所有的回复必须使用这种复杂的嵌套 JSON 格式。',
     positive: '仅在最终交付环节采用 JSON 格式，中间过程建议简短文字。'
+  },
+  {
+    title: '提示词案例库',
+    desc: 'GitHub 热门提示词库，提供丰富的行业指令参考与实战案例',
+    link: 'https://github.com/f/prompts.chat?tab=readme-ov-file',
+    isExternal: true
   }
 ]
 
@@ -197,12 +218,16 @@ const frameworks = [
 ]
 
 const agentTemplate = [
-  { tag: '👤 角色定义', desc: '你是[XX领域专业智能体]，核心职责是[核心目标]，具备[核心能力]，严格遵守[执行红线]。' },
-  { tag: '🎯 任务目标', desc: '交付标准：[明确的交付物、验收标准、完成标志]。' },
-  { tag: '📋 执行规则', desc: '任务拆解逻辑：按[需求分析→方案设计→落地执行→结果校验]拆解，每步仅执行一个原子动作。' },
-  { tag: '🔧 工具/记忆', desc: '仅在[场景]调用[工具]；每3步回顾一次上下文，避免信息偏差。' },
-  { tag: '📤 输出要求', desc: '输出：当前步骤、内容、结果、下步计划，全流程完成后输出交付物与复盘总结。' }
+  { tag: '角色定义', desc: '你是[XX领域专业智能体]，核心职责是[核心目标]，具备[核心能力]，严格遵守[执行红线]。' },
+  { tag: '任务目标', desc: '交付标准：[明确的交付物、验收标准、完成标志]。' },
+  { tag: '执行规则', desc: '任务拆解逻辑：按[需求分析→方案设计→落地执行→结果校验]拆解，每步仅执行一个原子动作。' },
+  { tag: '工具/记忆', desc: '仅在[场景]调用[工具]；每3步回顾一次上下文，避免信息偏差。' },
+  { tag: '输出要求', desc: '输出：当前步骤、内容、结果、下步计划，全流程完成后输出交付物与复盘总结。' }
 ]
+
+function highlightVariables(text) {
+  return text.replace(/\[([^\]]+)\]/g, '<span class="variable-tag">[$1]</span>')
+}
 </script>
 
 <style scoped>
@@ -364,6 +389,18 @@ const agentTemplate = [
   border-left: 3px solid #52c41a;
 }
 
+.tip-card.link-card {
+  text-decoration: none;
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.12), rgba(0, 170, 212, 0.08));
+  border-color: rgba(82, 196, 26, 0.25);
+}
+
+.tip-card.link-card:hover {
+  transform: translateY(-4px);
+  border-color: #52c41a;
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.18), rgba(0, 170, 212, 0.12));
+}
+
 .tip-number {
   width: 32px;
   height: 32px;
@@ -479,23 +516,37 @@ const agentTemplate = [
 .fw-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  background: var(--bg-tertiary);
-  border-radius: 8px;
+  gap: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(to right, rgba(0, 102, 255, 0.03), rgba(255, 255, 255, 0.8));
+  border: 1px solid rgba(0, 102, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.framework-card:hover .fw-item {
+  transform: translateX(4px);
+  border-color: rgba(0, 102, 255, 0.15);
+  background: linear-gradient(to right, rgba(0, 102, 255, 0.06), #fff);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
 .fw-key {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--primary);
-  min-width: 100px;
+  min-width: 110px;
   flex-shrink: 0;
+  padding: 4px 10px;
+  background: rgba(0, 102, 255, 0.05);
+  border-radius: 6px;
+  text-align: center;
 }
 
 .fw-desc {
   font-size: 13px;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .scroll-hint {
@@ -505,65 +556,87 @@ const agentTemplate = [
   margin-top: 12px;
 }
 
-.agent-prompt-section {
-  margin-bottom: 40px;
-}
-
-.agent-template {
-  background: white;
-  border-radius: 16px;
-  padding: 28px;
-  border: 1px solid var(--border);
+.agent-template-workbench {
+  background: #f9fbff;
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: 1px solid rgba(0, 102, 255, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
 .template-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 102, 255, 0.1);
+  margin-bottom: 8px;
 }
 
-.template-label {
-  padding: 6px 14px;
+.template-badge {
+  padding: 2px 8px;
   background: var(--primary);
   color: white;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .template-note {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
+  opacity: 0.7;
 }
 
-.template-sections {
+.template-steps {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
-.template-section {
+.step-card {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
   display: flex;
+  align-items: flex-start;
   gap: 16px;
-  padding: 16px;
-  background: var(--bg-tertiary);
-  border-radius: 10px;
+  transition: all 0.2s;
 }
 
-.section-tag {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--primary);
+.step-card:last-child {
+  border-bottom: none;
+}
+
+.step-card:hover {
+  background: rgba(0, 102, 255, 0.02);
+}
+
+.step-header {
   min-width: 80px;
+  flex-shrink: 0;
+}
+
+.step-tag {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
 }
 
 .section-desc {
   font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.5;
+  color: var(--text-primary);
+  line-height: 1.4;
+  flex: 1;
+}
+
+:deep(.variable-tag) {
+  display: inline-block;
+  padding: 0 4px;
+  background: rgba(0, 102, 255, 0.05);
+  border-bottom: 1px solid rgba(0, 102, 255, 0.2);
+  color: var(--primary);
+  font-family: 'SF Mono', monospace;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 @media (max-width: 768px) {
